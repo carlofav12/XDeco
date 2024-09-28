@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\USMP\\Programacion\\Proyecto\\Proyecto.csproj": {}
+    "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj": {}
   },
   "projects": {
-    "D:\\USMP\\Programacion\\Proyecto\\Proyecto.csproj": {
+    "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\USMP\\Programacion\\Proyecto\\Proyecto.csproj",
+        "projectUniqueName": "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj",
         "projectName": "Proyecto",
-        "projectPath": "D:\\USMP\\Programacion\\Proyecto\\Proyecto.csproj",
-        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
-        "outputPath": "D:\\USMP\\Programacion\\Proyecto\\obj\\",
+        "projectPath": "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj",
+        "packagesPath": "C:\\Users\\jhowi\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jhowi\\Desktop\\XDeco\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\jhowi\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -62,6 +62,10 @@
             "Microsoft.EntityFrameworkCore.Tools": {
               "target": "Package",
               "version": "[8.0.7, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.8, )"
             }
           },
           "imports": [

@@ -1,2 +1,5 @@
-/bin/
-/obj/
+bin/
+obj/
+Data/Migrations/
+
+.fake
