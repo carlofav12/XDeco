@@ -9,4 +9,5 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+    public DbSet<XDeco.Models.Contacto> Contacto { get;set;} 
 }
