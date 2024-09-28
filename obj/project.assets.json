@@ -3093,19 +3093,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jhowi\\.nuget\\packages\\": {}
+    "C:\\Users\\USUARIO\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj",
+      "projectUniqueName": "D:\\XDeco-master\\XDeco\\Proyecto.csproj",
       "projectName": "Proyecto",
-      "projectPath": "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj",
-      "packagesPath": "C:\\Users\\jhowi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jhowi\\Desktop\\XDeco\\obj\\",
+      "projectPath": "D:\\XDeco-master\\XDeco\\Proyecto.csproj",
+      "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+      "outputPath": "D:\\XDeco-master\\XDeco\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jhowi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
