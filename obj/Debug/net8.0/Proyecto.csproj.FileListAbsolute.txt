@@ -276,3 +276,5 @@ C:\Users\jhowi\Desktop\XDeco\obj\Debug\net8.0\refint\Proyecto.dll
 C:\Users\jhowi\Desktop\XDeco\obj\Debug\net8.0\Proyecto.pdb
 C:\Users\jhowi\Desktop\XDeco\obj\Debug\net8.0\Proyecto.genruntimeconfig.cache
 C:\Users\jhowi\Desktop\XDeco\obj\Debug\net8.0\ref\Proyecto.dll
+C:\Users\jhowi\Desktop\XDeco\bin\Debug\net8.0\Npgsql.dll
+C:\Users\jhowi\Desktop\XDeco\bin\Debug\net8.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
