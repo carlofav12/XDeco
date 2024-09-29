@@ -1,0 +1,154 @@
+@{
+    ViewData["Title"] = "Nosotros";
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        /* CSS para la vista Nosotros */
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        .logo {
+            text-align: center;
+            background-color: #f2ccb1;
+            padding: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .team-section {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .team-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .team-member {
+            background-color: #fff;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            font-size: 18px;
+            margin: 10px 0 5px 0;
+        }
+
+        .team-member p {
+            font-size: 14px;
+            color: gray;
+        }
+
+        .history-section {
+            text-align: center;
+            margin: 40px auto;
+            max-width: 800px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-button {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .history-button:hover {
+            background-color: #444;
+        }
+
+        .history-text {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.6;
+            text-align: left;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="logo">
+        <h1>XDeco</h1>
+    </div>
+
+    <section class="team-section">
+        <h2>Conoce al Equipo</h2>
+        <div class="team-container">
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Carlo Fabrizio Chavarria Rojas">
+                <h3>Carlo Fabrizio Chavarria Rojas</h3>
+                <p>Jefe del Proyecto</p>
+            </div>
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Elmer Adrian Castro Ortiz">
+                <h3>Elmer Adrian Castro Ortiz</h3>
+                <p>Desarrollador</p>
+            </div>
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Marko Sebastián Orihuela Carrasco">
+                <h3>Marko Sebastián Orihuela Carrasco</h3>
+                <p>Desarrollador</p>
+            </div>
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Jhonatan Gerard Oro Anticona">
+                <h3>Jhonatan Gerard Oro Anticona</h3>
+                <p>Desarrollador</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="history-section">
+        <button class="history-button">Historia de la Empresa</button>
+        <p class="history-text">Nuestra empresa comenzó como un pequeño taller y ha crecido hasta ser un líder en el sector. Nos dedicamos a crear piezas únicas que brindan elegancia, funcionalidad y durabilidad, siempre con el objetivo de superar las expectativas de nuestros clientes.</p>
+    </section>
+
+</body>
+</html>
