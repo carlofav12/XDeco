@@ -51,12 +51,14 @@
                     {
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
-                                <div class="card-body">
-                                    <button class="btn btn-primary">Añadir a la cesta</button>
-                                    <h5 class="card-title">@producto.Nombre</h5>
-                                    <p class="card-text">Precio: S/.@producto.Precio</p>
-                                </div>
+                                <a href="@Url.Action("Producto", "Catalogo", new { id = producto.Id})" class="card">
+                                    <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
+                                    <div class="card-body">
+                                        <button class="btn btn-primary">Añadir a la cesta</button>
+                                        <h5 class="card-title">@producto.Nombre</h5>
+                                        <p class="card-text">Precio: S/.@producto.Precio</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     }

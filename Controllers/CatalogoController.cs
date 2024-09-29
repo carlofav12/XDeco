@@ -40,6 +40,17 @@ namespace XDeco.Controllers
 
             return View(viewModel);
         }
+        public IActionResult Producto(int id)
+        {
+            var producto = _context.Productos.Include(p => p.Categoria).Include(p => p.Dimensiones).FirstOrDefault(p => p.Id == id);
+
+            if (producto == null)
+            {
+                return NotFound();
+            }
+            _logger.LogDebug("Producto: {producto}", producto);
+            return View(producto);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,0 +1,34 @@
+@model XDeco.Models.Producto
+
+@{
+    ViewData["Title"] = Model.Nombre;
+}
+
+<h1>@Model.Nombre</h1>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="@Model.ImageURL" alt="@Model.Nombre" class="img-fluid" />
+        </div>
+        <div class="col-md-6">
+            <h3>Precio: S/. @Model.Precio</h3>
+            <p><strong>Descripción:</strong> @Model.Descripcion</p>
+            <p><strong>Material:</strong> @Model.Material</p>
+            <p><strong>Color:</strong> @Model.Color</p>
+            <p><strong>Ajustable:</strong> @(Model.EsAjustable ? "Sí" : "No")</p>
+            @if (Model.Dimensiones != null)
+            {
+                <p><strong>Dimensiones:</strong> @Model.Dimensiones.Ancho x @Model.Dimensiones.Alto x
+                    @Model.Dimensiones.Largo</p>
+            }
+            else
+            {
+                <p><strong>Dimensiones:</strong> No disponibles</p>
+            }
+            <button class="btn btn-primary">Añadir a la cesta</button>
+        </div>
+    </div>
+</div>
+
+<a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4">Volver al Catálogo</a>
