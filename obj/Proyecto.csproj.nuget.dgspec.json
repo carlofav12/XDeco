@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj": {}
+    "C:\\Users\\sebas\\Desktop\\XDeco\\XDeco\\Proyecto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj": {
+    "C:\\Users\\sebas\\Desktop\\XDeco\\XDeco\\Proyecto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj",
+        "projectUniqueName": "C:\\Users\\sebas\\Desktop\\XDeco\\XDeco\\Proyecto.csproj",
         "projectName": "Proyecto",
-        "projectPath": "C:\\Users\\jhowi\\Desktop\\XDeco\\Proyecto.csproj",
-        "packagesPath": "C:\\Users\\jhowi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jhowi\\Desktop\\XDeco\\obj\\",
+        "projectPath": "C:\\Users\\sebas\\Desktop\\XDeco\\XDeco\\Proyecto.csproj",
+        "packagesPath": "C:\\Users\\sebas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sebas\\Desktop\\XDeco\\XDeco\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\jhowi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\sebas\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
