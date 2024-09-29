@@ -3098,11 +3098,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\XDeco-master\\XDeco\\Proyecto.csproj",
+      "projectUniqueName": "C:\\Users\\USUARIO\\XDeco\\Proyecto.csproj",
       "projectName": "Proyecto",
-      "projectPath": "D:\\XDeco-master\\XDeco\\Proyecto.csproj",
+      "projectPath": "C:\\Users\\USUARIO\\XDeco\\Proyecto.csproj",
       "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
-      "outputPath": "D:\\XDeco-master\\XDeco\\obj\\",
+      "outputPath": "C:\\Users\\USUARIO\\XDeco\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config"

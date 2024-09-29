@@ -10,16 +10,16 @@ namespace XDeco.Models
         public long Id { get; set; }
 
         [Required]
-        public string Nombre { get; set; }
+        public string? Nombre { get; set; }
 
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         public string? Titulo { get; set; }
 
         [Required]
-        public string Mensaje { get; set; }
+        public string? Mensaje { get; set; }
 
         [Phone]
         public string? Telefono { get; set; }
