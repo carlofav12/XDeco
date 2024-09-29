@@ -1,0 +1,90 @@
+@model XDeco.Models.Contacto
+
+@{
+    ViewData["Title"] = "Contactos";
+}
+
+<h1>Contactos</h1>
+
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 40%;">
+        <h3>Ll&aacute;manos:</h3>
+        <p>Los d&iacute;as laborables de 09:00 a 18:00 horas.<br />
+            <strong>+359778877888</strong>
+        </p>
+
+        <h3>Escr&iacute;benos:</h3>
+        <p>Rellena el formulario de contacto o env&iacute;anos un correo electr&oacute;nico y nos pondremos en contacto contigo en un plazo de 24 horas.<br />
+            Correo electr&oacute;nico: <strong>ayuda@furnisphere.eu</strong>
+        </p>
+
+        <h3>Almacenar:</h3>
+        <p>Lunes - Viernes: 9:00 - 20:00<br />
+            S&aacute;bado: 09:00 - 15:00<br />
+            Ciudad de Varna, bulevar Primorski, 36
+        </p>
+    </div>
+
+    <div style="width: 55%;">
+        <form asp-controller="Contacto" asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Nombre"></label>
+                <input asp-for="Nombre" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="Titulo"></label>
+                <input asp-for="Titulo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Mensaje"></label>
+                <textarea asp-for="Mensaje" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono"></label>
+                <input asp-for="Telefono" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Direccion"></label>
+                <input asp-for="Direccion" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-dark">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #000;
+        margin-bottom: 15px;
+        border-radius: 4px; /* Agrega un borde redondeado */
+    }
+
+    textarea {
+        height: 100px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px; /* Agrega un borde redondeado */
+    }
+
+    .btn:hover {
+        background-color: #333;
+    }
+</style>

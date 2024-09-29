@@ -278,8 +278,8 @@ C:\Users\jhowi\Desktop\XDeco\obj\Debug\net8.0\Proyecto.genruntimeconfig.cache
 C:\Users\jhowi\Desktop\XDeco\obj\Debug\net8.0\ref\Proyecto.dll
 C:\Users\USUARIO\XDeco\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\USUARIO\XDeco\bin\Debug\net8.0\appsettings.json
-C:\Users\USUARIO\XDeco\bin\Debug\net8.0\app.db
 C:\Users\USUARIO\XDeco\bin\Debug\net8.0\Proyecto.staticwebassets.runtime.json
+C:\Users\USUARIO\XDeco\bin\Debug\net8.0\app.db
 C:\Users\USUARIO\XDeco\bin\Debug\net8.0\Proyecto.exe
 C:\Users\USUARIO\XDeco\bin\Debug\net8.0\Proyecto.deps.json
 C:\Users\USUARIO\XDeco\bin\Debug\net8.0\Proyecto.runtimeconfig.json
