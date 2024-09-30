@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using XDeco.Models;
 
 namespace Proyecto.Areas.Identity.Pages.Account
 {
@@ -27,6 +28,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly ILogger<RegisterModel> _Nombres;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
@@ -79,6 +81,17 @@ namespace Proyecto.Areas.Identity.Pages.Account
             [Display(Name = "Email")]
             public string Email { get; set; }
 
+            [Required(ErrorMessage = "El nombre es obligatorio")]
+            public string Nombres { get; set; }
+
+
+            [Required(ErrorMessage = "El apellido paterno es obligatorio")]
+            public string ApellidoPaterno { get; set; }
+
+
+            [Required(ErrorMessage = "El apellido materno es obligatorio")]
+            public string ApellidoMaterno { get; set; }
+
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
@@ -118,12 +131,18 @@ namespace Proyecto.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
+                var user = new Usuario 
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    Nombres = Input.Nombres, 
+                    ApellidoPaterno = Input.ApellidoPaterno, 
+                    ApellidoMaterno = Input.ApellidoMaterno, 
+                    PhoneNumber = Input.PhoneNumber 
+                };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-
-                user.PhoneNumber = Input.PhoneNumber;
                 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
