@@ -1,15 +1,29 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo</title>
-</head>
+<style>
+    .text-decoration-none {
+        text-decoration: none !important;
+        color: inherit;
+    }
+
+    .card-img-top {
+        width: 250px;
+        height: 250px;
+        margin-top: 10px;
+    }
+
+    .bt {
+        width: 200px;
+        height: 50px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        margin-bottom: 10px;
+    }
+</style>
 
 <body>
-    <header class="bg-primary text-white text-center p-3">
-        <h1>Catálogo</h1>
+    <header class="bg-primary text-white text-center p-3 fs-2">
         <nav>
-            <a class="text-white" href="#">Inicio</a> |
-            <a class="text-white" href="#">Catálogo</a>
+            <a href="/I" class="text-white text-decoration-none fs-2">Inicio</a> |
+            <a href="/catalogo" class="text-white text-decoration-none fs-2">Catálogo</a>
         </nav>
     </header>
 
@@ -46,19 +60,23 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="row">
-
                     @foreach (var producto in Model.ListProduc)
                     {
                         <div class="col-md-4 mb-4">
-                            <div class="card">
-                                <a href="@Url.Action("Producto", "Catalogo", new { id = producto.Id})" class="card">
-                                    <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
+                            <div class="card" style="border-radius: 20px;">
+                                <a href="@Url.Action("Producto", "Catalogo", new { id = producto.Id})"
+                                    class="text-decoration-none">
+                                    <div class="d-flex justify-content-center">
+                                        <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
+                                    </div>
                                     <div class="card-body">
-                                        <button class="btn btn-primary">Añadir a la cesta</button>
                                         <h5 class="card-title">@producto.Nombre</h5>
                                         <p class="card-text">Precio: S/.@producto.Precio</p>
                                     </div>
                                 </a>
+                                <div class="text-center">
+                                    <button class="btn btn-primary bt">Añadir a la cesta</button>
+                                </div>
                             </div>
                         </div>
                     }
