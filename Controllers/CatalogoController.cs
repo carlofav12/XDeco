@@ -42,7 +42,10 @@ namespace XDeco.Controllers
         }
         public IActionResult Producto(int id)
         {
-            var producto = _context.Productos.Include(p => p.Categoria).Include(p => p.Dimensiones).FirstOrDefault(p => p.Id == id);
+            var producto = _context.Productos.Include(p => p.Categoria)
+            .Include(p => p.Dimensiones)
+            .Include(p => p.Categoria).
+            FirstOrDefault(p => p.Id == id);
 
             if (producto == null)
             {
