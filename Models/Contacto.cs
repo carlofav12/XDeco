@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace XDeco.Models
 {
-    [Table("t_contacto")]
+    [Table("Contacto")]
     public class Contacto
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
