@@ -9,107 +9,185 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewData["Title"]</title>
     <style>
-        /* CSS para la vista Nosotros */
-
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f7f7f7;
+            background: linear-gradient(135deg, #66bbdd 0%, #f7f7f7 100%);
+            color: #333;
         }
 
         .logo {
             text-align: center;
-            background-color: #f2ccb1;
-            padding: 20px 0;
-            font-size: 24px;
+            padding: 40px 0;
+            background: #5fd2ff;
+            color: white;
+            font-size: 36px;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .team-section {
             text-align: center;
-            margin: 20px auto;
-            max-width: 1200px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 80px 20px;
+            margin: 60px auto;
+            max-width: 1400px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
         }
 
         .team-section h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
+            font-size: 40px;
+            font-weight: 700;
+            color: #5fd2ff;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .team-section h2::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background-color: #5fd2ff;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -15px;
         }
 
         .team-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            justify-items: center;
         }
 
         .team-member {
-            background-color: #fff;
-            padding: 10px;
-            margin: 10px;
-            width: 200px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            background-color: #FFF;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+            width: 350px; /* Aumentar el tamaño del contenedor */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .team-member:hover {
-            transform: translateY(-5px);
+            transform: translateY(-12px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2);
         }
 
         .team-member img {
             width: 100%;
-            border-radius: 50%;
-            margin-bottom: 10px;
+            height: 350px; /* Aumentar el tamaño de la imagen */
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 4px solid #5fd2ff;
         }
 
         .team-member h3 {
-            font-size: 18px;
-            margin: 10px 0 5px 0;
+            font-size: 24px; /* Aumentar el tamaño de la fuente */
+            margin: 15px 0 10px;
+            color: #333;
         }
 
         .team-member p {
-            font-size: 14px;
-            color: gray;
+            font-size: 18px; /* Aumentar el tamaño del texto */
+            color: #777;
         }
 
         .history-section {
             text-align: center;
-            margin: 40px auto;
-            max-width: 800px;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            margin: 80px auto;
+            max-width: 1200px;
+            background-color: #FFF;
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
         }
 
         .history-button {
-            background-color: #000;
+            background-color: #5fd2ff;
             color: #fff;
-            padding: 10px 20px;
+            padding: 14px 40px;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 20px;
-            transition: background-color 0.3s ease;
+            font-size: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .history-button:hover {
-            background-color: #444;
+            background-color: #66bbdd;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
 
         .history-text {
-            font-size: 16px;
-            color: #333;
-            line-height: 1.6;
-            text-align: left;
-            max-width: 700px;
-            margin: 0 auto;
+            font-size: 22px;
+            color: #555;
+            line-height: 1.8;
+            text-align: center;
+            margin-top: 30px;
+            max-width: 1000px;
+        }
+
+        .mission-vision-container {
+            display: flex;
+            justify-content: space-around;
+            gap: 40px;
+            margin: 80px auto;
+            max-width: 1400px;
+            background-color: #FFF;
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .mission, .vision {
+            flex: 1;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: #5fd2ff;
+            margin-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background-color: #5fd2ff;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .mission-text, .vision-text {
+            font-size: 20px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .values-section {
+            text-align: center;
+            margin: 80px auto;
+            max-width: 900px;
+            background-color: #FFF;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .values-text {
+            font-size: 20px;
+            color: #555;
+            line-height: 1.8;
         }
     </style>
 </head>
@@ -120,25 +198,25 @@
     </div>
 
     <section class="team-section">
-        <h2>Conoce al Equipo</h2>
+        <h2>Nuestro Equipo</h2>
         <div class="team-container">
             <div class="team-member">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Carlo Fabrizio Chavarria Rojas">
+                <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Nosotros%2Fcarlo_nos.png?alt=media&token=82fd4292-49f2-4d5c-a151-288cb54306ef" alt="Carlo Fabrizio Chavarria Rojas">
                 <h3>Carlo Fabrizio Chavarria Rojas</h3>
                 <p>Jefe del Proyecto</p>
             </div>
             <div class="team-member">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Elmer Adrian Castro Ortiz">
+                <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Nosotros%2Felmer_nos.png?alt=media&token=090b6b44-d594-414f-8616-cd70635cff0a" alt="Elmer Adrian Castro Ortiz">
                 <h3>Elmer Adrian Castro Ortiz</h3>
                 <p>Desarrollador</p>
             </div>
             <div class="team-member">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Marko Sebastián Orihuela Carrasco">
+                <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Nosotros%2Fmark_nos.png?alt=media&token=3f2a3296-f4a2-4a73-9735-fda693108d9e" alt="Marko Sebastián Orihuela Carrasco">
                 <h3>Marko Sebastián Orihuela Carrasco</h3>
                 <p>Desarrollador</p>
             </div>
             <div class="team-member">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8q3JwNuYWJ9hZa-8h3J5M9Bi5MeimmOnohA&s" alt="Jhonatan Gerard Oro Anticona">
+                <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Nosotros%2Fjony_nos.png?alt=media&token=910d9e3a-2ae7-486c-b190-daf12acc88c1" alt="Jhonatan Gerard Oro Anticona">
                 <h3>Jhonatan Gerard Oro Anticona</h3>
                 <p>Desarrollador</p>
             </div>
@@ -146,8 +224,24 @@
     </section>
 
     <section class="history-section">
-        <button class="history-button">Historia de la Empresa</button>
-        <p class="history-text">Nuestra empresa comenzó como un pequeño taller y ha crecido hasta ser un líder en el sector. Nos dedicamos a crear piezas únicas que brindan elegancia, funcionalidad y durabilidad, siempre con el objetivo de superar las expectativas de nuestros clientes.</p>
+        <button class="history-button">Nuestra Historia</button>
+        <p class="history-text">Desde nuestros inicios como un pequeño taller, hemos crecido hasta convertirnos en líderes del sector. Nos dedicamos a la creación de piezas que fusionan elegancia, funcionalidad y durabilidad, siempre esforzándonos por superar las expectativas de nuestros clientes y dejar una marca de excelencia.</p>
+    </section>
+
+    <section class="mission-vision-container">
+        <div class="mission">
+            <h2 class="section-title">Misión</h2>
+            <p class="mission-text">En XDeco, nuestra misión es ofrecer a nuestros clientes muebles únicos y de alta calidad que combinen diseño, comodidad y funcionalidad, con el objetivo de mejorar sus hogares y proporcionar experiencias inolvidables.</p>
+        </div>
+        <div class="vision">
+            <h2 class="section-title">Visión</h2>
+            <p class="vision-text">Convertirnos en una marca reconocida a nivel internacional por la excelencia en el diseño y fabricación de muebles, liderando el mercado con innovación y compromiso con el cliente.</p>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <h2 class="section-title">Valores</h2>
+        <p class="values-text">Nos guiamos por valores como la calidad, la innovación, la honestidad y el respeto, que son el núcleo de todo lo que hacemos, buscando siempre superar las expectativas de nuestros clientes.</p>
     </section>
 
 </body>
