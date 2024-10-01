@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using XDeco.Models;
 
 namespace Proyecto.Data;
 
@@ -9,5 +10,12 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
-    public DbSet<XDeco.Models.Contacto> Contacto { get;set;} 
+    public DbSet<Categoria> Categorias { get; set; }
+
+    public DbSet<Producto> Productos { get; set; }
+
+    public DbSet<Dimensions> Dimensiones { get; set; }
+
+    public DbSet<Usuario> Usuarios { get; set; }
+
 }

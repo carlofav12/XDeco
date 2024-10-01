@@ -1,20 +1,29 @@
-<!DOCTYPE html>
-<html lang="es">
+<style>
+    .text-decoration-none {
+        text-decoration: none !important;
+        color: inherit;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo</title>
-    <!-- Incluyendo Bootstrap CSS desde CDN -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+    .card-img-top {
+        width: 250px;
+        height: 250px;
+        margin-top: 10px;
+    }
+
+    .bt {
+        width: 200px;
+        height: 50px;
+        border-radius: 10px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        margin-bottom: 10px;
+    }
+</style>
 
 <body>
-    <header class="bg-primary text-white text-center p-3">
-        <h1>Catálogo</h1>
+    <header class="bg-primary text-white text-center p-3 fs-2">
         <nav>
-            <a class="text-white" href="#">Inicio</a> |
-            <a class="text-white" href="#">Catálogo</a>
+            <a href="/I" class="text-white text-decoration-none fs-2">Inicio</a> |
+            <a href="/catalogo" class="text-white text-decoration-none fs-2">Catálogo</a>
         </nav>
     </header>
 
@@ -37,9 +46,9 @@
                     <label for="categorySelect">Selecciona una Categoría:</label>
                     <select class="form-control" id="categorySelect">
                         <option value="all">Todas las Categorías</option>
-                        <option value="electronics">Sala</option>
-                        <option value="clothing">Dormitorio</option>
-                        <option value="accessories">Comedor</option>
+                        <option value="sala">Sala</option>
+                        <option value="dormitorio">Dormitorio</option>
+                        <option value="comedor">Comedor</option>
                     </select>
                 </div>
             </div>
@@ -51,71 +60,31 @@
         <div class="row justify-content-center">
             <div class="col-md-9">
                 <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="https://i.imgur.com/VnqAi46.png" class="card-img-top" alt="Producto 1">
-                            <div class="card-body">
-                                <button class="btn btn-primary">Añadir a la cesta</button>
-                                <h5 class="card-title">Bar Cava Alto</h5>
-                                <p class="card-text">Precio: S/.399.00</p>
+                    @foreach (var producto in Model.ListProduc)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card" style="border-radius: 20px;">
+                                <a href="@Url.Action("Producto", "Catalogo", new { id = producto.Id})"
+                                    class="text-decoration-none">
+                                    <div class="d-flex justify-content-center">
+                                        <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@producto.Nombre</h5>
+                                        <p class="card-text">Precio: S/.@producto.Precio</p>
+                                    </div>
+                                </a>
+                                <div class="text-center">
+                                    <button class="btn btn-primary bt">Añadir a la cesta</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="https://i.imgur.com/UVdrCJr.png" class="card-img-top" alt="Producto 2">
-                            <div class="card-body">
-                                <button class="btn btn-primary">Añadir a la cesta</button>
-                                <h5 class="card-title">Sofá Mordes</h5>
-                                <p class="card-text">Precio: S/.260.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="https://i.imgur.com/d93FnJe.png" class="card-img-top" alt="Producto 3">
-                            <div class="card-body">
-                                <button class="btn btn-primary">Añadir a la cesta</button>
-                                <h5 class="card-title">Comoda Sousa</h5>
-                                <p class="card-text">Precio: S/.299.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="https://i.imgur.com/dAFTPE4.png" class="card-img-top" alt="Producto 4">
-                            <div class="card-body">
-                                <button class="btn btn-primary">Añadir a la cesta</button>
-                                <h5 class="card-title">Comedor Eames</h5>
-                                <p class="card-text">Precio: S/.500.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="https://i.imgur.com/z1A8wnu.png" class="card-img-top" alt="Producto 5">
-                            <div class="card-body">
-                                <button class="btn btn-primary">Añadir a la cesta</button>
-                                <h5 class="card-title">Zapatera Laura</h5>
-                                <p class="card-text">Precio: S/.249.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <img src="https://i.imgur.com/938b3oM.png" class="card-img-top" alt="Producto 6">
-                            <div class="card-body">
-                                <button class="btn btn-primary">Añadir a la cesta</button>
-                                <h5 class="card-title">Mesa Starry</h5>
-                                <p class="card-text">Precio: S/.700.00</p>
-                            </div>
-                        </div>
-                    </div>
+                    }
+
                 </div>
             </div>
         </div>
     </main><br><br>
-
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
