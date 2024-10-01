@@ -1,0 +1,100 @@
+@model XDeco.Models.Contacto
+
+@{
+    ViewData["Title"] = "Contacto";
+}
+
+<h1>Contacto</h1>
+
+<div style="display: flex; justify-content: space-between;">
+    <div style="width: 40%;">
+        <h2 style="color: #000; font-weight: bold;">Datos de Contacto:</h2>
+        <p>También puede contactarse con nosotros llamando a nuestra central telefónica o visitando nuestra empresa.</p>
+        
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <img src="https://cdn-icons-png.freepik.com/512/8701/8701976.png" alt="Teléfono" style="width: 40px; margin-right: 15px;" />
+            <div>
+                <h3 style="color: #E30613; font-weight: bold; margin: 0;">Central Telefónica</h3>
+                <p style="font-size: 20px; font-weight: bold;">(01) 477 - 1546</p>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384023.png" alt="WhatsApp" style="width: 40px; margin-right: 15px;" />
+            <div>
+                <h3 style="color: #25D366; font-weight: bold; margin: 0;">WhatsApp</h3>
+                <p style="font-size: 20px; font-weight: bold;">+51 994 061 278</p>
+            </div>
+        </div>
+
+        <h3 style="color: #000; font-weight: bold;">Horario de atención:</h3>
+        <p>Lunes a Viernes: 09:00 a 17:00 Hrs.</p>
+    </div>
+
+    <div style="width: 55%;">
+        <form asp-controller="Contacto" asp-action="Create" method="post">
+            <div class="form-group">
+                <label asp-for="Nombre"></label>
+                <input asp-for="Nombre" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label asp-for="Titulo"></label>
+                <input asp-for="Titulo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Mensaje"></label>
+                <textarea asp-for="Mensaje" class="form-control" required></textarea>
+            </div>
+            <div class="form-group">
+                <label asp-for="Telefono"></label>
+                <input asp-for="Telefono" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Direccion"></label>
+                <input asp-for="Direccion" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-dark">Enviar</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    label {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #000;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+
+    textarea {
+        height: 100px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        background-color: #000;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .btn:hover {
+        background-color: #333;
+    }
+
+    h2, h3 {
+        margin-bottom: 5px;
+    }
+</style>
