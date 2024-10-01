@@ -20,4 +20,7 @@ public class ApplicationDbContext : IdentityDbContext
 
     public DbSet<Usuario> Usuarios { get; set; }
 
+    public DbSet<Admin> Administradores { get; set; }
+
+
 }

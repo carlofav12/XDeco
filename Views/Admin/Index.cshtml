@@ -1,0 +1,160 @@
+@{
+    ViewData["Title"] = "Login Admin";
+}
+
+<div class="container mt-5">
+    <div class="login-box">
+        <h1 class="login-title">
+            <i class="fas fa-user-lock icon"></i>
+            Iniciar Sesión
+        </h1>
+
+        <form asp-action="Login" method="post">
+            <div class="textbox form-group usu-container">
+                <i class="fas fa-user icon-field"></i>
+                <input type="text" class="form-control" name="usuAdmin" required placeholder=" ">
+                <label for="usuAdmin">Usuario</label>
+            </div>
+            <div class="textbox form-group password-container">
+                <i class="fas fa-lock icon-field"></i>
+                <input type="password" class="form-control" name="contraAdmin" required placeholder=" ">
+                <label for="contraAdmin">Contraseña</label>
+            </div>
+            <button type="submit" class="btn">Ingresar</button>
+        </form>
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger text-center mt-3" style="width: 50%; margin: 0 auto; background-color: #ce0d0d; color: white;">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+    </div>
+</div>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+         background-color: rgb(129, 128, 126);
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .navbar {
+        margin-bottom: 20px; /* Espacio entre la navbar y el contenido */
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1; /* Para que el contenedor ocupe el espacio restante */
+    }
+
+    .login-box {
+        background: white;
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        position: relative;
+        width: 300px; /* Ancho fijo para el formulario */
+    }
+
+    .login-title {
+        margin-bottom: 20px; /* Espacio entre el ícono y el título */
+    }
+
+    .login-title .icon {
+        font-size: 50px; /* Tamaño del ícono */
+        display: block; /* Para centrar el ícono */
+        margin-bottom: 10px; /* Espacio entre el ícono y el texto */
+    }
+
+    .textbox {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .textbox input {
+        width: 100%;
+        padding: 10px 10px 10px 40px; /* Aumentado el padding izquierdo para el icono */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: padding-top 0.2s, border-color 0.2s;
+    }
+
+    .icon-field {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        color: #999;
+        font-size: 18px;
+    }
+
+    .textbox label {
+        position: absolute;
+        left: 40px; /* Ajustado para no sobreponerse al ícono */
+        top: 10px; /* Cambia la posición inicial */
+        font-size: 16px;
+        color: #999;
+        transition: all 0.2s;
+        pointer-events: none;
+    }
+
+    .textbox input:focus,
+    .textbox input:not(:placeholder-shown) {
+        padding-top: 20px; /* Aumenta el padding superior para el espacio con el label */
+        border-color: #2575fc;
+    }
+
+    .textbox input:focus + label,
+    .textbox input:not(:placeholder-shown) + label {
+        top: -15px; /* Ajusta para mover el label arriba */
+        font-size: 12px;
+        color: #2575fc;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 10px;
+        background: #2575fc;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #1196cb;
+    }
+
+    .alert {
+        width: 50%;
+        margin: 0 auto;
+        color: white;
+        text-align: center;
+    }
+
+    .password-container {
+        position: relative;
+    }
+
+    .password-container .eye-icon {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        font-size: 18px;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
