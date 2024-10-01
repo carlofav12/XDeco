@@ -8,7 +8,11 @@ html {
   }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
@@ -16,7 +20,46 @@ html {
   position: relative;
   min-height: 100%;
 }
+.title-jhowill {
+  text-align: center;
+  color: #27a861;
+}
 
 body {
   margin-bottom: 60px;
+}
+.custom-table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.custom-table thead {
+  background: linear-gradient(135deg, #258cfb, #00d2ff);
+  color: #fff;
+}
+
+.custom-table th,
+.custom-table td {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.custom-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+@media (max-width: 768px) {
+  .custom-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .custom-table th,
+  .custom-table td {
+    white-space: nowrap;
+  }
 }
