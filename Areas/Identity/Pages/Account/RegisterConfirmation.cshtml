@@ -1,0 +1,29 @@
+﻿@page
+@model RegisterConfirmationModel
+@{
+    ViewData["Title"] = "Confirmación de Registro";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">@ViewData["Title"]</h3>
+                </div>
+                <div class="card-body">
+                    @if (Model.DisplayConfirmAccountLink)
+                    {
+                        <p class="text-success">
+                            ¡Muchas gracias por su registro! No olvide verificar su correo electrónico.
+                            Revise su carpeta de spam o, si no recibe el correo, intente registrarse con otro correo.
+                        </p>
+                    }
+                </div>
+                <div class="card-footer text-muted text-center">
+                    Si tiene problemas por favor comuniquese con el administrador del sistema.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
