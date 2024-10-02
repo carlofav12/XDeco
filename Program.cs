@@ -1,18 +1,21 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
+using XDeco.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("PosgreConnection") 
+var connectionString = builder.Configuration.GetConnectionString("PosgreConnection")
     ?? throw new InvalidOperationException("Connection string 'PosgreConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
-    
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddSingleton<EmailService, EmailService>();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

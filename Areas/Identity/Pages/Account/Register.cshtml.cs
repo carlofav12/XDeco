@@ -18,7 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using XDeco.Controllers;
 using XDeco.Models;
+using XDeco.Service;
 
 namespace Proyecto.Areas.Identity.Pages.Account
 {
@@ -30,6 +32,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _Nombres;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly EmailService _emailService;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
@@ -37,6 +40,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
+            EmailService emailService,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -44,6 +48,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _emailService = emailService;
             _emailSender = emailSender;
         }
 
@@ -129,21 +134,22 @@ namespace Proyecto.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
-                var user = new Usuario 
+                var user = new Usuario
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    Nombres = Input.Nombres, 
-                    ApellidoPaterno = Input.ApellidoPaterno, 
-                    ApellidoMaterno = Input.ApellidoMaterno, 
-                    PhoneNumber = Input.PhoneNumber 
+                    Nombres = Input.Nombres,
+                    ApellidoPaterno = Input.ApellidoPaterno,
+                    ApellidoMaterno = Input.ApellidoMaterno,
+                    PhoneNumber = Input.PhoneNumber
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -159,7 +165,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    _emailService.SendEmail(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
