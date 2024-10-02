@@ -1,55 +1,46 @@
 using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Configuration;
-namespace XDeco.Service;
 
-public class EmailService
+namespace XDeco.Service
 {
-    private readonly SmtpClient _smtpClient;
-
-    public EmailService(IConfiguration configuration)
+    public class EmailService
     {
-        _smtpClient = new SmtpClient
+        private readonly SmtpClient _smtpClient;
+
+        public EmailService(IConfiguration configuration)
         {
-            Host = configuration["MailSettings:Host"],
-            Port = int.Parse(configuration["MailSettings:Port"]),
-            EnableSsl = true,
-            UseDefaultCredentials = false,
-            Credentials = new NetworkCredential(
-                configuration["MailSettings:Username"],
-                configuration["MailSettings:Password"]
-            )
-        };
-    }
+            _smtpClient = new SmtpClient
+            {
+                Host = configuration["MailSettings:Host"],
+                Port = int.Parse(configuration["MailSettings:Port"]),
+                EnableSsl = true,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(
+                    configuration["MailSettings:Username"],
+                    configuration["MailSettings:Password"]
+                )
+            };
+        }
 
-    public void SendEmail(string to, string subject, string body)
-    {
-        var mailMessage = new MailMessage
+        public void SendEmail(string to, string subject, string body)
         {
-            From = new MailAddress(_smtpClient.Credentials.GetCredential(_smtpClient.Host, _smtpClient.Port, "basic").UserName),
-            Subject = subject,
-            Body = body,
-            IsBodyHtml = true
-        };
-        mailMessage.To.Add(to);
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(_smtpClient.Credentials.GetCredential(_smtpClient.Host, _smtpClient.Port, "basic").UserName),
+                Subject = subject,
+                Body = body,
+                IsBodyHtml = true
+            };
+            mailMessage.To.Add(to);
 
-        _smtpClient.Send(mailMessage);
+            // Aquí enviamos el correo
+            _smtpClient.Send(mailMessage);
+
+            // Aquí imprimimos en consola el correo enviado
+            Console.WriteLine($"Email enviado a: {to}");
+            Console.WriteLine($"Asunto: {subject}");
+            Console.WriteLine($"Contenido: {body}");
+        }
     }
-
-
-    public async Task SendEmailAsync(string to, string subject, string body)
-    {
-        var mailMessage = new MailMessage
-        {
-            From = new MailAddress(_smtpClient.Credentials.GetCredential(_smtpClient.Host, _smtpClient.Port, "basic").UserName),
-            Subject = subject,
-            Body = body,
-            IsBodyHtml = true
-        };
-        mailMessage.To.Add(to);
-
-        await _smtpClient.SendMailAsync(mailMessage); // Cambia a SendMailAsync
-    }
-
-
 }
