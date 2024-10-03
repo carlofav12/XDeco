@@ -27,9 +27,22 @@
             {
                 <p><strong>Dimensiones:</strong> No disponibles</p>
             }
-            <button class="btn btn-primary">Añadir a la cesta</button>
+            <div class="text-center">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
+                        <input type="hidden" name="productoId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-primary">Añadir a la cesta</button>
+                    </form>
+                }
+                else
+                {
+                    <div class="alert alert-warning">
+                        Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos a la cesta.
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
 
-<a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4">Volver al Catálogo</a>
+    <a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4">Volver al Catálogo</a>
