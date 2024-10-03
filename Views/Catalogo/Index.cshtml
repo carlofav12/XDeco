@@ -98,23 +98,39 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
     <script>
-        // Lógica para manejar los filtros
-        document.getElementById('filterSelect').addEventListener('change', function () {
-            aplicarFiltros();
-        });
+    // Lógica para manejar los filtros
+    document.getElementById('filterSelect').addEventListener('change', function () {
+        aplicarFiltros();
+    });
 
-        document.getElementById('categorySelect').addEventListener('change', function () {
-            aplicarFiltros();
-        });
+    document.getElementById('categorySelect').addEventListener('change', function () {
+        aplicarFiltros();
+    });
 
-        function aplicarFiltros() {
-            var filterBy = document.getElementById('filterSelect').value;
-            var category = document.getElementById('categorySelect').value;
+    function aplicarFiltros() {
+        var filterBy = document.getElementById('filterSelect').value;
+        var category = document.getElementById('categorySelect').value;
 
-            // Redirigir con los filtros seleccionados en la URL
-            window.location.href = `/Catalogo?category=${category}&orderBy=${filterBy}`;
+        // Redirigir con los filtros seleccionados en la URL
+        window.location.href = `/Catalogo?category=${category}&orderBy=${filterBy}`;
+    }
+
+    // Mantener la selección después de recargar la página
+    window.onload = function() {
+        var urlParams = new URLSearchParams(window.location.search);
+        var selectedOrderBy = urlParams.get('orderBy');
+        var selectedCategory = urlParams.get('category');
+
+        if (selectedOrderBy) {
+            document.getElementById('filterSelect').value = selectedOrderBy;
         }
-    </script>
+
+        if (selectedCategory) {
+            document.getElementById('categorySelect').value = selectedCategory;
+        }
+    }
+</script>
+
 </body>
 
 </html>
