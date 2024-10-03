@@ -1,3 +1,6 @@
+body {
+  background-color: #f2ead3;
+}
 html {
   font-size: 14px;
 }
@@ -62,4 +65,15 @@ body {
   .custom-table td {
     white-space: nowrap;
   }
+}
+header .navbar {
+  background-color: #5f3609 !important;
+}
+
+header .navbar .nav-link {
+  color: white !important;
+}
+
+header .navbar .nav-link:hover {
+  color: #5f3609 !important;
 }
