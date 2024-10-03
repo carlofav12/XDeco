@@ -5,26 +5,28 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace XDeco.Models
 {
-    [Table("Carritos")]
-    public class Carrito
+    [Table("CarritoProductos")]
+    public class CarritoProducto
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public string UsuarioId { get; set; }
+        public long CarritoId { get; set; }
+        public virtual Carrito Carrito { get; set; }
 
-        // Relación entre Carrito y Producto, usando CarritoProducto para manejar cantidades
-        public virtual ICollection<CarritoProducto> CarritoProductos { get; set; } = new List<CarritoProducto>();
+        public long ProductoId { get; set; }
+        public virtual Producto Producto { get; set; }
 
-        public decimal Total
+        public int Cantidad { get; set; }
+
+        public decimal Subtotal
         {
             get
             {
-                return CarritoProductos.Sum(cp => cp.Subtotal);
+                return Cantidad * Producto.Precio;
             }
         }
     }
