@@ -7,6 +7,10 @@
     font-family: 'Arial', sans-serif;
   }
 
+  a {
+  text-decoration: none;
+  }
+
   .container {
     text-align: center;
   }
@@ -86,6 +90,14 @@
   .carousel-control-next {
     width: 5%;
   }
+
+  /* Estilo de las imágenes una sobre otra */
+  .stacked-images img {
+    border-radius: 15px;
+    box-shadow: 0 8px 30px #cac3b0;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
 </style>
 
 <div class="container mt-5">
@@ -94,17 +106,17 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Finicio_sli1.jpg?alt=media&token=2f92d785-fc78-4b45-a4b0-2bed47efe4a2"
+          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fini_1.png?alt=media&token=9e0c7f16-5489-4907-8752-7c45bfd21e15"
           class="d-block" alt="Imagen del carrusel 1" />
       </div>
       <div class="carousel-item">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Finicio_sli2.jpg?alt=media&token=84bd4409-d054-4a81-81dd-05c74e7c38fd"
+          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fini_3.png?alt=media&token=8a64968a-8908-409b-8916-bfa883131f96"
           class="d-block" alt="Imagen del carrusel 2" />
       </div>
       <div class="carousel-item">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Finicio_sli3.jpg?alt=media&token=dc08ca33-6242-4113-8a4b-142a11430ef3"
+          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fini_2.png?alt=media&token=f64c8386-9a72-4898-a2d4-98f0ac0782d0"
           class="d-block" alt="Imagen del carrusel 3" />
       </div>
     </div>
@@ -126,36 +138,39 @@
     combinando funcionalidad y estilo para mejorar tu día a día.
   </p>
 
-  <div class="row">
+ <div class="row">
     <div class="col-md-4">
       <div class="card">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fsala_inicio.png?alt=media&token=233f486d-243b-4b68-b08a-69396b2f5fd9"
-          class="card-img-top" alt="Sala" />
-        <div class="card-body">
-          <h5 class="card-title">Sala</h5>
-        </div>
-      </div>
+        <a href="/Catalogo?category=sala&orderBy=">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fsala_inicio.png?alt=media&token=233f486d-243b-4b68-b08a-69396b2f5fd9"
+            class="card-img-top" alt="Sala" />
+          <div class="card-body">
+            <h5 class="card-title">Sala</h5>
+          </div>
+      </div></a>
     </div>
     <div class="col-md-4">
       <div class="card">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fdormitorio_inicio.jpg?alt=media&token=3f5981fe-39a8-4547-8f5b-b55ccfea5c3e"
-          class="card-img-top" alt="Dormitorio" />
-        <div class="card-body">
-          <h5 class="card-title">Dormitorio</h5>
-        </div>
-      </div>
+        <a href="/Catalogo?category=dormitorio&orderBy=">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fdormitorio_inicio.jpg?alt=media&token=3f5981fe-39a8-4547-8f5b-b55ccfea5c3e"
+            class="card-img-top" alt="Dormitorio" />
+          <div class="card-body">
+            <h5 class="card-title">Dormitorio</h5>
+          </div>
+      </div></a>
     </div>
     <div class="col-md-4">
       <div class="card">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fcomedor_inicio.png?alt=media&token=b5278584-eca4-4e8c-81f2-213da69eae8f"
-          class="card-img-top" alt="Comedor" />
-        <div class="card-body">
-          <h5 class="card-title">Comedor</h5>
-        </div>
-      </div>
+        <a href="/Catalogo?category=comedor&orderBy=">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fcomedor_inicio.png?alt=media&token=b5278584-eca4-4e8c-81f2-213da69eae8f"
+            class="card-img-top" alt="Comedor" />
+          <div class="card-body">
+            <h5 class="card-title">Comedor</h5>
+          </div>
+      </div></a>
     </div>
   </div>
 </div>
