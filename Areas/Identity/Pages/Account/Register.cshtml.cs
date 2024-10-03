@@ -18,32 +18,37 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using XDeco.Controllers;
 using XDeco.Models;
+using XDeco.Service;
 
 namespace Proyecto.Areas.Identity.Pages.Account
 {
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly IUserStore<IdentityUser> _userStore;
-        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly SignInManager<Usuario> _signInManager;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly IUserStore<Usuario> _userStore;
+        private readonly IUserEmailStore<Usuario> _emailStore;
         private readonly ILogger<RegisterModel> _Nombres;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly EmailService _emailService;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<Usuario> userManager,
+            IUserStore<Usuario> userStore,
+            SignInManager<Usuario> signInManager,
             ILogger<RegisterModel> logger,
+            EmailService emailService,
             IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;
-            _emailStore = GetEmailStore();
+            _emailStore = (IUserEmailStore<Usuario>)GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
+            _emailService = emailService;
             _emailSender = emailSender;
         }
 
@@ -129,21 +134,22 @@ namespace Proyecto.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
-                var user = new Usuario 
+                var user = new Usuario
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
-                    Nombres = Input.Nombres, 
-                    ApellidoPaterno = Input.ApellidoPaterno, 
-                    ApellidoMaterno = Input.ApellidoMaterno, 
-                    PhoneNumber = Input.PhoneNumber 
+                    Nombres = Input.Nombres,
+                    ApellidoPaterno = Input.ApellidoPaterno,
+                    ApellidoMaterno = Input.ApellidoMaterno,
+                    PhoneNumber = Input.PhoneNumber
                 };
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -159,7 +165,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    _emailService.SendEmail(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
@@ -186,23 +192,23 @@ namespace Proyecto.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<IdentityUser>();
+                return Activator.CreateInstance<Usuario>();
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
+                throw new InvalidOperationException($"Can't create an instance of '{nameof(Usuario)}'. " +
+                    $"Ensure that '{nameof(Usuario)}' is not an abstract class and has a parameterless constructor, or alternatively " +
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
-        private IUserEmailStore<IdentityUser> GetEmailStore()
+        private IUserEmailStore<Usuario> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)_userStore;
+            return (IUserEmailStore<Usuario>)_userStore;
         }
     }
 }

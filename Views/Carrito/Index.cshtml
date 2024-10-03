@@ -1,0 +1,27 @@
+@model XDeco.ViewModel.CarritoViewModel
+
+<h2>Tu Carrito</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CarritoProductos)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.Precio</td>
+                <td>@item.Cantidad</td>
+                <td>@item.Subtotal</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<p><strong>Total:</strong> @Model.Total</p>
