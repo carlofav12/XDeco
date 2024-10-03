@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +27,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="bg-primary text-white text-center p-3 fs-2">
         <nav>
@@ -84,7 +86,19 @@
                                     </div>
                                 </a>
                                 <div class="text-center">
-                                    <button class="btn btn-primary bt">Añadir a la cesta</button>
+                                    @if (User.Identity.IsAuthenticated)
+{
+    <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
+        <input type="hidden" name="productoId" value="@producto.Id" />
+        <button type="submit" class="btn btn-primary">Añadir a la cesta</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning">
+    Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos a la cesta.
+</div>
+}
                                 </div>
                             </div>
                         </div>
@@ -116,4 +130,5 @@
         }
     </script>
 </body>
+
 </html>
