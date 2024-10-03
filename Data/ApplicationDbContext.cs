@@ -4,7 +4,7 @@ using XDeco.Models;
 
 namespace Proyecto.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<Usuario>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -22,5 +22,5 @@ public class ApplicationDbContext : IdentityDbContext
 
     public DbSet<Admin> Administradores { get; set; }
 
-
+    public DbSet<Carrito> Carritos { get; set; }
 }
