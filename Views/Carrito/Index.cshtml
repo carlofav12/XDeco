@@ -1,9 +1,64 @@
 @model XDeco.ViewModel.CarritoViewModel
+@using System.Globalization
 
-<h2>Tu Carrito</h2>
 
-<table>
-    <thead>
+<style>
+  /* Estilo del carrito */
+  .carrito-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .carrito-table {
+    width: 100%;
+    max-width: 90%;
+    margin: 0 auto;
+    border: 2px solid #cac3b0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px #cac3b0;
+  }
+
+  .thead-dark th {
+    background-color: #aca590;
+    color: #fff;
+    text-align: center;
+  }
+
+  .carrito-table th, .carrito-table td {
+    padding: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+    color: black;
+  }
+
+  .carrito-table tr:hover {
+    background-color: #f7f5f0;
+  }
+
+  .total {
+    font-size: 1.5rem;
+    text-align: right;
+    max-width: 90%;
+    margin: 0 auto;
+    color: #000000;
+  }
+
+  /* Estilo responsive */
+(max-width: 768px) {
+    .carrito-table, .total {
+      font-size: 0.9rem;
+    }
+  }
+</style>
+
+<h2 class="mt-4 carrito-title">Tu Carrito</h2>
+
+<table class="table table-bordered table-striped carrito-table">
+    <thead class="thead-dark">
         <tr>
             <th>Producto</th>
             <th>Precio</th>
@@ -11,17 +66,19 @@
             <th>Subtotal</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var item in Model.CarritoProductos)
-        {
-            <tr>
-                <td>@item.Nombre</td>
-                <td>@item.Precio</td>
-                <td>@item.Cantidad</td>
-                <td>@item.Subtotal</td>
-            </tr>
-        }
-    </tbody>
+   <tbody>
+    @foreach (var item in Model.CarritoProductos)
+    {
+        <tr>
+            <td>@item.Nombre</td>
+            <td>@item.Precio.ToString("C", new CultureInfo("es-PE"))</td>
+            <td>@item.Cantidad</td>
+            <td>@item.Subtotal.ToString("C", new CultureInfo("es-PE"))</td>
+        </tr>
+    }
+</tbody>
 </table>
 
-<p><strong>Total:</strong> @Model.Total</p>
+<p class="total mt-3"><strong>Total:</strong> @Model.Total.ToString("C", new CultureInfo("es-PE"))</p>
+
+
