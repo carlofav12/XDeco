@@ -1,0 +1,49 @@
+@model IEnumerable<XDeco.Models.Usuario> // Asegúrate de que este espacio de nombres sea correcto
+
+@{
+    ViewData["Title"] = "Lista de Clientes";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombres</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Email</th>
+                <th>Número de Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+    @if (Model == null || !Model.Any())
+    {
+        <tr>
+            <td colspan="7" class="text-center">No hay usuarios disponibles.</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.Id</td>
+                <td>@usuario.Nombres</td>
+                <td>@usuario.ApellidoPaterno</td>
+                <td>@usuario.ApellidoMaterno</td>
+                <td>@usuario.Email</td>
+                <td>@usuario.PhoneNumber</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-warning">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@usuario.Id" class="btn btn-danger">Eliminar</a>
+                </td>
+            </tr>
+        }
+    }
+        </tbody>
+    </table>
+</div>
