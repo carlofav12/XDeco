@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using XDeco.Models;
 using Proyecto.Data;
 
 namespace XDeco.Controllers
@@ -18,39 +19,47 @@ namespace XDeco.Controllers
         public AdminController(ILogger<AdminController> logger, ApplicationDbContext context)
         {
             _logger = logger;
-            _context = context; // Inicializa el DbContext
+            _context = context; 
         }
 
         public IActionResult Index()
         {
-            return View(); // Muestra la vista de login
+            return View(); 
         }
 
         [HttpPost]
         public IActionResult Login(string usuAdmin, string contraAdmin)
         {
-            // Busca si hay un administrador con las credenciales ingresadas
+            
             var admin = _context.Administradores
                                 .FirstOrDefault(a => a.usuAdmin == usuAdmin && a.contraAdmin == contraAdmin);
 
             if (admin != null)
             {
-                // Si las credenciales son correctas, mostrar un mensaje de éxito
+                
                 ViewBag.SuccessMessage = "Credenciales correctas";
-                return RedirectToAction("Index", "Home"); // Se mantiene en la vista de login
+                return RedirectToAction("Vista", "Admin");
             }
             else
             {
-                // Si las credenciales no coinciden, mostrar un mensaje de error
+                
                 ViewBag.ErrorMessage = "Credenciales incorrectas";
-                return View("Index"); // Vuelve a la vista de login
+                return View("Index"); 
             }
         }
 
-        public IActionResult Dashboard()
+         public IActionResult Vista()
         {
-            return View(); // Muestra el panel de administración
+            return View(); // Muestra la vista de administración
         }
+
+         public IActionResult ListaClientes()
+        {
+              var usuarios = _context.Users.ToList(); // Obtener la lista de usuarios
+              return View(usuarios); // Pasar la lista a la vista
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
