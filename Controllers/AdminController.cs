@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using XDeco.Models;
 using Proyecto.Data;
 
 namespace XDeco.Controllers
@@ -56,7 +55,11 @@ namespace XDeco.Controllers
          public IActionResult ListaClientes()
         {
               var usuarios = _context.Users.ToList(); // Obtener la lista de usuarios
-              return View(usuarios); // Pasar la lista a la vista
+                return View(usuarios); // Pasar la lista a la vista
+        }
+        public IActionResult Logout()
+        {
+             return View("Index","Home");
         }
 
 

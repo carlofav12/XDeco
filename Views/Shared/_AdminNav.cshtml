@@ -1,0 +1,43 @@
+@{
+    ViewData["Title"] = "Título de la Página"; // Cambia esto según sea necesario
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mi Aplicación</title>
+    <link rel="stylesheet" href="~/css/tu-estilo.css" /> <!-- Ajusta la ruta según tu archivo CSS -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-light bg-light border-bottom box-shadow mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" asp-area="" asp-controller="Admin" asp-action="Index">Panel de Administración</a>
+            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="ListaClientes">Lista de Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="OtrasAcciones">Otras Acciones</a>
+                    </li>
+                </ul>
+                <div class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Logout">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        @RenderBody() <!-- Aquí se renderiza el contenido de la vista -->
+    </div>
+
+    <footer>
+      
+    </footer>
+
+    @RenderSection("Scripts", required: false) <!-- Para incluir scripts adicionales -->
+</body>
+</html>
