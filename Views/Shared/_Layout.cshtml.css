@@ -47,3 +47,9 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.navbar-logo {
+  height: 60px;
+  width: auto;
+  margin-top: -10px;
+}
