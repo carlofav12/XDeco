@@ -1,58 +1,62 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proyecto.Data;
+using XDeco.Models;
 
 namespace XDeco.Controllers
 {
-    
-  public class AdminController : Controller
+    [ServiceFilter(typeof(AdminAuthorizationFilter))] // Aplica el filtro personalizado
+    public class AdminController : Controller
     {
         private readonly ILogger<AdminController> _logger;
-        private readonly ApplicationDbContext _context; // Usar ApplicationDbContext
+        private readonly UserManager<Usuario> _userManager; // Usa UserManager para manejar usuarios
+        private readonly SignInManager<Usuario> _signInManager; // Para manejar el inicio de sesión
+        private readonly ApplicationDbContext _context;
 
-        public AdminController(ILogger<AdminController> logger, ApplicationDbContext context)
+        public AdminController(
+            ILogger<AdminController> logger, 
+            ApplicationDbContext context,
+            UserManager<Usuario> userManager,
+            SignInManager<Usuario> signInManager)
         {
             _logger = logger;
-            _context = context; 
+            _context = context;
+            _userManager = userManager; // Inicializa UserManager
+            _signInManager = signInManager; // Inicializa SignInManager
         }
 
         public IActionResult Index()
         {
-            return View(); 
+            return View(); // Muestra la vista de inicio de sesión
         }
 
         [HttpPost]
-        public IActionResult Login(string usuAdmin, string contraAdmin)
+        [AllowAnonymous] // Permite que no autenticados puedan acceder a esta acción
+        public async Task<IActionResult> Login(string email, string password)
         {
-            
-            var admin = _context.Administradores
-                                .FirstOrDefault(a => a.usuAdmin == usuAdmin && a.contraAdmin == contraAdmin);
+            // Intenta iniciar sesión con las credenciales proporcionadas
+            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
 
-            if (admin != null)
+            if (result.Succeeded)
             {
-                
-                ViewBag.SuccessMessage = "Credenciales correctas";
-                return RedirectToAction("Vista", "Admin");
+                return RedirectToAction("Vista", "Admin");; // Redirige al panel de administración
             }
             else
             {
-                
                 ViewBag.ErrorMessage = "Credenciales incorrectas";
-                return View("Index"); 
+                return View("Index"); // Vuelve a la vista de inicio de sesión
             }
         }
 
-         public IActionResult Vista()
+        public IActionResult Vista()
         {
             return View(); // Muestra la vista de administración
         }
 
-         public IActionResult ListaClientes()
+        public IActionResult ListaClientes()
         {
               var usuarios = _context.Users.ToList(); // Obtener la lista de usuarios
                 return View(usuarios); // Pasar la lista a la vista
@@ -62,7 +66,10 @@ namespace XDeco.Controllers
              return View("Index","Home");
         }
 
-
+        public IActionResult Dashboard()
+        {
+            return View(); // Muestra el panel de administración
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
