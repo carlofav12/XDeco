@@ -28,10 +28,12 @@ namespace XDeco.Controllers
             _signInManager = signInManager; // Inicializa SignInManager
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            return View(); // Muestra la vista de inicio de sesión
+            return View(); // Muestra la vista de login
         }
+
 
         [HttpPost]
         [AllowAnonymous] // Permite que no autenticados puedan acceder a esta acción
