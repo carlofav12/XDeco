@@ -8,6 +8,7 @@ namespace XDeco.ViewModel
 {
     public class CarritoViewModel
     {
+        public long CarritoId { get; set; }
         // Lista de productos en el carrito con su cantidad
         public List<CarritoProductoViewModel> CarritoProductos { get; set; } = new List<CarritoProductoViewModel>();
 
@@ -17,6 +18,7 @@ namespace XDeco.ViewModel
         // Constructor que recibe el carrito del modelo
         public CarritoViewModel(Carrito carrito)
         {
+            CarritoId = carrito.Id;
             // Mapeamos los productos y cantidades del carrito al ViewModel
             foreach (var item in carrito.CarritoProductos)
             {
@@ -43,6 +45,6 @@ namespace XDeco.ViewModel
         public int Cantidad { get; set; }
         public decimal Subtotal { get; set; }
 
-        
+
     }
 }
