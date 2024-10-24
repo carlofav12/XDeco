@@ -8,6 +8,10 @@ using Proyecto.Data;
 using XDeco.Models;
 using XDeco.ViewModel;
 using Microsoft.EntityFrameworkCore;
+using XDeco.Service;
+using MercadoPago.Client.Preference;
+using MercadoPago.Config;
+using MercadoPago.Resource.Preference;
 
 namespace XDeco.Controllers
 {
@@ -17,12 +21,14 @@ namespace XDeco.Controllers
         private readonly ILogger<CarritoController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
+        private readonly IMercadoPagoService _mercadoPagoService;
 
-        public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager)
+        public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager, IMercadoPagoService mercadoPagoService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _mercadoPagoService = mercadoPagoService;
         }
 
         public async Task<IActionResult> Index()
@@ -85,7 +91,7 @@ namespace XDeco.Controllers
             return RedirectToAction("Index");
         }
 
-        
+
 
         [HttpPost]
         public async Task<JsonResult> FinalizarCompra([FromBody] DatosCompraModel datos)
@@ -122,7 +128,7 @@ namespace XDeco.Controllers
         public async Task<IActionResult> EliminarCarrito(long carritoId, long productoId)
         {
             var userId = _userManager.GetUserId(User);
-            
+
             // Buscar el carrito del usuario
             var carrito = await _context.Carritos
                 .Include(c => c.CarritoProductos)
@@ -135,7 +141,7 @@ namespace XDeco.Controllers
 
             // Buscar el producto dentro del carrito
             var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
-            
+
             if (carritoProducto != null)
             {
                 carrito.CarritoProductos.Remove(carritoProducto);
@@ -143,6 +149,46 @@ namespace XDeco.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> PagoConMercadoPago()
+        {
+            // Configuración de Mercado Pago
+            MercadoPagoConfig.AccessToken = "TEST-2040961728898445-102315-dfd5f8da7ed98d6c0428ddd0d21ab1e5-2052616451";
+
+            var userId = _userManager.GetUserId(User);
+            var carrito = await _context.Carritos
+                .Include(c => c.CarritoProductos)
+                .ThenInclude(cp => cp.Producto)
+                .FirstOrDefaultAsync(c => c.UsuarioId == userId);
+
+            if (carrito == null || !carrito.CarritoProductos.Any())
+            {
+                return RedirectToAction("Index"); // O algún mensaje de error indicando que no hay productos en el carrito
+            }
+
+            var preferenceRequest = new PreferenceRequest
+            {
+                Items = new List<PreferenceItemRequest>()
+            };
+
+            foreach (var item in carrito.CarritoProductos)
+            {
+                var preferenceItem = new PreferenceItemRequest
+                {
+                    Title = item.Producto.Nombre,
+                    Quantity = item.Cantidad,
+                    CurrencyId = "PEN",
+                    UnitPrice = (decimal)item.Producto.Precio
+                };
+                preferenceRequest.Items.Add(preferenceItem);
+            }
+
+            var client = new PreferenceClient();
+            Preference preference = client.Create(preferenceRequest);
+
+            // Redirigir al checkout de Mercado Pago sandbox
+            return Redirect(preference.InitPoint);
         }
 
     }

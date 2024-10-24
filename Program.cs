@@ -3,8 +3,29 @@ using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using XDeco.Models;
 using XDeco.Service;
+using MercadoPago.Config;
+using MercadoPago.Client.Preference;
+using MercadoPago.Client.CardToken;
+using MercadoPago.Client.Payment;
+using MercadoPago.Client.Customer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//mecado pago servicios
+builder.Services.AddScoped<CardTokenClient>();
+builder.Services.AddScoped<CustomerClient>();
+builder.Services.AddScoped<PaymentClient>();
+builder.Services.AddScoped<IMercadoPagoService, MercadoPagoService>();
+// Configurar HttpClient para MercadoPagoService
+builder.Services.AddHttpClient<IMercadoPagoService, MercadoPagoService>((serviceProvider, httpClient) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var accessToken = configuration["MercadoPagoConfig:AccessToken"];
+
+    httpClient.BaseAddress = new Uri("https://api.mercadopago.com/v1/");
+    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+    httpClient.DefaultRequestHeaders.Add("User-Agent", "MercadoPagoApp");
+});
 
 // Configuración de la cadena de conexión
 var connectionString = builder.Configuration.GetConnectionString("PosgreConnection")

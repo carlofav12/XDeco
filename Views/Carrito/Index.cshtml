@@ -177,6 +177,17 @@
 @section scripts {
     <script>
 
+        document.querySelectorAll('input[name="card"]').forEach((elem) => {
+            elem.addEventListener("change", function (event) {
+                const cardDetails = document.getElementById("cardDetails");
+                if (event.target.value === "mercado_pago") {
+                    cardDetails.style.display = "none"; // Ocultar detalles para Mercado Pago
+                } else {
+                    cardDetails.style.display = "block"; // Mostrar detalles para otras tarjetas
+                }
+            });
+        });
+
         $(document).ready(function () {
             cargarCarrito();
             ListarDepartamento();
@@ -288,12 +299,15 @@
         }
 
         $("#btnProcesarPago").on("click", function () {
-            limpiarFormulario();
-
-            if (validarFormulario()) {
+            var selectedPaymentMethod = $('input[name="card"]:checked').val();
+            if (selectedPaymentMethod === "mercado_pago") {
+                window.location.href = '@Url.Action("PagoConMercadoPago", "Carrito")';
+            } else {
+                limpiarFormulario();
                 $("#mdprocesopago").modal("show");
             }
         });
+
 
         function limpiarFormulario() {
             $("#txtDepartamento").val("");
@@ -365,17 +379,6 @@
                 }
             });
 
-        });
-
-        document.querySelectorAll('input[name="card"]').forEach((elem) => {
-            elem.addEventListener("change", function (event) {
-                const cardDetails = document.getElementById("cardDetails");
-                if (event.target.value === "mercado_pago") {
-                    cardDetails.style.display = "none"; // Ocultar detalles para Mercado Pago
-                } else {
-                    cardDetails.style.display = "block"; // Mostrar detalles para otras tarjetas
-                }
-            });
         });
     </script>
 }
