@@ -8,7 +8,8 @@ using Microsoft.Extensions.Logging;
 
 namespace XDeco.Controllers
 {
-    [Route("[controller]")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class NosotrosController : Controller
     {
         private readonly ILogger<NosotrosController> _logger;
@@ -19,7 +20,7 @@ namespace XDeco.Controllers
         }
 
         // Acción para la vista Index
-        [HttpGet("")]
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
