@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
+using XDeco.Integration.nytimes;
 using XDeco.Models;
 using XDeco.Service;
 
@@ -18,6 +19,8 @@ builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireCo
 
 builder.Services.AddSingleton<EmailService, EmailService>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<NYTimesApiIntegration>();
 
 var app = builder.Build();
 
