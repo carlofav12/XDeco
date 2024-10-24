@@ -51,45 +51,52 @@ namespace XDeco.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
+public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
+{
+    try
+    {
+        var producto = await _context.Productos.FindAsync(productoId);
+        if (producto == null)
         {
-            var producto = await _context.Productos.FindAsync(productoId);
-            if (producto == null)
-            {
-                return NotFound();
-            }
-
-            var userId = _userManager.GetUserId(User);
-            var carrito = await _context.Carritos
-                .Include(c => c.CarritoProductos)
-                .FirstOrDefaultAsync(c => c.UsuarioId == userId);
-
-            if (carrito == null)
-            {
-                carrito = new Carrito
-                {
-                    UsuarioId = userId
-                };
-                _context.Carritos.Add(carrito);
-            }
-
-            var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
-            if (carritoProducto != null)
-            {
-                carritoProducto.Cantidad += cantidad;
-            }
-            else
-            {
-                carrito.CarritoProductos.Add(new CarritoProducto
-                {
-                    Producto = producto,
-                    Cantidad = cantidad
-                });
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return NotFound();
         }
+
+        var userId = _userManager.GetUserId(User);
+        var carrito = await _context.Carritos
+            .Include(c => c.CarritoProductos)
+            .FirstOrDefaultAsync(c => c.UsuarioId == userId);
+
+        if (carrito == null)
+        {
+            carrito = new Carrito { UsuarioId = userId };
+            _context.Carritos.Add(carrito);
+        }
+
+        var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
+        if (carritoProducto != null)
+        {
+            carritoProducto.Cantidad += cantidad;
+        }
+        else
+        {
+            carrito.CarritoProductos.Add(new CarritoProducto
+            {
+                Producto = producto,
+                Cantidad = cantidad,
+            });
+        }
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error al añadir producto al carrito.");
+        return StatusCode(500, "Error interno del servidor.");
+    }
+}
+
+
 
 
 

@@ -29,5 +29,8 @@ namespace XDeco.Models
                 return Cantidad * Producto.Precio;
             }
         }
+
+        // Nueva propiedad para la URL de la imagen
+    
     }
 }

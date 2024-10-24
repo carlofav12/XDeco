@@ -28,7 +28,8 @@ namespace XDeco.ViewModel
                     Nombre = item.Producto.Nombre,
                     Precio = item.Producto.Precio,
                     Cantidad = item.Cantidad,
-                    Subtotal = item.Subtotal
+                    Subtotal = item.Subtotal,
+                    ImagenUrl = item.Producto.ImageURL, // Asigna la URL de la imagen
                 });
             }
 
@@ -45,6 +46,6 @@ namespace XDeco.ViewModel
         public int Cantidad { get; set; }
         public decimal Subtotal { get; set; }
 
-
+        public string ImagenUrl { get; set; } // Agrega esta línea
     }
 }
