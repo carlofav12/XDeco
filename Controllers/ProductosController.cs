@@ -40,6 +40,36 @@ namespace XDeco.Controllers
 
             return Ok(producto);
         }
-    }
-    // agregar metodos modifica eliminar
+    
+    
+    [HttpPost]
+        public IActionResult Create([FromBody] Producto producto)
+        {
+            if (producto == null)
+            {
+                return BadRequest("El producto no puede ser nulo.");
+            }
+
+            _context.Productos.Add(producto);
+            _context.SaveChanges();
+
+            return CreatedAtAction(nameof(GetById), new { id = producto.Id }, producto);
+        }
+
+        // Método para eliminar un producto existente
+        [HttpDelete("{id}")]
+        public IActionResult Delete(long id)
+        {
+            var producto = _context.Productos.Find(id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            _context.Productos.Remove(producto);
+            _context.SaveChanges();
+
+            return NoContent(); // Devuelve 204 No Content
+        }
+}
 }
