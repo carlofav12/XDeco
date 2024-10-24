@@ -40,7 +40,20 @@ namespace XDeco.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserModel model)
         {
-            var user = new Usuario { UserName = model.Email, Email = model.Email };
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new Usuario
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                Nombres = model.Nombres,
+                ApellidoPaterno = model.ApellidoPaterno,
+                ApellidoMaterno = model.ApellidoMaterno
+            };
+
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
@@ -51,12 +64,32 @@ namespace XDeco.Controllers
             return BadRequest(result.Errors);
         }
 
-        // agregar metodos modifica eliminar
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound(); // Retorna 404 si no se encuentra el usuario
+            }
+
+            // eliminar el usuario
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return NoContent(); // Retorna 204 No Content si se elimina correctamente
+            }
+
+            return BadRequest(result.Errors);
+        }
     }
 
     public class CreateUserModel
     {
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Nombres { get; set; }
+        public string ApellidoPaterno { get; set; }
+        public string ApellidoMaterno { get; set; }
     }
 }
