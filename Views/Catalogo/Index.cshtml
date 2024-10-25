@@ -1,149 +1,173 @@
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Catálogo de Productos</title>
-        <style>
-            .text-decoration-none {
-                text-decoration: none !important;
-                color: inherit;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos</title>
+    <style>
+        .text-decoration-none {
+            text-decoration: none !important;
+            color: inherit;
+        }
 
-            .card-img-top {
-                width: 210px;
-                height: 240px;
-                margin-top: 10px;
-            }
+        .card-img-top {
+            width: 210px;
+            height: 240px;
+            margin-top: 10px;
+        }
 
-            .bt {
-                width: 200px;
-                height: 50px;
-                border-radius: 10px;
-                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-                margin-bottom: 10px;
-                background-color: #cac3b0;
-                border-color: #c2bdaf;
-                color: black
-            }
-        </style>
-    </head>
+        .bt {
+            width: 200px;
+            height: 50px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            background-color: #cac3b0; /* Color por defecto */
+            border-color: #c2bdaf;
+            color: black;
+            transition: background-color 0.3s; /* Efecto de transición */
+        }
 
-    <body>
-        <header style="background-color: #cac3b0;" class="text-white text-center p-3 fs-2">
-            <nav>
-                <a href="/I" class="text-white text-decoration-none fs-2">Inicio</a> |
-                <a href="/catalogo" class="text-white text-decoration-none fs-2">Catálogo</a>
-            </nav>
-        </header>
+        .bt-color1 {
+            background-color: #a59f8f; /* Primer color */
+        }
 
-        <div class="container mt-4">
-            <h2>Filtros</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="filterSelect">Ordenar por:</label>
-                        <select class="form-control" id="filterSelect">
-                            <option value="">Seleccionar</option>
-                            <option value="popular">Más Popular Primero</option>
-                            <option value="less-popular">Menos Popular Primero</option>
-                            <option value="lower-price">Menor Precio</option>
-                            <option value="higher-price">Mayor Precio</option>
-                        </select>
-                    </div>
+        .bt-color2 {
+            background-color: #cac3b0; /* Segundo color */
+        }
+    </style>
+</head>
+
+<body>
+    <header style="background-color: #cac3b0;" class="text-white text-center p-3 fs-2">
+        <nav>
+            <a href="/I" class="text-white text-decoration-none fs-2">Inicio</a> |
+            <a href="/catalogo" class="text-white text-decoration-none fs-2">Catálogo</a>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <h2>Filtros</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="filterSelect">Ordenar por:</label>
+                    <select class="form-control" id="filterSelect">
+                        <option value="">Seleccionar</option>
+                        <option value="popular">Más Popular Primero</option>
+                        <option value="less-popular">Menos Popular Primero</option>
+                        <option value="lower-price">Menor Precio</option>
+                        <option value="higher-price">Mayor Precio</option>
+                    </select>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="categorySelect">Selecciona una Categoría:</label>
-                        <select class="form-control" id="categorySelect">
-                            <option value="">Seleccionar</option>
-                            <option value="all">Todas las Categorías</option>
-                            <option value="sala">Sala</option>
-                            <option value="dormitorio">Dormitorio</option>
-                            <option value="comedor">Comedor</option>
-                        </select>
-                    </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="categorySelect">Selecciona una Categoría:</label>
+                    <select class="form-control" id="categorySelect">
+                        <option value="">Seleccionar</option>
+                        <option value="all">Todas las Categorías</option>
+                        <option value="sala">Sala</option>
+                        <option value="dormitorio">Dormitorio</option>
+                        <option value="comedor">Comedor</option>
+                    </select>
                 </div>
             </div>
         </div>
+    </div>
 
-        <main class="container mt-4">
-            <h2 class="text-center">Productos</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-9">
-                    <div class="row">
-                    @foreach (var producto in Model.ListProduc)
-                    {
-                            <div class="col-md-4 mb-4">
-                                <div class="card" style="border-radius: 20px;">
-                                    <a href="@Url.Action("Producto", "Catalogo", new { id = producto.Id})"
-                                        class="text-decoration-none">
-                                        <div class="d-flex justify-content-center">
-                                            <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title">@producto.Nombre</h5>
-                                            <p class="card-text">Precio: S/.@producto.Precio</p>
-                                        </div>
-                                    </a>
-                                    <div class="text-center">
-                                    @if (User.Identity.IsAuthenticated)
-                                    {
-                                            <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
-                                                <input type="hidden" name="productoId" value="@producto.Id" />
-                                                <button type="submit" class="bt btn-primary">Añadir a la cesta</button>
-                                            </form>
-                                    }
-                                    else
-                                    {
-                                            <div class="alert alert-warning">
-                                                Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos
-                                                a la cesta.
-                                            </div>
-                                    }
+    <main class="container mt-4">
+        <h2 class="text-center">Productos</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="row">
+                @foreach (var producto in Model.ListProduc)
+                {
+                        <div class="col-md-4 mb-4">
+                            <div class="card" style="border-radius: 20px;">
+                                <a href="@Url.Action("Producto", "Catalogo", new { id = producto.Id})"
+                                    class="text-decoration-none">
+                                    <div class="d-flex justify-content-center">
+                                        <img src="@producto.ImageURL" class="card-img-top" alt="@producto.Nombre">
                                     </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@producto.Nombre</h5>
+                                        <p class="card-text">Precio: S/.@producto.Precio</p>
+                                    </div>
+                                </a>
+                                <div class="text-center">
+                               @if (User.Identity.IsAuthenticated)
+                                {
+                                    <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
+                                    <input type="hidden" name="productoId" value="@producto.Id" />
+                                    <button type="submit" class="bt" style="background-color: #a59f8f; color: white;">Añadir a la cesta</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning">
+                                    Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos a la cesta.
+                                    </div>
+                                }
+
                                 </div>
                             </div>
-                    }
-                    </div>
+                        </div>
+                }
                 </div>
             </div>
-        </main><br><br>
+        </div>
+    </main><br><br>
 
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
-        <script>
-            // Lógica para manejar los filtros
-            document.getElementById('filterSelect').addEventListener('change', function () {
-                aplicarFiltros();
-            });
+    <script>
+        // Lógica para manejar los filtros
+        document.getElementById('filterSelect').addEventListener('change', function () {
+            aplicarFiltros();
+            cambiarColorBoton();
+        });
 
-            document.getElementById('categorySelect').addEventListener('change', function () {
-                aplicarFiltros();
-            });
+        document.getElementById('categorySelect').addEventListener('change', function () {
+            aplicarFiltros();
+            cambiarColorBoton();
+        });
 
-            function aplicarFiltros() {
-                var filterBy = document.getElementById('filterSelect').value;
-                var category = document.getElementById('categorySelect').value;
+        function aplicarFiltros() {
+            var filterBy = document.getElementById('filterSelect').value;
+            var category = document.getElementById('categorySelect').value;
 
-                // Redirigir con los filtros seleccionados en la URL
-                window.location.href = `/Catalogo?category=${category}&orderBy=${filterBy}`;
+            // Redirigir con los filtros seleccionados en la URL
+            window.location.href = `/Catalogo?category=${category}&orderBy=${filterBy}`;
+        }
+
+        function cambiarColorBoton() {
+            var selectedOrderBy = document.getElementById('filterSelect').value;
+            var button = document.querySelector('.bt');
+
+            if (selectedOrderBy) {
+                button.classList.add('bt-color1'); // Cambiar al primer color
+                button.classList.remove('bt-color2');
+            } else {
+                button.classList.add('bt-color2'); // Cambiar al segundo color
+                button.classList.remove('bt-color1');
+            }
+        }
+
+        // Mantener la selección después de recargar la página
+        window.onload = function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var selectedOrderBy = urlParams.get('orderBy');
+            var selectedCategory = urlParams.get('category');
+
+            if (selectedOrderBy) {
+                document.getElementById('filterSelect').value = selectedOrderBy;
             }
 
-            // Mantener la selección después de recargar la página
-            window.onload = function () {
-                var urlParams = new URLSearchParams(window.location.search);
-                var selectedOrderBy = urlParams.get('orderBy');
-                var selectedCategory = urlParams.get('category');
-
-                if (selectedOrderBy) {
-                    document.getElementById('filterSelect').value = selectedOrderBy;
-                }
-
-                if (selectedCategory) {
-                    document.getElementById('categorySelect').value = selectedCategory;
-                }
+            if (selectedCategory) {
+                document.getElementById('categorySelect').value = selectedCategory;
             }
-        </script>
 
-    </body>
-
-    </html>
+            // Llamar a cambiarColorBoton para establecer el color inicial
+            cambiarColorBoton();
+        }
+    </script>
+</body>
