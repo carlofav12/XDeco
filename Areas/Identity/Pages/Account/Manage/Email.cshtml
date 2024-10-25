@@ -1,39 +1,43 @@
 ﻿@page
 @model EmailModel
 @{
-    ViewData["Title"] = "Administrar correo electrónico";
+    ViewData["Title"] = "Administrar Correo Electrónico";
     ViewData["ActivePage"] = ManageNavPages.Email;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 class="form-title">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
+
+<div class="row justify-content-center">
     <div class="col-md-6">
-        <form id="email-form" method="post">
+        <form id="email-form" method="post" class="p-4 rounded shadow-sm bg-light custom-form">
             <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+            
             @if (Model.IsEmailConfirmed)
             {
                 <div class="form-floating mb-3 input-group">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                        <div class="input-group-append">
-                            <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
-                        </div>
-                    <label asp-for="Email" class="form-label">Introduzca su correo electrónico.</label>
+                    <input asp-for="Email" class="form-control" placeholder="Por favor, introduzca su correo electrónico" disabled />
+                    <div class="input-group-append">
+                        <span class="h-100 input-group-text text-success font-weight-bold">✓</span>
+                    </div>
+                    <label asp-for="Email" class="form-label">Correo electrónico actual</label>
                 </div>
             }
             else
             {
                 <div class="form-floating mb-3">
-                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
-                    <label asp-for="Email" class="form-label">Introduzca su correo electrónico.</label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Enviar correo electrónico de verificación</button>
+                    <input asp-for="Email" class="form-control" placeholder="Por favor, introduzca su correo electrónico" disabled />
+                    <label asp-for="Email" class="form-label">Correo electrónico actual</label>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Enviar verificación de correo</button>
                 </div>
             }
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
-                <label asp-for="Input.NewEmail" class="form-label">Introduzca su nuevo correo electrónico</label>
+                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Por favor, introduzca su nuevo correo electrónico" />
+                <label asp-for="Input.NewEmail" class="form-label">Nuevo correo electrónico</label>
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
+
             <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Cambiar correo electrónico</button>
         </form>
     </div>
@@ -42,3 +46,40 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    /* Título del formulario */
+    .form-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos del formulario */
+    .custom-form {
+        background-color: #f8f9fa;
+        border: 2px solid #cac3b0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilos de los botones */
+    .btn-primary {
+        background-color: #cac3b0;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #cac3b0;
+        transform: translateY(-2px);
+    }
+
+    /* Colores y efectos en los campos de entrada */
+    .form-floating .form-control:focus {
+        border-color: #cac3b0;
+        box-shadow: 0 0 8px rgba(202, 195, 176, 0.5);
+    }
+</style>

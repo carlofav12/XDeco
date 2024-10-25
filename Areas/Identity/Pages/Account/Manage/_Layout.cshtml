@@ -1,5 +1,5 @@
 ﻿@{
-    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout != null)
     {
         Layout = parentLayout.ToString();
     }
@@ -9,17 +9,42 @@
     }
 }
 
-<h1>Administra tu cuenta</h1>
+<h1 class="page-title display-4 text-center">Administra tu Cuenta</h1>
 
-<div>
-    <h2>Cambia la configuración de tu cuenta</h2>
-    <hr />
+<div class="account-settings mt-4">
+    <h2 class="text-center">Cambia la Configuración de tu Cuenta</h2>
+    <hr class="divider my-4" />
+</div>
+
+<style>
+    /* Estilo adicional para los títulos */
+    .page-title {
+        font-weight: bold; /* Negrita para el título principal */
+        color: #343a40; /* Color del texto */
+    }
+
+    .section-title {
+        font-weight: bold; /* Negrita para el subtítulo */
+        color: #495057; /* Color del subtítulo */
+        text-transform: uppercase; /* Transformar a mayúsculas */
+    }
+
+    .divider {
+        border: 1px solid #343a40; /* Color del divisor */
+    }
+</style>
     <div class="row">
         <div class="col-md-3">
-            <partial name="_ManageNav" />
+            <div class="sidebar">
+                <partial name="_ManageNav" />
+            </div>
         </div>
         <div class="col-md-9">
-            @RenderBody()
+            <div class="content-section card shadow-sm">
+                <div class="card-body">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -27,3 +52,51 @@
 @section Scripts {
     @RenderSection("Scripts", required: false)
 }
+
+<style>
+    /* Estilo para la página principal */
+    .page-title {
+        font-size: 28px;
+        color: #343a40;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    .section-title {
+        font-size: 28px;
+        color: #343a40;
+        margin-bottom: 20px;
+        text-align: center;
+        text-align: bold;
+    }
+
+    .divider {
+        margin-bottom: 20px;
+        border-top: 2px solid #a59f8f;
+    }
+
+    /* Barra lateral personalizada */
+    .sidebar {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Sección de contenido con tarjeta */
+    .content-section {
+        background-color: #fff;
+        border-radius: 8px;
+        padding: 20px;
+        border: 1px solid #dee2e6;
+    }
+
+    .content-section .card-body {
+        padding: 15px;
+        font-size: 16px;
+        color: #495057;
+    }
+
+   
+</style>

@@ -5,21 +5,25 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 class="form-title">@ViewData["Title"]</h3>
 <partial name="_StatusMessage" for="StatusMessage" />
-<div class="row">
+
+<div class="row justify-content-center">
     <div class="col-md-6">
-        <form id="profile-form" method="post">
+        <form id="profile-form" method="post" class="p-4 rounded shadow-sm bg-light custom-form">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
             <div class="form-floating mb-3">
-                <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
+                <input asp-for="Username" class="form-control" placeholder="Por favor, elige tu nombre de usuario." disabled />
                 <label asp-for="Username" class="form-label">Usuario</label>
             </div>
+
             <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Por favor, introduce tu número de celular." />
                 <label asp-for="Input.PhoneNumber" class="form-label">Celular</label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
+
             <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Guardar datos</button>
         </form>
     </div>
@@ -28,3 +32,40 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    /* Título del formulario */
+    .form-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos del contenedor del formulario */
+    .custom-form {
+        background-color: #f8f9fa;
+        border: 2px solid #cac3b0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilo del botón primario */
+    .btn-primary {
+        background-color: #cac3b0;
+        border: none;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #cac3b0;
+        transform: translateY(-2px);
+    }
+
+    /* Colores y efectos en los campos de entrada */
+    .form-floating .form-control:focus {
+        border-color: #cac3b0;
+        box-shadow: 0 0 8px rgba(202, 195, 176, 0.5);
+    }
+</style>
