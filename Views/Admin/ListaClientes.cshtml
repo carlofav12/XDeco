@@ -2,11 +2,13 @@
 
 @{
     ViewData["Title"] = "Lista de Clientes";
+    Layout = "_LayoutAdmin";
+
 }
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">@ViewData["Title"]</h1>
-    
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -20,33 +22,34 @@
             </tr>
         </thead>
         <tbody>
-    @if (Model == null || !Model.Any())
-    {
-        <tr>
-            <td colspan="7" class="text-center">No hay usuarios disponibles.</td>
-        </tr>
-    }
-    else
-    {
-        foreach (var usuario in Model)
-        {
-            <tr>
-                <td>@usuario.Id</td>
-                <td>@usuario.Nombres</td>
-                <td>@usuario.ApellidoPaterno</td>
-                <td>@usuario.ApellidoMaterno</td>
-                <td>@usuario.Email</td>
-                <td>@usuario.PhoneNumber</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-warning">Editar</a>
+            @if (Model == null || !Model.Any())
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No hay usuarios disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var usuario in Model)
+                {
+                    <tr>
+                        <td>@usuario.Id</td>
+                        <td>@usuario.Nombres</td>
+                        <td>@usuario.ApellidoPaterno</td>
+                        <td>@usuario.ApellidoMaterno</td>
+                        <td>@usuario.Email</td>
+                        <td>@usuario.PhoneNumber</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-warning">Editar</a>
 
-                <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
-                </form>
-            </td>
-            </tr>
-        }
-    }
+                            <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>
