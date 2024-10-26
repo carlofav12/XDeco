@@ -28,5 +28,7 @@ namespace XDeco.Models
         public string? Color { get; set; }
         public bool EsAjustable { get; set; }
         public Dimensions? Dimensiones { get; set; }
+        public bool obj { get; set; }
+        public string? UrlObj { get; set; }
     }
 }

@@ -77,3 +77,12 @@ header .navbar .nav-link {
 header .navbar .nav-link:hover {
   color: #5f3609 !important;
 }
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #5f3609;
+  border-radius: 8px;
+}
