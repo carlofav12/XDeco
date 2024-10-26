@@ -8,8 +8,14 @@
   }
 
   a {
-  text-decoration: none;
+    text-decoration: none;
   }
+  h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; 
+     color: rgba(139, 69, 19, 0.5); 
+    margin: 10px 0;
+}
 
   .container {
     text-align: center;
@@ -17,8 +23,8 @@
 
   h2 {
     font-size: 2.5rem;
+    color: rgba(139, 69, 19, 0.5);
     font-weight: bold;
-    color: #9b978d;
     margin-bottom: 20px;
   }
 
@@ -48,32 +54,48 @@
     background-color: #a7a192;
   }
 
-  /* Estilo de las tarjetas */
-  .card {
-    margin: 15px auto;
-    border: 2px solid #cac3b0;
-    transition: transform 0.3s, box-shadow 0.3s;
-    border-radius: 10px;
-    overflow: hidden;
-    max-width: 90%;
-  }
 
-  .card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(0, 123, 255, 0.5);
-  }
+/* Estilo de las tarjetas */
+.card {
+  margin: 25px auto;
+  padding: 20px;
+  border: 2px solid #8B4513;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 15px;
+  overflow: hidden;
+  width: 100%;  /* Tarjetas más anchas */
+  max-width: 450px;  /* Controla el ancho máximo */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  background-color: #fff6e8;
+}
 
-  .card-img-top {
-    border-bottom: 2px solid #cac3b0;
-    height: 250px;
-    object-fit: cover;
-  }
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 30px rgba(139, 69, 19, 0.5);
+}
 
-  .card-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #cac3b0;
-  }
+.card-img-top {
+  border-bottom: 2px solid #8B4513;
+  height: 250px; /* Altura de la imagen aumentada */
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.card-title {
+  font-size: 1.8rem; /* Tamaño de fuente ajustado */
+  font-weight: bold;
+  color: #8B4513;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.card-body {
+  padding: 20px; /* Espaciado interno aumentado */
+  text-align: center;
+}
+
+
 
   /* Ajuste del layout */
   .row {
@@ -98,11 +120,58 @@
     max-width: 100%;
     margin-bottom: 20px;
   }
+
+
+  /* Estilo para la sección de estadísticas */
+  
+  .stats-section h2 {
+    color:  #8B4513;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color:  #8B4513;
+  }
+
+  .plus-sign {
+    font-size: 2rem;
+    margin-left: 8px;
+    color: #8B4513;
+  }
+
+.imagen-personalizada {
+    margin-left: 100px; /* Ajusta el margen izquierdo */
+    width: 100%; 
+    height: auto; 
+    border-radius: 10px; 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+  .advertisement {
+    margin-top: 50px; /* Agregar margen superior */
+}
+
+.elemento-oculto {
+        opacity: 0; /* Inicialmente oculto */
+        transform: translateY(30px); /* Desplazado hacia abajo */
+        transition: opacity 0.6s ease, transform 0.6s ease; /* Animación suave */
+    }
+
+    .elemento-visible {
+        opacity: 1; /* Visible */
+        transform: translateY(0); /* Posición original */
+    }
+
+
 </style>
 
 <div class="container mt-5">
   <!-- Carrusel -->
-  <div id="carouselExample" class="carousel slide" data-ride="carousel">
+  <div id="carouselExample" class="carousel slide elemento-oculto" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img
@@ -130,15 +199,15 @@
     </a>
   </div>
 
-  <h2 class="mt-4">Categoría</h2>
-  <p>
+  <h2 class="mt-4 ">Categorías</h2>
+  <p class="" >
     ¡Optimiza tu hogar con estas ideas clave! En la sala, usa muebles modulares y luz natural;
     en el dormitorio, aprovecha soluciones de almacenamiento y tonos suaves para descansar;
     y en el comedor, elige mesas adaptables e iluminación focal. Cada espacio se transformará,
     combinando funcionalidad y estilo para mejorar tu día a día.
   </p>
 
- <div class="row">
+  <div class="row">
     <div class="col-md-4">
       <div class="card">
         <a href="/Catalogo?category=sala&orderBy=">
@@ -173,8 +242,116 @@
       </div></a>
     </div>
   </div>
+
+ <div class="row mt-5 align-items-center">
+    <div class="col-md-3 col-12 elemento-oculto text-center text-md-left">
+        <h2>Personaliza tus muebles</h2>
+        <p>Transforma cada rincón de tu hogar con muebles que se adapten a tu estilo y necesidades. Desde piezas únicas hasta soluciones funcionales, haz de tu espacio un lugar que refleje tu personalidad.</p>
+    </div>
+    <div class="col-md-8 col-12">
+        <img src="https://yolodecoro.pe/wp-content/uploads/2022/10/Banner-home-decor-escandinavo4.webp" class="img-fluid" alt="Decoración de muebles" style="border-radius: 10px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);" />
+    </div>
 </div>
 
+
+
+<!-- Sección de estadísticas  -->
+<div class="stats-section mt-5 elemento-oculto">
+    <h2 class="">Somos XDeco</h2>
+    <div class="row mt-4">
+        <div class="col-md-6 text-center">
+            <h3>Ventas realizadas:</h3>
+            <div class="stat-number">
+                <span id="counter-ventas" class="animated fadeIn">0</span>
+                <span class="plus-sign">+</span>
+            </div>
+            <i class="fas fa-shopping-cart fa-2x"></i> 
+        </div>
+        <div class="col-md-6 text-center">
+            <h3>Clientes satisfechos:</h3>
+            <div class="stat-number">
+                <span id="counter-clientes" class="animated fadeIn">0</span>
+                <span class="plus-sign">+</span>
+            </div>
+            <i class="fas fa-smile fa-2x"></i> 
+        </div>
+    </div>
+    <div class="container mt-5 elemento-oculto">
+    <div class="row">
+        <div class="col-md-3 feature text-center">
+            <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Ficon-ecologico.jpg?alt=media&token=e88ea153-1b9e-4520-8bc0-0219f44b203b" alt="Madera de pino ecológica" class="feature-image">
+            <h3>MADERA DE PINO ECOLÓGICA</h3>
+            <p>Trabajamos con madera ecológica cultivada en nuestra zona.</p>
+        </div>
+        <div class="col-md-3 feature text-center">
+            <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Ficon-delivery.jpg?alt=media&token=ce9eebf5-4ae7-494f-8876-74d59390db93" alt="Envíos en dos semanas" class="feature-image">
+            <h3>ENVÍOS CONFIABLES</h3>
+            <p>Nos comprometemos a que tu pedido salga de fábrica como tarde en dos semanas.</p>
+        </div>
+        <div class="col-md-3 feature text-center">
+            <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Ficon-idea.jpg?alt=media&token=f9340e64-a094-4c24-a690-4cd73d174db0" alt="Diseñamos y fabricamos" class="feature-image">
+            <h3>DISEÑAMOS Y FABRICAMOS</h3>
+            <p>Nuestros expertos se encargarán de darte un buen resultado.</p>
+        </div>
+        <div class="col-md-3 feature text-center">
+            <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Ficon-box.jpg?alt=media&token=19b30e10-f87e-4358-a4f9-36db6fc5c06e" alt="Devoluciones gratuitas" class="feature-image">
+            <h3>DEVOLUCIONES GRATUITAS</h3>
+            <p>Tienes un plazo de 15 días para realizar devoluciones.</p>
+        </div>
+    </div>
+</div><br>
+    <div class="advertisement mt-5 elemento-oculto">
+    <img src="https://imcesa.com.pe/wp-content/uploads/2023/11/envios-a-domicilio-en-lima-muebles.webp" alt="Envíos a domicilio en Lima" class="img-fluid" style="width: 100%; height: auto;">
+</div>
+    
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+<script>
+ 
+
+  // Inicializa el contador
+  function animateCounter(id, endValue, duration) {
+    let startValue = 0;
+    const element = document.getElementById(id);
+    const increment = Math.ceil(endValue / (duration / 10));
+    const interval = setInterval(() => {
+      startValue += increment;
+      if (startValue >= endValue) {
+        element.textContent = endValue;
+        clearInterval(interval);
+      } else {
+        element.textContent = startValue;
+      }
+    }, 10);
+  }
+
+  // Inicia el contador cuando se hace scroll hacia la sección
+  document.addEventListener("scroll", function() {
+    const ventas = document.getElementById("counter-ventas");
+    const clientes = document.getElementById("counter-clientes");
+    const rectVentas = ventas.getBoundingClientRect();
+    if (rectVentas.top < window.innerHeight && ventas.textContent == "0") {
+      animateCounter("counter-ventas", 2500, 2000);
+      animateCounter("counter-clientes", 1000, 2000);
+    }
+  });
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const elementos = document.querySelectorAll('.elemento-oculto');
+
+            function aparecerElementos() {
+                elementos.forEach(function(elemento) {
+                    const rect = elemento.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                        elemento.classList.add('elemento-visible'); // Añade la clase que activa la animación
+                    }
+                });
+            }
+
+            aparecerElementos(); // Llamamos a la función una vez al cargar la página
+            window.addEventListener("scroll", aparecerElementos); // Escuchar el evento de scroll
+        });
+
+</script>
