@@ -1,0 +1,61 @@
+@model IEnumerable<XDeco.Integration.nytimes.Article>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center" style="font-family: 'Georgia', serif; color: #8B4513;">BUSCA TU NOTICIA AQUÍ</h1>
+    <form asp-controller="Noticias" asp-action="Index" id="searchForm" class="mb-4">
+        <div class="input-group mb-3" style="max-width: 600px; margin: auto;">
+            <input type="text" class="form-control" name="searchString" id="searchString" value="muebles" placeholder="Escribe tu búsqueda aquí...">
+            <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+        </div>
+    </form>
+    
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="@Html.DisplayFor(modelItem => item.UrlToImage)" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
+                        <a href="@Html.DisplayFor(modelItem => item.Url)" class="btn btn-primary">Saber más</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Publicado: @item.PublishedAt.ToString("yyyy-MM-dd")</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    
+    document.getElementById('searchForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); // Evita el envío tradicional del formulario
+
+        const searchString = document.getElementById('searchString').value;
+        const url = 'https://newsapi.org/v2/everything?q=' + encodeURIComponent(searchString) + '&from=2024-09-23&sortBy=publishedAt&apiKey=a9656d15554c4be08f62cc634c9952c6';
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+
+            // Almacena los datos en el almacenamiento de sesión del navegador
+            sessionStorage.setItem('newsData', JSON.stringify(data));
+            console.log(url);
+
+            // Luego de procesar la respuesta, envía el formulario de manera normal
+            document.getElementById('searchForm').submit();
+        } catch (error) {
+            console.error('Error al realizar la solicitud:', error);
+        }
+    });
+</script>

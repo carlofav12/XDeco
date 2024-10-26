@@ -1,31 +1,50 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace XDeco.Controllers
 {
-    [Route("[controller]")]
+    [ApiController]
+    [Route("api/[controller]")]
     public class NosotrosController : Controller
     {
         private readonly ILogger<NosotrosController> _logger;
+        private readonly HttpClient _httpClient;
 
-        public NosotrosController(ILogger<NosotrosController> logger)
+        public NosotrosController(ILogger<NosotrosController> logger, HttpClient httpClient)
         {
             _logger = logger;
+            _httpClient = httpClient;
         }
 
-        // Acción para la vista Index
-        [HttpGet("")]
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
+            string phrase = "Frase no disponible";
+            string author = "Autor desconocido";
+            
+            try
+            {
+                var response = await _httpClient.GetStringAsync("https://frasedeldia.azurewebsites.net/api/phrase");
+                
+                dynamic phraseData = JsonConvert.DeserializeObject(response);
+                phrase = phraseData.phrase;
+                author = phraseData.author;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error al obtener la frase del día: {ex.Message}");
+            }
+
+            ViewData["Phrase"] = phrase;
+            ViewData["Author"] = author;
+
             return View();
         }
 
-        // Acción para la vista Error con una ruta específica
         [HttpGet("Error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
