@@ -9,6 +9,7 @@ using MercadoPago.Client.Preference;
 using MercadoPago.Client.CardToken;
 using MercadoPago.Client.Payment;
 using MercadoPago.Client.Customer;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
