@@ -37,10 +37,13 @@
                 <td>@usuario.ApellidoMaterno</td>
                 <td>@usuario.Email</td>
                 <td>@usuario.PhoneNumber</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@usuario.Id" class="btn btn-danger">Eliminar</a>
-                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-warning">Editar</a>
+
+                <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">Eliminar</button>
+                </form>
+            </td>
             </tr>
         }
     }
