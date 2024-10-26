@@ -12,7 +12,7 @@ public class AdminAuthorizationFilter : IAuthorizationFilter
         }
 
         // Verifica si el usuario está autenticado y tiene el rol de Admin
-        if (!context.HttpContext.User.Identity.IsAuthenticated || 
+        if (!context.HttpContext.User.Identity.IsAuthenticated ||
             !context.HttpContext.User.IsInRole("Admin"))
         {
             // Redirige a la página de acceso denegado

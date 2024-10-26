@@ -17,7 +17,7 @@ namespace XDeco.Controllers
         private readonly ApplicationDbContext _context;
 
         public AdminController(
-            ILogger<AdminController> logger, 
+            ILogger<AdminController> logger,
             ApplicationDbContext context,
             UserManager<Usuario> userManager,
             SignInManager<Usuario> signInManager)
@@ -44,7 +44,7 @@ namespace XDeco.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Vista", "Admin");; // Redirige al panel de administración
+                return RedirectToAction("Vista", "Admin"); ; // Redirige al panel de administración
             }
             else
             {
@@ -60,12 +60,12 @@ namespace XDeco.Controllers
 
         public IActionResult ListaClientes()
         {
-              var usuarios = _context.Users.ToList(); // Obtener la lista de usuarios
-                return View(usuarios); // Pasar la lista a la vista
+            var usuarios = _context.Users.ToList(); // Obtener la lista de usuarios
+            return View(usuarios); // Pasar la lista a la vista
         }
         public IActionResult Logout()
         {
-             return View("Index","Home");
+            return View("Index", "Home");
         }
 
         public IActionResult Dashboard()
