@@ -1,33 +1,7 @@
 @{
     ViewData["Title"] = "Vista Admin";
+    Layout = "_LayoutAdmin";
 }
-
-<!-- Navbar Personalizado -->
-<nav class="navbar navbar-expand-lg navbar-light mb-3" style="background-color: #8B4513; border-bottom: 1px solid #6B3F1D; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-    <div class="container-fluid">
-        <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Admin" asp-action="Index">
-            <img src="https://i.imgur.com/27RC4jf.png" style="height: 40px; width: auto; margin-right: 10px;">
-            Panel de Administración
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="ListaClientes">Lista de Clientes</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-light" asp-area="" asp-controller="Admin" asp-action="Logout">Otras Acciones</a>
-                </li>
-            </ul>
-            <div class="d-flex">
-                <a class="nav-link text-danger" asp-area="" asp-controller="Admin" asp-action="Logout">Cerrar Sesión</a>
-            </div>
-        </div>
-    </div>
-</nav>
-
 
 <!-- Contenido de la Página -->
 <div class="container mt-5">
@@ -36,7 +10,8 @@
         <!-- Tarjeta: Gestionar Clientes -->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <img src="https://i.pinimg.com/564x/56/f1/c3/56f1c30a58db3e490df3f84c80e8f9d9.jpg" class="card-img-top" alt="Gestionar Clientes">
+                <img src="https://i.pinimg.com/564x/56/f1/c3/56f1c30a58db3e490df3f84c80e8f9d9.jpg" class="card-img-top"
+                    alt="Gestionar Clientes">
                 <div class="card-body">
                     <h5 class="card-title">Gestionar Clientes</h5>
                     <p class="card-text">Aquí puedes gestionar los clientes.</p>
@@ -47,7 +22,8 @@
         <!-- Tarjeta: Gestionar Productos -->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <img src="https://img.freepik.com/vector-premium/icono-escritorio-montaje-vector-isometrico-fabricacion-muebles-producto-trabajador_96318-84277.jpg" class="card-img-top" alt="Gestionar Productos">
+                <img src="https://img.freepik.com/vector-premium/icono-escritorio-montaje-vector-isometrico-fabricacion-muebles-producto-trabajador_96318-84277.jpg"
+                    class="card-img-top" alt="Gestionar Productos">
                 <div class="card-body">
                     <h5 class="card-title">Gestionar Productos</h5>
                     <p class="card-text">Aquí puedes gestionar los productos.</p>
@@ -56,12 +32,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row">
         <!-- Tarjeta: Gestionar Compras -->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <img src="https://cdn-icons-png.freepik.com/512/7626/7626835.png" class="card-img-top" alt="Gestionar Compras">
+                <img src="https://cdn-icons-png.freepik.com/512/7626/7626835.png" class="card-img-top"
+                    alt="Gestionar Compras">
                 <div class="card-body">
                     <h5 class="card-title">Gestionar Compras</h5>
                     <p class="card-text">Aquí puedes gestionar las compras.</p>
@@ -69,11 +46,12 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Tarjeta: Agregar Productos -->
         <div class="col-md-6 mb-4">
             <div class="card">
-                <img src="https://cdn-icons-png.flaticon.com/512/10608/10608872.png" class="card-img-top" alt="Agregar Productos">
+                <img src="https://cdn-icons-png.flaticon.com/512/10608/10608872.png" class="card-img-top"
+                    alt="Agregar Productos">
                 <div class="card-body">
                     <h5 class="card-title">Agregar Productos</h5>
                     <p class="card-text">Aquí puedes agregar nuevos productos.</p>

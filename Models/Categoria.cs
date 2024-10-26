@@ -11,7 +11,6 @@ namespace XDeco.Models
     public class Categoria
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
         public string? Nombre { get; set; }

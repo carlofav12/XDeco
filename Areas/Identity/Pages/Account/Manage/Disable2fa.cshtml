@@ -1,0 +1,69 @@
+﻿@page
+@model Disable2faModel
+@{
+    ViewData["Title"] = "Desactivar la autenticación de dos factores (2FA)";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h3 class="form-title">@ViewData["Title"]</h3>
+
+<div class="alert alert-warning text-center" role="alert">
+    <p>
+        <strong>Esta acción solo deshabilita la 2FA.</strong>
+    </p>
+    <p>
+        La desactivación de la 2FA no cambia las claves utilizadas en las aplicaciones de autenticación. Si desea cambiar la llave
+        utilizada en una aplicación de autenticación, debe <a asp-page="./ResetAuthenticator">restablecer las claves de autenticación.</a>
+    </p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <form method="post" class="p-4 rounded shadow-sm bg-light custom-form">
+            <button class="w-100 btn btn-lg btn-danger custom-btn-disable" type="submit">Desactivar 2FA</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Título del formulario */
+    .form-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos del formulario */
+    .custom-form {
+        background-color: #f8f9fa;
+        border: 2px solid #cac3b0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Botón de desactivación */
+    .custom-btn-disable {
+        background-color: #d9534f;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .custom-btn-disable:hover {
+        background-color: #c9302c;
+        transform: translateY(-2px);
+    }
+
+    .custom-btn-disable:focus {
+        outline: none;
+        box-shadow: 0 0 5px rgba(217, 83, 79, 0.6);
+    }
+</style>
