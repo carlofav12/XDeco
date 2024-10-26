@@ -72,6 +72,20 @@ namespace XDeco.Controllers
         {
             return View(); // Muestra el panel de administración
         }
+        //METODO PARA ELIMINAR 
+        [HttpPost]
+        public IActionResult Delete(string id)
+        {
+            var usuario = _context.Users.FirstOrDefault(u => u.Id == id);
+
+            if (usuario != null)
+            {
+                _context.Users.Remove(usuario);
+                _context.SaveChanges();
+            }
+
+            return RedirectToAction("ListaClientes");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
