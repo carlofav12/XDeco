@@ -17,7 +17,7 @@ namespace XDeco.Controllers
         private readonly ApplicationDbContext _context;
 
         public AdminController(
-            ILogger<AdminController> logger, 
+            ILogger<AdminController> logger,
             ApplicationDbContext context,
             UserManager<Usuario> userManager,
             SignInManager<Usuario> signInManager)
@@ -30,31 +30,47 @@ namespace XDeco.Controllers
 
         public IActionResult Index()
         {
-            return View(); // Muestra la vista de inicio de sesión
+            return View();
         }
 
         [HttpPost]
         [AllowAnonymous] // Permite que no autenticados puedan acceder a esta acción
         public async Task<IActionResult> Login(string email, string password)
         {
-            // Intenta iniciar sesión con las credenciales proporcionadas
-            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
+
+            var admin = _context.Administradores
+                                .FirstOrDefault(a => a.usuAdmin == usuAdmin && a.contraAdmin == contraAdmin);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Dashboard"); // Redirige al panel de administración
+
+                ViewBag.SuccessMessage = "Credenciales correctas";
+                return RedirectToAction("Vista", "Admin");
             }
             else
             {
+                // Si las credenciales no coinciden, mostrar un mensaje de error
                 ViewBag.ErrorMessage = "Credenciales incorrectas";
                 return View("Index"); // Vuelve a la vista de inicio de sesión
             }
         }
 
-        public IActionResult Dashboard()
+        public IActionResult Vista()
         {
-            return View(); // Muestra el panel de administración
+            return View(); // Muestra la vista de administración
         }
+
+        public IActionResult ListaClientes()
+        {
+            var usuarios = _context.Users.ToList(); // Obtener la lista de usuarios
+            return View(usuarios); // Pasar la lista a la vista
+        }
+        public IActionResult Logout()
+        {
+            return View("Index", "Home");
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

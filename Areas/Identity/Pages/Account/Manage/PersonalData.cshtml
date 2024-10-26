@@ -1,0 +1,73 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Datos Personales";
+    ViewData["ActivePage"] = ManageNavPages.PersonalData;
+}
+
+<h3 class="form-title">@ViewData["Title"]</h3>
+
+<div class="row justify-content-center">
+    <div class="col-md-6 custom-card p-4">
+        <p>Su cuenta contiene los datos personales que nos ha proporcionado. Esta página le permite descargar o eliminar esos datos.</p>
+        <p>
+            <strong>Al eliminar estos datos, se eliminará permanentemente su cuenta y no se podrá recuperar.</strong>
+        </p>
+        
+        <form id="download-data" asp-page="DownloadPersonalData" method="post">
+            <button class="btn btn-custom-primary" type="submit">Descargar</button>
+        </form>
+
+        <p>
+            <a id="delete" asp-page="DeletePersonalData" class="btn btn-danger mt-3">Eliminar</a>
+        </p>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Título de la sección */
+    .form-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos para la tarjeta */
+    .custom-card {
+        background-color: #f8f9fa;
+        border: 2px solid #cac3b0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Botón de descarga personalizado */
+    .btn-custom-primary {
+        background-color: #cac3b0;
+        border: none;
+        color: white;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        width: 100%;
+    }
+
+    .btn-custom-primary:hover {
+        background-color: #cac3b0;
+        transform: translateY(-2px);
+    }
+
+    /* Botón de eliminar */
+    .btn-danger {
+        width: 100%;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #dc3545; /* Rojo más oscuro */
+        transform: translateY(-2px);
+    }
+</style>

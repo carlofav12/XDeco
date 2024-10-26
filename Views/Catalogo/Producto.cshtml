@@ -3,8 +3,18 @@
 @{
     ViewData["Title"] = Model.Nombre;
 }
-
-
+<style>
+ .bt {
+                width: 200px;
+                height: 50px;
+                border-radius: 10px;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+                margin-bottom: 10px;
+                background-color: #cac3b0;
+                border-color: #c2bdaf;
+                color: black
+            }
+            </style>
 <h1>@Model.Nombre</h1>
 
 <div class="container mt-4">
@@ -32,7 +42,7 @@
                 {
                     <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
                         <input type="hidden" name="productoId" value="@Model.Id" />
-                        <button type="submit" class="btn btn-primary">Añadir a la cesta</button>
+                        <button type="submit" class="bt btn-primary">Añadir a la cesta</button>
                     </form>
                 }
                 else

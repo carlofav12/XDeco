@@ -1,11 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+  ViewData["Title"] = "Home Page";
 }
 <style>
   /* Estilo general */
   body {
-    background-color: #f8f9fa;
     font-family: 'Arial', sans-serif;
+  }
+
+  a {
+  text-decoration: none;
   }
 
   .container {
@@ -15,7 +18,7 @@
   h2 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #007bff;
+    color: #9b978d;
     margin-bottom: 20px;
   }
 
@@ -28,7 +31,7 @@
   /* Estilo del carrusel */
   .carousel-item img {
     border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0, 123, 255, 0.6);
+    box-shadow: 0 8px 30px #cac3b0;
     max-height: 450px;
     object-fit: cover;
     width: 100%;
@@ -36,19 +39,19 @@
 
   .carousel-control-prev-icon,
   .carousel-control-next-icon {
-    background-color: #007bff;
+    background-color: #a59f8f;
     border-radius: 50%;
   }
 
   .carousel-control-prev-icon:hover,
   .carousel-control-next-icon:hover {
-    background-color: #0056b3;
+    background-color: #a7a192;
   }
 
   /* Estilo de las tarjetas */
   .card {
     margin: 15px auto;
-    border: 2px solid #007bff;
+    border: 2px solid #cac3b0;
     transition: transform 0.3s, box-shadow 0.3s;
     border-radius: 10px;
     overflow: hidden;
@@ -61,7 +64,7 @@
   }
 
   .card-img-top {
-    border-bottom: 2px solid #007bff;
+    border-bottom: 2px solid #cac3b0;
     height: 250px;
     object-fit: cover;
   }
@@ -69,7 +72,7 @@
   .card-title {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #007bff;
+    color: #cac3b0;
   }
 
   /* Ajuste del layout */
@@ -87,6 +90,14 @@
   .carousel-control-next {
     width: 5%;
   }
+
+  /* Estilo de las imágenes una sobre otra */
+  .stacked-images img {
+    border-radius: 15px;
+    box-shadow: 0 8px 30px #cac3b0;
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
 </style>
 
 <div class="container mt-5">
@@ -95,41 +106,25 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Finicio_sli1.jpg?alt=media&token=2f92d785-fc78-4b45-a4b0-2bed47efe4a2"
-          class="d-block"
-          alt="Imagen del carrusel 1"
-        />
+          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fini_1.png?alt=media&token=9e0c7f16-5489-4907-8752-7c45bfd21e15"
+          class="d-block" alt="Imagen del carrusel 1" />
       </div>
       <div class="carousel-item">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Finicio_sli2.jpg?alt=media&token=84bd4409-d054-4a81-81dd-05c74e7c38fd"
-          class="d-block"
-          alt="Imagen del carrusel 2"
-        />
+          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fini_3.png?alt=media&token=8a64968a-8908-409b-8916-bfa883131f96"
+          class="d-block" alt="Imagen del carrusel 2" />
       </div>
       <div class="carousel-item">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Finicio_sli3.jpg?alt=media&token=dc08ca33-6242-4113-8a4b-142a11430ef3"
-          class="d-block"
-          alt="Imagen del carrusel 3"
-        />
+          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fini_2.png?alt=media&token=f64c8386-9a72-4898-a2d4-98f0ac0782d0"
+          class="d-block" alt="Imagen del carrusel 3" />
       </div>
     </div>
-    <a
-      class="carousel-control-prev"
-      href="#carouselExample"
-      role="button"
-      data-slide="prev"
-    >
+    <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Anterior</span>
     </a>
-    <a
-      class="carousel-control-next"
-      href="#carouselExample"
-      role="button"
-      data-slide="next"
-    >
+    <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="sr-only">Siguiente</span>
     </a>
@@ -137,48 +132,45 @@
 
   <h2 class="mt-4">Categoría</h2>
   <p>
-    ¡Optimiza tu hogar con estas ideas clave! En la sala, usa muebles modulares y luz natural; 
-    en el dormitorio, aprovecha soluciones de almacenamiento y tonos suaves para descansar; 
-    y en el comedor, elige mesas adaptables e iluminación focal. Cada espacio se transformará, 
+    ¡Optimiza tu hogar con estas ideas clave! En la sala, usa muebles modulares y luz natural;
+    en el dormitorio, aprovecha soluciones de almacenamiento y tonos suaves para descansar;
+    y en el comedor, elige mesas adaptables e iluminación focal. Cada espacio se transformará,
     combinando funcionalidad y estilo para mejorar tu día a día.
   </p>
 
-  <div class="row">
+ <div class="row">
     <div class="col-md-4">
       <div class="card">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fsala_inicio.png?alt=media&token=233f486d-243b-4b68-b08a-69396b2f5fd9"
-          class="card-img-top"
-          alt="Sala"
-        />
-        <div class="card-body">
-          <h5 class="card-title">Sala</h5>
-        </div>
-      </div>
+        <a href="/Catalogo?category=sala&orderBy=">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fsala_inicio.png?alt=media&token=233f486d-243b-4b68-b08a-69396b2f5fd9"
+            class="card-img-top" alt="Sala" />
+          <div class="card-body">
+            <h5 class="card-title">Sala</h5>
+          </div>
+      </div></a>
     </div>
     <div class="col-md-4">
       <div class="card">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fdormitorio_inicio.jpg?alt=media&token=3f5981fe-39a8-4547-8f5b-b55ccfea5c3e"
-          class="card-img-top"
-          alt="Dormitorio"
-        />
-        <div class="card-body">
-          <h5 class="card-title">Dormitorio</h5>
-        </div>
-      </div>
+        <a href="/Catalogo?category=dormitorio&orderBy=">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fdormitorio_inicio.jpg?alt=media&token=3f5981fe-39a8-4547-8f5b-b55ccfea5c3e"
+            class="card-img-top" alt="Dormitorio" />
+          <div class="card-body">
+            <h5 class="card-title">Dormitorio</h5>
+          </div>
+      </div></a>
     </div>
     <div class="col-md-4">
       <div class="card">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fcomedor_inicio.png?alt=media&token=b5278584-eca4-4e8c-81f2-213da69eae8f"
-          class="card-img-top"
-          alt="Comedor"
-        />
-        <div class="card-body">
-          <h5 class="card-title">Comedor</h5>
-        </div>
-      </div>
+        <a href="/Catalogo?category=comedor&orderBy=">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Inicio%2Fcomedor_inicio.png?alt=media&token=b5278584-eca4-4e8c-81f2-213da69eae8f"
+            class="card-img-top" alt="Comedor" />
+          <div class="card-body">
+            <h5 class="card-title">Comedor</h5>
+          </div>
+      </div></a>
     </div>
   </div>
 </div>
