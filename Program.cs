@@ -69,15 +69,27 @@ app.UseAuthorization();
 app.Use(async (context, next) =>
 {
     // Verifica si la ruta comienza con "/Admin/"
-    if (context.Request.Path.StartsWithSegments("/Admin") && !context.User.Identity.IsAuthenticated)
+    if (context.Request.Path.StartsWithSegments("/Admin"))
     {
-        // Redirige a la página de acceso denegado
-        context.Response.Redirect("/Home/AccessDenied");
-        return; // Termina la ejecución
+        // Permitir acceso a "/Admin/Index" (la vista de inicio de sesión)
+        if (context.Request.Path.Equals("/Admin/Index", StringComparison.OrdinalIgnoreCase))
+        {
+            await next(); // Permite el acceso
+            return;
+        }
+
+        // Verifica si el usuario está autenticado
+        if (!context.User.Identity.IsAuthenticated)
+        {
+            // Redirige a la página de acceso denegado o login
+            context.Response.Redirect("/Admin/Index"); // Redirigir al login
+            return;
+        }
     }
 
     await next(); // Continúa con el siguiente middleware
 });
+
 
 
 // Configuración de rutas

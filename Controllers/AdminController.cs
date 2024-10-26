@@ -28,28 +28,26 @@ namespace XDeco.Controllers
             _signInManager = signInManager; // Inicializa SignInManager
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
-            return View();
+            return View(); // Muestra la vista de login
         }
+
 
         [HttpPost]
         [AllowAnonymous] // Permite que no autenticados puedan acceder a esta acción
         public async Task<IActionResult> Login(string email, string password)
         {
-
-            var admin = _context.Administradores
-                                .FirstOrDefault(a => a.usuAdmin == usuAdmin && a.contraAdmin == contraAdmin);
+            // Intenta iniciar sesión con las credenciales proporcionadas
+            var result = await _signInManager.PasswordSignInAsync(email, password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
             {
-
-                ViewBag.SuccessMessage = "Credenciales correctas";
-                return RedirectToAction("Vista", "Admin");
+                return RedirectToAction("Vista", "Admin"); ; // Redirige al panel de administración
             }
             else
             {
-                // Si las credenciales no coinciden, mostrar un mensaje de error
                 ViewBag.ErrorMessage = "Credenciales incorrectas";
                 return View("Index"); // Vuelve a la vista de inicio de sesión
             }
@@ -70,7 +68,10 @@ namespace XDeco.Controllers
             return View("Index", "Home");
         }
 
-
+        public IActionResult Dashboard()
+        {
+            return View(); // Muestra el panel de administración
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
