@@ -12,7 +12,7 @@ namespace XDeco.Integration.nytimes
         private readonly ILogger<NYTimesApiIntegration> _logger;
 
         // La URL de la API de noticias, el query se pasará dinámicamente
-        private const string API_URL = "https://newsapi.org/v2/everything?q={0}&from=2024-09-23&sortBy=publishedAt&apiKey=a9656d15554c4be08f62cc634c9952c6";
+        private const string API_URL = "https://newsapi.org/v2/everything?q={0}&from=2024-10-01&sortBy=publishedAt&apiKey=41522f04ee08497882d367457b6c35e7";
 
         public NYTimesApiIntegration(ILogger<NYTimesApiIntegration> logger)
         {
