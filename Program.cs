@@ -13,21 +13,19 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//mecado pago servicios
+// Configurar el middleware de sesión
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Duración de la sesión
+    options.Cookie.HttpOnly = true; // Solo accesible por el servidor
+    options.Cookie.IsEssential = true; // Necesario para la aplicación
+});
+
+// Configurar servicios de Mercado Pago
 builder.Services.AddScoped<CardTokenClient>();
 builder.Services.AddScoped<CustomerClient>();
 builder.Services.AddScoped<PaymentClient>();
 builder.Services.AddScoped<IMercadoPagoService, MercadoPagoService>();
-// Configurar HttpClient para MercadoPagoService
-builder.Services.AddHttpClient<IMercadoPagoService, MercadoPagoService>((serviceProvider, httpClient) =>
-{
-    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var accessToken = configuration["MercadoPagoConfig:AccessToken"];
-
-    httpClient.BaseAddress = new Uri("https://api.mercadopago.com/v1/");
-    httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
-    httpClient.DefaultRequestHeaders.Add("User-Agent", "MercadoPagoApp");
-});
 
 // Configuración de la cadena de conexión
 var connectionString = builder.Configuration.GetConnectionString("PosgreConnection")
@@ -81,35 +79,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
+// Configura la sesión
+app.UseSession(); // Añadir esto
+
 // Asegúrate de agregar autenticación antes de la autorización
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.Use(async (context, next) =>
-{
-    // Verifica si la ruta comienza con "/Admin/"
-    if (context.Request.Path.StartsWithSegments("/Admin"))
-    {
-        // Permitir acceso a "/Admin/Index" (la vista de inicio de sesión)
-        if (context.Request.Path.Equals("/Admin/Index", StringComparison.OrdinalIgnoreCase))
-        {
-            await next(); // Permite el acceso
-            return;
-        }
-
-        // Verifica si el usuario está autenticado
-        if (!context.User.Identity.IsAuthenticated)
-        {
-            // Redirige a la página de acceso denegado o login
-            context.Response.Redirect("/Admin/Index"); // Redirigir al login
-            return;
-        }
-    }
-
-    await next(); // Continúa con el siguiente middleware
-});
-
-
 
 // Configuración de rutas
 app.MapControllerRoute(
