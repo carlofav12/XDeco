@@ -60,13 +60,16 @@ builder.Services.AddScoped<AdminAuthorizationFilter>(); // Registra el filtro
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseSwagger(); // Habilita Swagger en todos los entornos
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "XDeco Api V1");
+});
+
+// Configuración adicional para el manejo de errores y seguridad
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "XDeco Api V1");
-    });
     app.UseMigrationsEndPoint();
 }
 else

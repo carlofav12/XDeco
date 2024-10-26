@@ -8,7 +8,7 @@
 
 <div style="display: flex; justify-content: space-between;">
     <div style="width: 40%;">
-        <h2 id="contactData" style="color: #000; font-weight: bold; cursor: pointer;">Datos de Contacto:</h2>
+        <h2 style="color: #000; font-weight: bold;">Datos de Contacto:</h2>
         <p>También puede contactarse con nosotros llamando a nuestra central telefónica o visitando nuestra empresa.</p>
 
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
@@ -102,18 +102,3 @@
         margin-bottom: 5px;
     }
 </style>
-
-@section Scripts {
-    <script>
-        let clickCount = 0;
-        const contactData = document.getElementById('contactData');
-
-        contactData.addEventListener('click', function () {
-            clickCount++;
-
-            if (clickCount === 5) {
-                window.location.href = '/swagger';
-            }
-        });
-    </script>
-}
