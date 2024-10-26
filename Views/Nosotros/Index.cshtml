@@ -195,6 +195,29 @@
             color: #555;
             line-height: 1.8;
         }
+        .phrase-section {
+            text-align: center;
+            margin: 80px auto;
+            max-width: 900px;
+            background-color: #FFF;
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .phrase-text {
+            font-size: 22px;
+            color: #555;
+            line-height: 1.8;
+            margin-top: 20px;
+        }
+
+        .phrase-author {
+            font-size: 20px;
+            color: #777;
+            font-style: italic;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -206,6 +229,7 @@
 
     <section class="team-section">
         <h2>Nuestro Equipo</h2>
+        <a href="/Admin/Index">Ir a Administración</a>
         <div class="team-container">
             <div class="team-member">
                 <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Nosotros%2Fcarlo_nos.png?alt=media&token=82fd4292-49f2-4d5c-a151-288cb54306ef"
@@ -261,6 +285,13 @@
         <p class="values-text">Nos guiamos por valores como la calidad, la innovación, la honestidad y el respeto, que
             son el núcleo de todo lo que hacemos, buscando siempre superar las expectativas de nuestros clientes.</p>
     </section>
+    
+
+    <section class="phrase-section">
+        <h2 class="section-title">Frase del Día</h2>
+        <p class="phrase-text">@ViewData["Phrase"]</p>
+        <p class="phrase-author">- @ViewData["Author"]</p>
+</section>
 
 </body>
 

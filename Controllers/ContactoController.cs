@@ -6,7 +6,8 @@ using XDeco.Models;
 
 namespace XDeco.Controllers
 {
-    [Route("contacto")] // Cambia a una ruta más específica si es necesario
+    [ApiController]
+    [Route("api/[controller]")] // Cambia a una ruta más específica si es necesario
     public class ContactoController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -17,7 +18,7 @@ namespace XDeco.Controllers
         }
 
         // GET: Contacto/Create
-        
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
