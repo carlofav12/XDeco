@@ -11,6 +11,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /app/out .
 
+# Establecer la variable de entorno
+ENV ASPNETCORE_ENVIRONMENT Development
 
 ENV APP_NET_CORE Proyecto.dll
 
