@@ -52,7 +52,7 @@ namespace Ml_xdeco
 
         #endregion
 
-        private static string MLNetModelPath = Path.GetFullPath("MLModel1.mlnet");
+        private static string MLNetModelPath = Path.GetFullPath("MLtextclasification.mlnet");
 
         public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
 
