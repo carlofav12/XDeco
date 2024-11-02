@@ -1,0 +1,52 @@
+@model List<XDeco.ViewModel.CompraViewModel>
+
+<!-- En tu Layout.cshtml, si aún no lo has agregado -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-DyZvB3dHlxC0wYVRi+Yt0q56XsLm7s6SRgKcEDHQxLSoG/1qUg19OlAl5gCkY+3p" crossorigin="anonymous">
+
+<style>
+    h2 {
+        color: #333;
+        text-align: center;
+    }
+    .table {
+        margin: 20px auto;
+        max-width: 80%;
+    }
+    .table th {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+
+<h2>Lista de Compras</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Total a Pagar</th>
+            <th>Productos</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var compra in Model)
+        {
+            <tr>
+                <td>@compra.Nombre</td>
+                <td>@compra.Direccion</td>
+                <td>@compra.Telefono</td>
+                <td>@compra.TotalAPagar</td>
+                <td>
+                    <ul>
+                        @foreach (var producto in compra.Productos)
+                        {
+                            <li>@producto.ProductoId - Cantidad: @producto.Cantidad - Precio Unitario: @producto.PrecioUnitario</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
