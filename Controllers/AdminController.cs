@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Proyecto.Data;
 using XDeco.Models;
+using XDeco.ViewModel;
 
 namespace XDeco.Controllers
 {
@@ -16,17 +17,27 @@ namespace XDeco.Controllers
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
         private readonly ApplicationDbContext _context;
+        private readonly ICompraService _compraService;
 
         public AdminController(
             ILogger<AdminController> logger,
             ApplicationDbContext context,
             UserManager<Usuario> userManager,
-            SignInManager<Usuario> signInManager)
+            SignInManager<Usuario> signInManager,
+            ICompraService compraService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
+            _compraService = compraService;
+        }
+
+
+        public IActionResult ListaCompras()
+        {
+            List<CompraViewModel> compras = _compraService.ObtenerCompras();
+            return View(compras);
         }
 
         [AllowAnonymous]
@@ -90,5 +101,8 @@ namespace XDeco.Controllers
         {
             return View("Error!"); // Muestra una vista de error
         }
+
+        
+
     }
 }
