@@ -71,8 +71,8 @@ namespace XDeco.Controllers
             ViewBag.ErrorMessage = "Nombre de usuario o contraseña incorrectos.";
             return View("Index");
         }
-
-
+        
+        //LOGICA PARA LISTAR CLIENTES , EDITAR ELIMINAR
         public IActionResult Vista()
         {
             return View(); // Muestra la vista de administración
@@ -83,18 +83,35 @@ namespace XDeco.Controllers
             var usuarios = _context.Users.ToList();
             return View(usuarios);
         }
-
-        public IActionResult Logout()
+           [HttpGet]
+        public IActionResult Edit(string id)
         {
-            HttpContext.Session.Clear();
-            _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home"); // Redirige a la vista de inicio
+            var usuario = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            return PartialView("_EditUserPartial", usuario);
         }
 
-        public IActionResult Dashboard()
+        [HttpPost]
+        public async Task<IActionResult> Edit(Usuario model)
         {
-            return View(); // Muestra el panel de administración
+            var usuario = await _context.Users.FirstOrDefaultAsync(u => u.Id == model.Id);
+            if (usuario != null)
+            {
+                usuario.Nombres = model.Nombres;
+                usuario.ApellidoPaterno = model.ApellidoPaterno;
+                usuario.ApellidoMaterno = model.ApellidoMaterno;
+                usuario.Email = model.Email;
+                usuario.PhoneNumber=model.PhoneNumber;
+               
+
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("ListaClientes");
         }
+
         //METODO PARA ELIMINAR 
         [HttpPost]
         public IActionResult Delete(string id)
@@ -110,12 +127,55 @@ namespace XDeco.Controllers
             return RedirectToAction("ListaClientes");
         }
 
+        //TERMINA LA LOGICA PARA LOS CLIENTES
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View("Error!"); // Muestra una vista de error
         }
 
+         public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home"); 
+        }
+
+        public IActionResult Dashboard()
+        {
+            return View(); 
+        }
+
+        //LOGICA PARA LISTAR , ELIMINAR CONTACTOS.
+
+         public async Task<IActionResult> ListarContacto()
+        {
+            List<Contacto> contactos = await _context.Contacto.ToListAsync();
+            return View(contactos); 
+        }
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(long id) 
+        {
+            
+            var contacto = await _context.Contacto.FirstOrDefaultAsync(c => c.Id == id);
+
+            if (contacto != null)
+            {
+                _context.Contacto.Remove(contacto); 
+                await _context.SaveChangesAsync(); 
+            }
+
+            return RedirectToAction("ListarContacto"); 
+        }
+
+        
+      
+
+      //TERMINA LOGICA DEL CONTACTO
+        
         
 
     }

@@ -22,16 +22,13 @@ namespace XDeco.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
         private readonly IMercadoPagoService _mercadoPagoService;
-        private readonly ICompraService _compraService;
 
-
-        public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager, IMercadoPagoService mercadoPagoService, ICompraService compraService)
+        public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager, IMercadoPagoService mercadoPagoService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
             _mercadoPagoService = mercadoPagoService;
-            _compraService = compraService;
         }
 
         public async Task<IActionResult> Index()
@@ -54,50 +51,50 @@ namespace XDeco.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
+public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
+{
+    try
+    {
+        var producto = await _context.Productos.FindAsync(productoId);
+        if (producto == null)
         {
-            try
-            {
-                var producto = await _context.Productos.FindAsync(productoId);
-                if (producto == null)
-                {
-                    return NotFound();
-                }
-
-                var userId = _userManager.GetUserId(User);
-                var carrito = await _context.Carritos
-                    .Include(c => c.CarritoProductos)
-                    .FirstOrDefaultAsync(c => c.UsuarioId == userId);
-
-                if (carrito == null)
-                {
-                    carrito = new Carrito { UsuarioId = userId };
-                    _context.Carritos.Add(carrito);
-                }
-
-                var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
-                if (carritoProducto != null)
-                {
-                    carritoProducto.Cantidad += cantidad;
-                }
-                else
-                {
-                    carrito.CarritoProductos.Add(new CarritoProducto
-                    {
-                        Producto = producto,
-                        Cantidad = cantidad,
-                    });
-                }
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al añadir producto al carrito.");
-                return StatusCode(500, "Error interno del servidor.");
-            }
+            return NotFound();
         }
+
+        var userId = _userManager.GetUserId(User);
+        var carrito = await _context.Carritos
+            .Include(c => c.CarritoProductos)
+            .FirstOrDefaultAsync(c => c.UsuarioId == userId);
+
+        if (carrito == null)
+        {
+            carrito = new Carrito { UsuarioId = userId };
+            _context.Carritos.Add(carrito);
+        }
+
+        var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
+        if (carritoProducto != null)
+        {
+            carritoProducto.Cantidad += cantidad;
+        }
+        else
+        {
+            carrito.CarritoProductos.Add(new CarritoProducto
+            {
+                Producto = producto,
+                Cantidad = cantidad,
+            });
+        }
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error al añadir producto al carrito.");
+        return StatusCode(500, "Error interno del servidor.");
+    }
+}
 
 
 
@@ -122,30 +119,17 @@ namespace XDeco.Controllers
                 return Json(new { resultado = false, mensaje = "El carrito está vacío." });
             }
 
-            // Crear el ViewModel de la compra
-            var compraViewModel = new CompraViewModel
-            {
-                CarritoId = carrito.Id,
-                Productos = carrito.CarritoProductos.Select(cp => new CompraProducto
-                {
-                    ProductoId = cp.ProductoId,
-                    Cantidad = cp.Cantidad,
-                    PrecioUnitario = cp.Producto.Precio
-                }).ToList(),
-                TotalAPagar = carrito.CarritoProductos.Sum(cp => cp.Cantidad * cp.Producto.Precio),
-                Nombre = datos.Nombre,
-                Direccion = datos.Direccion,
-                Telefono = datos.Telefono
-            };
+            // Lógica para procesar la compra.
+            bool resultado = true; // Cambiar según la lógica de tu negocio
+            string mensaje = "Compra realizada con éxito."; // Cambiar según sea necesario
 
-            // Aquí puedes hacer lo que necesites con el ViewModel, como pasarlo a una vista o procesar la compra
-            _compraService.AgregarCompra(compraViewModel);
-            // Registro de la compra creada
-            _logger.LogInformation("Compra procesada exitosamente para el usuario {UserId}: {@CompraViewModel}", userId, compraViewModel);
+            // Limpiar el carrito después de la compra
+            _context.Carritos.Remove(carrito);
+            await _context.SaveChangesAsync();
 
-            return Json(new { resultado = true, mensaje = "Compra procesada exitosamente." });
+            // Mostrar mensaje de éxito con SweetAlert
+            return Json(new { resultado, mensaje });
         }
-
 
         [HttpPost]
         public async Task<IActionResult> EliminarCarrito(long carritoId, long productoId)

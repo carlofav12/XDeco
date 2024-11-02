@@ -42,7 +42,6 @@ builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireCo
 // Registro de servicios personalizados
 builder.Services.AddSingleton<EmailService, EmailService>();
 builder.Services.AddScoped<NYTimesApiIntegration>();
-builder.Services.AddSingleton<ICompraService, CompraService>();
 
 // Configurar controladores, vistas y API Explorer
 builder.Services.AddControllersWithViews();

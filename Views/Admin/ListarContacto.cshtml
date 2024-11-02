@@ -1,0 +1,78 @@
+@model IEnumerable<XDeco.Models.Contacto>
+
+@{
+    ViewData["Title"] = "Lista de Contactos";
+    Layout = "_LayoutAdmin";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMbaiIbjC7huGYTpHR20L0yM5Tbb1BTF9e6R5wz" crossorigin="anonymous" />
+
+<!-- Estilo para el color de las líneas de la tabla -->
+<style>
+    .table {
+        border: 2px solid #8B4513; /* Marrón */
+    }
+    .table-bordered th, .table-bordered td {
+        border-color: #8B4513; /* Marrón */
+    }
+    .title{
+        text-align: center;
+    }
+
+</style>
+
+
+<h1 class="title">Lista de Contactos</h1>
+
+<div class="container mt-5">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Título</th>
+                <th>Mensaje</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model == null || !Model.Any())
+            {
+                <tr>
+                    <td colspan="8" class="text-center">No hay contactos disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var contacto in Model)
+                {
+                    <tr>
+                        <td>@contacto.Id</td>
+                        <td>@contacto.Nombre</td>
+                        <td>@contacto.Email</td>
+                        <td>@contacto.Titulo</td>
+                        <td>@contacto.Mensaje</td>
+                        <td>@contacto.Telefono</td>
+                        <td>@contacto.Direccion</td>
+                        <td>
+                            <form asp-action="Eliminar" asp-route-id="@contacto.Id" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger - center" title="Eliminar"
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este contacto?');">
+                                    <i class="fas fa-trash-alt"></i> <!-- Ícono de eliminar -->
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    </script>
+}
