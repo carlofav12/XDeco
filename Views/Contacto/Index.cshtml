@@ -3,12 +3,6 @@
 @{
     ViewData["Title"] = "Contacto";
 }
-@if (TempData["Message"] != null)
-{
-    <div class="alert alert-info">
-        @TempData["Message"]
-    </div>
-}
 
 <h1>Contacto</h1>
 
@@ -19,7 +13,7 @@
 
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
             <img src="https://cdn-icons-png.freepik.com/512/8701/8701976.png" alt="Teléfono"
-                 style="width: 40px; margin-right: 15px;" />
+                style="width: 40px; margin-right: 15px;" />
             <div>
                 <h3 style="color: #E30613; font-weight: bold; margin: 0;">Central Telefónica</h3>
                 <p style="font-size: 20px; font-weight: bold;">(01) 477 - 1546</p>
@@ -28,7 +22,7 @@
 
         <div style="display: flex; align-items: center; margin-bottom: 20px;">
             <img src="https://cdn-icons-png.flaticon.com/512/1384/1384023.png" alt="WhatsApp"
-                 style="width: 40px; margin-right: 15px;" />
+                style="width: 40px; margin-right: 15px;" />
             <div>
                 <h3 style="color: #25D366; font-weight: bold; margin: 0;">WhatsApp</h3>
                 <p style="font-size: 20px; font-weight: bold;">+51 994 061 278</p>
@@ -40,8 +34,6 @@
     </div>
 
     <div style="width: 55%;">
-      
-
         <form asp-controller="Contacto" asp-action="Create" method="post">
             <div class="form-group">
                 <label asp-for="Nombre"></label>
@@ -71,6 +63,7 @@
         </form>
     </div>
 </div>
+
 <style>
     label {
         font-weight: bold;

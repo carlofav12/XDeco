@@ -1,12 +1,13 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Proyecto.Data;
 using XDeco.Models;
-using Ml_xdeco;
-using static Ml_xdeco.MLtextclasification;
 
 namespace XDeco.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")] // Cambia a una ruta más específica si es necesario
     public class ContactoController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -16,48 +17,28 @@ namespace XDeco.Controllers
             _context = context;
         }
 
-        // GET: contacto/index
-        [HttpGet("index")]
+        // GET: Contacto/Create
+        [HttpGet]
         public IActionResult Index()
         {
-            return View(); 
+            return View();
         }
 
-        // POST: contacto/create
+        // POST: Contacto/Create
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Contacto objcontato)
         {
-            if (!ModelState.IsValid) 
+            if (ModelState.IsValid) // Verifica si el modelo es válido
             {
-                return View("Index", objcontato);
+                _context.Add(objcontato);
+                await _context.SaveChangesAsync();
+
+                ViewData["Message"] = "Se registró el contacto";
+                return RedirectToAction("Index"); // Redirige a Index para evitar reenvío de formulario
             }
 
-            // Agregar el contacto a la base de datos
-            _context.Add(objcontato);
-            await _context.SaveChangesAsync();
-
-            // Realizar la predicción utilizando el modelo ML.NET
-            var input = new ModelInput { Mensaje = objcontato.Mensaje };
-            var result = MLtextclasification.Predict(input); // Llama al método Predict
-
-            // Determinar el mensaje según la predicción
-            string mensajeClasificacion;
-            if (result.PredictedLabel == 0)
-            {
-                mensajeClasificacion = "Gracias por su contacto.";
-            }
-            else if (result.PredictedLabel == 1)
-            {
-                mensajeClasificacion = "Estamos intentando mejorar. Su opinión es importante.";
-            }
-            else
-            {
-                mensajeClasificacion = "Clasificación desconocida.";
-            }
-
-            TempData["Message"] = mensajeClasificacion; // Almacena el mensaje en TempData
-            return RedirectToAction("Index");
+            return View("Index", objcontato); // Devuelve a la vista Index con el modelo si hay errores
         }
     }
 }
