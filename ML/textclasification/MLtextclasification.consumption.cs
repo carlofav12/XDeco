@@ -7,7 +7,7 @@ using System.IO;
 using System.Collections.Generic;
 namespace Ml_xdeco
 {
-    public partial class MLtextclasification
+    public partial class MLModel1
     {
         /// <summary>
         /// model input class for MLModel1.
@@ -52,7 +52,7 @@ namespace Ml_xdeco
 
         #endregion
 
-        private static string MLNetModelPath = Path.GetFullPath("ML\\textclasification\\MLtextclasification.mlnet");
+        private static string MLNetModelPath = Path.GetFullPath("MLtextclasification.mlnet");
 
         public static readonly Lazy<PredictionEngine<ModelInput, ModelOutput>> PredictEngine = new Lazy<PredictionEngine<ModelInput, ModelOutput>>(() => CreatePredictEngine(), true);
 
