@@ -10,6 +10,12 @@
   <ItemGroup>
     <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="ML\textclasification\MLtextclasification.mlnet">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MailerSend.AspNetCore" Version="1.0.0" />
