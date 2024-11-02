@@ -3,7 +3,12 @@
 @{
     ViewData["Title"] = "Contacto";
 }
-
+@if (TempData["Message"] != null)
+{
+        <div class="alert alert-info">
+        @TempData["Message"]
+        </div>
+}
 <h1>Contacto</h1>
 
 <div style="display: flex; justify-content: space-between;">
