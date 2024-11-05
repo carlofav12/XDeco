@@ -42,7 +42,7 @@ builder.Services.AddDefaultIdentity<Usuario>(options => options.SignIn.RequireCo
 // Registro de servicios personalizados
 builder.Services.AddSingleton<EmailService, EmailService>();
 builder.Services.AddScoped<NYTimesApiIntegration>();
-builder.Services.AddSingleton<ICompraService, CompraService>();
+builder.Services.AddScoped<ICompraService, CompraService>();
 
 // Configurar controladores, vistas y API Explorer
 builder.Services.AddControllersWithViews();
@@ -61,13 +61,16 @@ builder.Services.AddScoped<AdminAuthorizationFilter>(); // Registra el filtro
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseSwagger(); // Habilita Swagger en todos los entornos
+
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "XDeco Api V1");
+});
+
+// Configuración adicional para el manejo de errores y seguridad
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "XDeco Api V1");
-    });
     app.UseMigrationsEndPoint();
 }
 else

@@ -112,10 +112,15 @@
                                             </div>
                                         </div>
                                         <hr class="line">
-                                        <div class="d-flex justify-content-between information"><span>Total a
-                                                Pagar</span><span id="totalPagar">S/. 0</span></div>
-                                        <button class="btn btn-primary btn-block mt-3" id="btnProcesarPago"
-                                            type="button">Procesar Pago</button>
+                                        <hr class="line">
+                                        <div class="d-flex justify-content-between information">
+                                            <span>Total a Pagar</span>
+                                            <span id="totalPagar">S/. 0</span>
+                                        </div>
+                                        <div class="text-center mt-3">
+                                            <button class="btn" style="background-color: #cac3b0; color: #fff;"
+                                                id="btnProcesarPago" type="button">Procesar Pago</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +130,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 </div>
@@ -192,6 +196,7 @@
         });
 
         $(document).ready(function () {
+            obtenerPreciosPago();
             cargarCarrito();
             ListarDepartamento();
         });

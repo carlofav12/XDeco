@@ -24,7 +24,6 @@ namespace XDeco.Controllers
         private readonly IMercadoPagoService _mercadoPagoService;
         private readonly ICompraService _compraService;
 
-
         public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager, IMercadoPagoService mercadoPagoService, ICompraService compraService)
         {
             _logger = logger;
@@ -54,26 +53,26 @@ namespace XDeco.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
+public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
+{
+    try
+    {
+        var producto = await _context.Productos.FindAsync(productoId);
+        if (producto == null)
         {
-            try
-            {
-                var producto = await _context.Productos.FindAsync(productoId);
-                if (producto == null)
-                {
-                    return NotFound();
-                }
+            return NotFound();
+        }
 
-                var userId = _userManager.GetUserId(User);
-                var carrito = await _context.Carritos
-                    .Include(c => c.CarritoProductos)
-                    .FirstOrDefaultAsync(c => c.UsuarioId == userId);
+        var userId = _userManager.GetUserId(User);
+        var carrito = await _context.Carritos
+            .Include(c => c.CarritoProductos)
+            .FirstOrDefaultAsync(c => c.UsuarioId == userId);
 
-                if (carrito == null)
-                {
-                    carrito = new Carrito { UsuarioId = userId };
-                    _context.Carritos.Add(carrito);
-                }
+        if (carrito == null)
+        {
+            carrito = new Carrito { UsuarioId = userId };
+            _context.Carritos.Add(carrito);
+        }
 
                 var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
                 if (carritoProducto != null)
@@ -92,15 +91,15 @@ namespace XDeco.Controllers
                     });
                 }
 
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al añadir producto al carrito.");
-                return StatusCode(500, "Error interno del servidor.");
-            }
-        }
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error al añadir producto al carrito.");
+        return StatusCode(500, "Error interno del servidor.");
+    }
+}
 
 
         [HttpPost]

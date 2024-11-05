@@ -1,12 +1,26 @@
-@model IEnumerable<XDeco.Models.Usuario> // Asegúrate de que este espacio de nombres sea correcto
+@model IEnumerable<XDeco.Models.Usuario>
 
 @{
     ViewData["Title"] = "Lista de Clientes";
+    Layout = "_LayoutAdmin";
 }
 
+<!-- Incluye el CSS de Font Awesome para los iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMbaiIbjC7huGYTpHR20L0yM5Tbb1BTF9e6R5wz" crossorigin="anonymous" />
+
+<!-- Estilo para el color de las líneas de la tabla -->
+<style>
+    .table {
+        border: 2px solid #8B4513; /* Marrón */
+    }
+    .table-bordered th, .table-bordered td {
+        border-color: #8B4513; /* Marrón */
+    }
+
+</style>
 <div class="container mt-5">
     <h1 class="text-center mb-4">@ViewData["Title"]</h1>
-    
+
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -16,34 +30,70 @@
                 <th>Apellido Materno</th>
                 <th>Email</th>
                 <th>Número de Teléfono</th>
-                <th>Acciones</th>
+                <th>
+                    Acciones
+                    <div class="d-flex justify-content-center mt-1" style="font-size: 0.8rem;">
+                        <span><i class="fas fa-edit" title="Editar"></i></span>
+                        <span class="ms-2"><i class="fas fa-trash-alt" title="Eliminar"></i></span>
+                    </div>
+                </th>
             </tr>
         </thead>
         <tbody>
-    @if (Model == null || !Model.Any())
-    {
-        <tr>
-            <td colspan="7" class="text-center">No hay usuarios disponibles.</td>
-        </tr>
-    }
-    else
-    {
-        foreach (var usuario in Model)
-        {
-            <tr>
-                <td>@usuario.Id</td>
-                <td>@usuario.Nombres</td>
-                <td>@usuario.ApellidoPaterno</td>
-                <td>@usuario.ApellidoMaterno</td>
-                <td>@usuario.Email</td>
-                <td>@usuario.PhoneNumber</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-warning">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@usuario.Id" class="btn btn-danger">Eliminar</a>
-                </td>
-            </tr>
-        }
-    }
+            @if (Model == null || !Model.Any())
+            {
+                <tr>
+                    <td colspan="7" class="text-center">No hay usuarios disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var usuario in Model)
+                {
+                    <tr>
+                        <td>@usuario.Id</td>
+                        <td>@usuario.Nombres</td>
+                        <td>@usuario.ApellidoPaterno</td>
+                        <td>@usuario.ApellidoMaterno</td>
+                        <td>@usuario.Email</td>
+                        <td>@usuario.PhoneNumber</td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="javascript:void(0);" onclick="loadEditModal('@usuario.Id')" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@usuario.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
         </tbody>
     </table>
 </div>
+
+<!-- Modal para editar usuario -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+            <!-- Aquí se cargará la vista parcial -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function loadEditModal(userId) {
+            $.get('/Admin/Edit/' + userId, function (data) {
+                $('#modalContent').html(data);
+                $('#editModal').modal('show');
+            });
+        }
+    </script>
+}
