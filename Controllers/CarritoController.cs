@@ -78,14 +78,17 @@ namespace XDeco.Controllers
                 var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
                 if (carritoProducto != null)
                 {
-                    carritoProducto.Cantidad += cantidad;
+                    // Actualiza la cantidad existente
+                    carritoProducto.Cantidad += cantidad; // Asegúrate de que la cantidad se está sumando
                 }
                 else
                 {
+                    // Añade el nuevo producto al carrito
                     carrito.CarritoProductos.Add(new CarritoProducto
                     {
-                        Producto = producto,
+                        ProductoId = productoId,
                         Cantidad = cantidad,
+                        Producto = producto // Asegúrate de que estás enlazando el producto correctamente
                     });
                 }
 
@@ -100,9 +103,6 @@ namespace XDeco.Controllers
         }
 
 
-
-
-
         [HttpPost]
         public async Task<JsonResult> FinalizarCompra([FromBody] DatosCompraModel datos)
         {
@@ -112,6 +112,7 @@ namespace XDeco.Controllers
             }
 
             var userId = _userManager.GetUserId(User);
+
             var carrito = await _context.Carritos
                 .Include(c => c.CarritoProductos)
                 .ThenInclude(cp => cp.Producto)
@@ -122,29 +123,40 @@ namespace XDeco.Controllers
                 return Json(new { resultado = false, mensaje = "El carrito está vacío." });
             }
 
-            // Crear el ViewModel de la compra
+            // Crear el objeto CompraViewModel con las cantidades enviadas desde la vista
             var compraViewModel = new CompraViewModel
             {
                 CarritoId = carrito.Id,
-                Productos = carrito.CarritoProductos.Select(cp => new CompraProducto
-                {
-                    ProductoId = cp.ProductoId,
-                    Cantidad = cp.Cantidad,
-                    PrecioUnitario = cp.Producto.Precio
+                Productos = datos.Productos.Select(dp => {
+                    var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == dp.ProductoId);
+                    return new CompraProducto
+                    {
+                        ProductoId = dp.ProductoId,
+                        Cantidad = dp.Cantidad, // Usamos la cantidad enviada desde el frontend
+                        PrecioUnitario = carritoProducto?.Producto.Precio ?? 0,
+                        Nombre = carritoProducto?.Producto.Nombre,
+                        ImagenUrl = carritoProducto?.Producto.ImageURL
+                    };
                 }).ToList(),
-                TotalAPagar = carrito.CarritoProductos.Sum(cp => cp.Cantidad * cp.Producto.Precio),
+                TotalAPagar = datos.Productos.Sum(dp => dp.Cantidad * (carrito.CarritoProductos
+                                        .FirstOrDefault(cp => cp.ProductoId == dp.ProductoId)?.Producto.Precio ?? 0)),
                 Nombre = datos.Nombre,
                 Direccion = datos.Direccion,
-                Telefono = datos.Telefono
+                Telefono = datos.Telefono,
+                UsuarioId = userId
             };
 
-            // Aquí puedes hacer lo que necesites con el ViewModel, como pasarlo a una vista o procesar la compra
             _compraService.AgregarCompra(compraViewModel);
-            // Registro de la compra creada
             _logger.LogInformation("Compra procesada exitosamente para el usuario {UserId}: {@CompraViewModel}", userId, compraViewModel);
+
+            _context.CarritoProductos.RemoveRange(carrito.CarritoProductos);
+            await _context.SaveChangesAsync();
+
 
             return Json(new { resultado = true, mensaje = "Compra procesada exitosamente." });
         }
+
+
 
 
         [HttpPost]
@@ -212,6 +224,19 @@ namespace XDeco.Controllers
 
             // Redirigir al checkout de Mercado Pago sandbox
             return Redirect(preference.InitPoint);
+        }
+
+        [HttpGet]
+        public IActionResult Compras()
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(User);
+            
+            // Use the service to get purchases for this user
+            var compras = _compraService.ObtenerComprasPorUsuario(userId);
+            
+            
+            return View(compras); // Return the purchases in a view
         }
 
     }

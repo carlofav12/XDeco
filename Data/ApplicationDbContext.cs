@@ -23,4 +23,6 @@ public class ApplicationDbContext : IdentityDbContext<Usuario>
     public DbSet<Admin> Administradores { get; set; }
 
     public DbSet<Carrito> Carritos { get; set; }
+
+    public DbSet<CarritoProducto> CarritoProductos { get; set; }
 }
