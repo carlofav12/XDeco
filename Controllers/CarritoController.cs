@@ -228,6 +228,7 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
         [HttpGet]
         public IActionResult Compras()
         {
+            ViewData["ActivePage"] = "Compras";
             // Get the current user's ID
             var userId = _userManager.GetUserId(User);
             
