@@ -12,7 +12,7 @@
                     <div class="product-details mr-2">
                         <div class="d-flex justify-content-between">
                             <span class="ml-2">Detalle Compra</span>
-                            <a class="btn btn-danger" href="@Url.Action("Index","Catalogo")">Volver</a>
+                            <a class="btn btn-danger" href="@Url.Action("Compras","Carrito")">Volver</a>
                         </div>
                         <hr class="mt-2 mb-2">
                         <div class="justify-content-start mb-2">
@@ -352,8 +352,8 @@
             $('#toast-alerta').toast('show');
         }
 
-        $("#btnConfirmarCompra").on("click", function () {
-            // Aquí iría la lógica para procesar el pago y finalizar la compra.
+       $("#btnConfirmarCompra").on("click", function () {
+            // Recolecta los datos del formulario y las cantidades de los productos
             var datosCompra = {
                 nombre: $("#trj_nombre").val(),
                 numeroTarjeta: $("#trj_numero").val(),
@@ -365,9 +365,28 @@
                 departamento: $("#txtDepartamento").val(),
                 provincia: $("#txtProvincia").val(),
                 distrito: $("#txtDistrito").val(),
-                // Incluye más datos según sea necesario
+                
+                // Recolecta productos y sus cantidades
+                productos: []
             };
 
+            // Agregar cada producto con su id y cantidad al array productos
+            $("#productos-seleccionados .card-producto").each(function () {
+                var idProducto = $(this).find("input.input-cantidad").data("idproducto");
+                var cantidad = parseInt($(this).find("input.input-cantidad").val());
+
+                datosCompra.productos.push({
+                    productoId: idProducto,
+                    cantidad: cantidad
+                });
+            });
+
+            // Validación del formulario
+            if (!validarFormulario()) {
+                return;
+            }
+
+            // Enviar datos de compra con productos y cantidades al backend
             $.ajax({
                 url: '@Url.Action("FinalizarCompra", "Carrito")',
                 type: "POST",
@@ -386,7 +405,7 @@
                     swal("Error", "Ocurrió un error al procesar la compra.", "error");
                 }
             });
-
         });
+
     </script>
 }

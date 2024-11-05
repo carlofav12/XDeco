@@ -22,13 +22,15 @@ namespace XDeco.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<Usuario> _userManager;
         private readonly IMercadoPagoService _mercadoPagoService;
+        private readonly ICompraService _compraService;
 
-        public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager, IMercadoPagoService mercadoPagoService)
+        public CarritoController(ILogger<CarritoController> logger, ApplicationDbContext context, UserManager<Usuario> userManager, IMercadoPagoService mercadoPagoService, ICompraService compraService)
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
             _mercadoPagoService = mercadoPagoService;
+            _compraService = compraService;
         }
 
         public async Task<IActionResult> Index()
@@ -72,19 +74,22 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
             _context.Carritos.Add(carrito);
         }
 
-        var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
-        if (carritoProducto != null)
-        {
-            carritoProducto.Cantidad += cantidad;
-        }
-        else
-        {
-            carrito.CarritoProductos.Add(new CarritoProducto
-            {
-                Producto = producto,
-                Cantidad = cantidad,
-            });
-        }
+                var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
+                if (carritoProducto != null)
+                {
+                    // Actualiza la cantidad existente
+                    carritoProducto.Cantidad += cantidad; // Asegúrate de que la cantidad se está sumando
+                }
+                else
+                {
+                    // Añade el nuevo producto al carrito
+                    carrito.CarritoProductos.Add(new CarritoProducto
+                    {
+                        ProductoId = productoId,
+                        Cantidad = cantidad,
+                        Producto = producto // Asegúrate de que estás enlazando el producto correctamente
+                    });
+                }
 
         await _context.SaveChangesAsync();
         return RedirectToAction("Index");
@@ -97,9 +102,6 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
 }
 
 
-
-
-
         [HttpPost]
         public async Task<JsonResult> FinalizarCompra([FromBody] DatosCompraModel datos)
         {
@@ -109,6 +111,7 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
             }
 
             var userId = _userManager.GetUserId(User);
+
             var carrito = await _context.Carritos
                 .Include(c => c.CarritoProductos)
                 .ThenInclude(cp => cp.Producto)
@@ -119,17 +122,41 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
                 return Json(new { resultado = false, mensaje = "El carrito está vacío." });
             }
 
-            // Lógica para procesar la compra.
-            bool resultado = true; // Cambiar según la lógica de tu negocio
-            string mensaje = "Compra realizada con éxito."; // Cambiar según sea necesario
+            // Crear el objeto CompraViewModel con las cantidades enviadas desde la vista
+            var compraViewModel = new CompraViewModel
+            {
+                CarritoId = carrito.Id,
+                Productos = datos.Productos.Select(dp => {
+                    var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == dp.ProductoId);
+                    return new CompraProducto
+                    {
+                        ProductoId = dp.ProductoId,
+                        Cantidad = dp.Cantidad, // Usamos la cantidad enviada desde el frontend
+                        PrecioUnitario = carritoProducto?.Producto.Precio ?? 0,
+                        Nombre = carritoProducto?.Producto.Nombre,
+                        ImagenUrl = carritoProducto?.Producto.ImageURL
+                    };
+                }).ToList(),
+                TotalAPagar = datos.Productos.Sum(dp => dp.Cantidad * (carrito.CarritoProductos
+                                        .FirstOrDefault(cp => cp.ProductoId == dp.ProductoId)?.Producto.Precio ?? 0)),
+                Nombre = datos.Nombre,
+                Direccion = datos.Direccion,
+                Telefono = datos.Telefono,
+                UsuarioId = userId
+            };
 
-            // Limpiar el carrito después de la compra
-            _context.Carritos.Remove(carrito);
+            _compraService.AgregarCompra(compraViewModel);
+            _logger.LogInformation("Compra procesada exitosamente para el usuario {UserId}: {@CompraViewModel}", userId, compraViewModel);
+
+            _context.CarritoProductos.RemoveRange(carrito.CarritoProductos);
             await _context.SaveChangesAsync();
 
-            // Mostrar mensaje de éxito con SweetAlert
-            return Json(new { resultado, mensaje });
+
+            return Json(new { resultado = true, mensaje = "Compra procesada exitosamente." });
         }
+
+
+
 
         [HttpPost]
         public async Task<IActionResult> EliminarCarrito(long carritoId, long productoId)
@@ -196,6 +223,19 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
 
             // Redirigir al checkout de Mercado Pago sandbox
             return Redirect(preference.InitPoint);
+        }
+
+        [HttpGet]
+        public IActionResult Compras()
+        {
+            // Get the current user's ID
+            var userId = _userManager.GetUserId(User);
+            
+            // Use the service to get purchases for this user
+            var compras = _compraService.ObtenerComprasPorUsuario(userId);
+            
+            
+            return View(compras); // Return the purchases in a view
         }
 
     }
