@@ -1,0 +1,52 @@
+@page
+@model ComprasModel
+@{
+    ViewData["Title"] = "Mis Compras";
+    ViewData["ActivePage"] = ManageNavPages.Compras;
+}
+
+<div class="container mt-5">
+
+    @if (Model.Compras != null && Model.Compras.Any())
+    {
+        int index = 0;
+        foreach (var compra in Model.Compras)
+        {
+            <div class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #607D8B; color: white;">
+                    <span>N° @compra.Id</span>
+                    <span>Fecha Compra: @DateTime.Now.ToString("dd/MM/yyyy")</span>
+                    <button class="btn btn-link text-white" data-bs-toggle="collapse" data-bs-target="#collapse-@index" aria-expanded="false" aria-controls="collapse-@index">
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                </div>
+                <div id="collapse-@index" class="collapse">
+                    <div class="card-body">
+                        <ul class="list-group mb-3">
+                            @foreach (var producto in compra.Productos)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@producto.ImagenUrl" alt="@producto.Nombre" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                                        <strong>@producto.Nombre</strong>
+                                    </div>
+                                    <span>Cantidad: @producto.Cantidad - Total: S/. @(producto.Cantidad * producto.PrecioUnitario)</span>
+                                </li>
+                            }
+                        </ul>
+                        <div class="text-end">
+                            <strong>Total Importe: S/. @compra.TotalAPagar</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            index++;
+        }
+    }
+    else
+    {
+        <div class="alert alert-info" role="alert">
+            No tienes compras registradas.
+        </div>
+    }
+</div>
