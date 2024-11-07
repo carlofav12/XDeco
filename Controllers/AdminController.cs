@@ -128,9 +128,6 @@ namespace XDeco.Controllers
         }
 
         //TERMINA LA LOGICA PARA LOS CLIENTES
-
-
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -170,13 +167,68 @@ namespace XDeco.Controllers
 
             return RedirectToAction("ListarContacto"); 
         }
+        
+        //PRODUCTOS
+        public IActionResult ListaProductos()
+        {
+            var productos = _context.Productos.ToList();
+            return View(productos);
+        }
 
-        
-      
+        //ELIMINAR PRODUCTO
+        [HttpPost]
+        public async Task<IActionResult> EliminarProducto(long id) 
+        {
+            
+            var producto = await _context.Productos.FirstOrDefaultAsync(c => c.Id == id);
 
-      //TERMINA LOGICA DEL CONTACTO
-        
-        
+            if (producto != null)
+            {
+                _context.Productos.Remove(producto); 
+                await _context.SaveChangesAsync(); 
+            }
+
+            return RedirectToAction("ListaProductos"); 
+        }
+
+        //EDITAR PRODUCTO
+        [HttpGet]
+        public async Task<IActionResult> EditarProducto(int id)
+        {
+            var producto = await _context.Productos.FirstOrDefaultAsync(p => p.Id == id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+
+            return PartialView("_EditarProducto", producto); // Asegúrate de tener esta vista parcial
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditarProducto(Producto model)
+        {
+            // Buscar el producto en la base de datos usando el Id
+            var producto = await _context.Productos.FirstOrDefaultAsync(p => p.Id == model.Id);
+            
+            if (producto != null)
+            {
+                // Actualizar las propiedades del producto con los datos enviados desde el formulario
+                producto.Nombre = model.Nombre;
+                producto.Descripcion = model.Descripcion;
+                producto.Precio = model.Precio;
+                producto.Material = model.Material;
+                producto.Color = model.Color;
+                producto.EsAjustable = model.EsAjustable;
+                producto.ImageURL = model.ImageURL;
+                producto.UrlObj = model.UrlObj;
+
+                // Guardar los cambios en la base de datos
+                await _context.SaveChangesAsync();
+            }
+
+            // Redirigir a la lista de productos después de la actualización
+            return RedirectToAction("ListaProductos");
+        }
 
     }
 }
