@@ -5,17 +5,20 @@
     ViewData["ActivePage"] = ManageNavPages.Compras;
 }
 
-<div class="container mt-5">
+<h3 class="form-title">@ViewData["Title"]</h3>
 
+<div class="container mt-5">
     @if (Model.Compras != null && Model.Compras.Any())
     {
         int index = 0;
         foreach (var compra in Model.Compras)
         {
-            <div class="card mb-3">
-                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: #607D8B; color: white;">
-                    <span>N° @compra.Id</span>
-                    <span>Fecha Compra: @DateTime.Now.ToString("dd/MM/yyyy")</span>
+            <div class="card mb-4 custom-card">
+                <div class="card-header d-flex justify-content-between align-items-center custom-card-header">
+                    <div>
+                        <span><strong>N° @compra.Id</strong></span><br>
+                        <span>Fecha de Compra: @DateTime.Now.ToString("dd/MM/yyyy")</span>
+                    </div>
                     <button class="btn btn-link text-white" data-bs-toggle="collapse" data-bs-target="#collapse-@index" aria-expanded="false" aria-controls="collapse-@index">
                         <i class="fas fa-chevron-down"></i>
                     </button>
@@ -27,10 +30,13 @@
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
-                                        <img src="@producto.ImagenUrl" alt="@producto.Nombre" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
-                                        <strong>@producto.Nombre</strong>
+                                        <img src="@producto.ImagenUrl" alt="@producto.Nombre" class="product-image">
+                                        <div>
+                                            <strong>@producto.Nombre</strong><br>
+                                            <small>Cantidad: @producto.Cantidad</small>
+                                        </div>
                                     </div>
-                                    <span>Cantidad: @producto.Cantidad - Total: S/. @(producto.Cantidad * producto.PrecioUnitario)</span>
+                                    <span class="text-muted">Total: S/. @(producto.Cantidad * producto.PrecioUnitario)</span>
                                 </li>
                             }
                         </ul>
@@ -45,8 +51,54 @@
     }
     else
     {
-        <div class="alert alert-info" role="alert">
+        <div class="alert alert-info text-center" role="alert">
             No tienes compras registradas.
         </div>
     }
 </div>
+
+<style>
+    /* Estilos del título */
+    .form-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    /* Estilos de la tarjeta */
+    .custom-card {
+        border: 2px solid #cac3b0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .custom-card-header {
+        background-color: #cac3b0;
+        color: white;
+        padding: 15px;
+    }
+
+    /* Imagen del producto */
+    .product-image {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        margin-right: 10px;
+        border-radius: 50%;
+        border: 1px solid #cac3b0;
+    }
+
+    /* Estilo del botón */
+    .btn-link {
+        color: white;
+        font-size: 1.25rem;
+    }
+
+    .btn-link:hover {
+        text-decoration: none;
+        color: #e0e0e0;
+    }
+</style>
