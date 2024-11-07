@@ -1,0 +1,106 @@
+@model IEnumerable<XDeco.Models.Producto>
+
+@{
+    ViewData["Title"] = "Lista de Productos";
+    Layout = "_LayoutAdmin";
+}
+
+<!-- Incluye el CSS de Font Awesome para los iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMbaiIbjC7huGYTpHR20L0yM5Tbb1BTF9e6R5wz" crossorigin="anonymous" />
+
+<!-- Estilo para el color de las líneas de la tabla -->
+<style>
+    .table {
+        border: 2px solid #8B4513; /* Marrón */
+    }
+    .table-bordered th, .table-bordered td {
+        border-color: #8B4513; /* Marrón */
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Material</th>
+                <th>Color</th>
+                <th>Es Ajustable</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model == null || !Model.Any())
+            {
+                <tr>
+                    <td colspan="9" class="text-center">No hay productos disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var producto in Model)
+                {
+                    <tr>
+                        <td>@producto.Id</td>
+                        <td>@producto.Nombre</td>
+                        <td>@producto.Descripcion</td>
+                        <td>@producto.Precio</td>
+                        <td>@producto.Material</td>
+                        <td>@producto.Color</td>
+                        <td>@(producto.EsAjustable ? "Sí" : "No")</td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(producto.ImageURL))
+                            {
+                                <img src="@producto.ImageURL" alt="Imagen del producto" style="width: 50px; height: 50px; object-fit: cover;" />
+                            }
+                            else
+                            {
+                                <span>No disponible</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="javascript:void(0);" onclick="loadEditModal('@producto.Id')" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form asp-action="EliminarProducto" asp-route-id="@producto.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar este producto?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para editar producto -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+            <!-- Aquí se cargará la vista parcial -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function loadEditModal(productId) {
+            $.get('/Admin/EditarProducto/' + productId, function (data) {
+                $('#modalContent').html(data);
+                $('#editModal').modal('show');
+            });
+        }
+    </script>
+}
