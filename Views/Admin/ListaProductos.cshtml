@@ -8,20 +8,73 @@
 <!-- Incluye el CSS de Font Awesome para los iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMbaiIbjC7huGYTpHR20L0yM5Tbb1BTF9e6R5wz" crossorigin="anonymous" />
 
-<!-- Estilo para el color de las líneas de la tabla -->
+<!-- Estilo para la tabla y los bordes -->
 <style>
-    .table {
-        border: 2px solid #8B4513; /* Marrón */
+    .table-custom {
+        border: 3px solid #5f3609; /* Bordes más gruesos y llamativos */
+        border-radius: 15px;
+        background-color: #f2ead3;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para hacer el cuadro más llamativo */
+        margin: 0 auto; /* Centra la tabla */
     }
-    .table-bordered th, .table-bordered td {
-        border-color: #8B4513; /* Marrón */
+
+    /* Estilo de las celdas */
+    .table-custom th, .table-custom td {
+        border-left: 2px solid #8B4513; /* Bordes verticales en todas las celdas */
+        border-right: 2px solid #8B4513; /* Bordes verticales en todas las celdas */
+        padding: 12px 15px;
+        vertical-align: middle;
+        color: #000; /* Cambiar el color de la fuente a negro */
+        font-size: 1rem;
+    }
+
+    .table-custom th {
+        background-color: #5f3609; /* Marrón oscuro */
+        color: white;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #dfd7bf; /* Color cuando el ratón pasa por encima */
+    }
+
+    /* Bordes horizontales de la tabla */
+    .table-custom tr {
+        border-bottom: 2px solid #8B4513;
+    }
+
+    /* Estilo para los iconos */
+    .table-custom .fa-edit, .table-custom .fa-trash-alt {
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+
+    .table-custom .fa-edit:hover, .table-custom .fa-trash-alt:hover {
+        color: #5f3609; /* Marrón al pasar el ratón */
+    }
+
+    /* Mensaje de "No hay productos" */
+    .no-items {
+        color: #5f3609;
+        font-weight: bold;
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    /* Centrar el título */
+    h1.text-center {
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        color: #000; /* Cambiar color de texto a negro */
     }
 </style>
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+    <h1 class="text-center mb-4 display-4 fw-bold">
+        @ViewData["Title"]
+    </h1>
 
-    <table class="table table-bordered">
+    <table class="table table-custom table-striped table-hover">
         <thead>
             <tr>
                 <th>ID</th>
@@ -39,7 +92,7 @@
             @if (Model == null || !Model.Any())
             {
                 <tr>
-                    <td colspan="9" class="text-center">No hay productos disponibles.</td>
+                    <td colspan="9" class="text-center no-items">No hay productos disponibles.</td>
                 </tr>
             }
             else

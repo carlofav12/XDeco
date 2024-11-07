@@ -3,53 +3,149 @@
     ViewData["Title"] = "Lista de Compras";
     Layout = "_LayoutAdmin";
 }
-<!-- En tu Layout.cshtml, si aún no lo has agregado -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-DyZvB3dHlxC0wYVRi+Yt0q56XsLm7s6SRgKcEDHQxLSoG/1qUg19OlAl5gCkY+3p" crossorigin="anonymous">
 
+<!-- Incluye el CSS de Font Awesome para los iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMbaiIbjC7huGYTpHR20L0yM5Tbb1BTF9e6R5wz" crossorigin="anonymous" />
+
+<!-- Estilo personalizado -->
 <style>
-    h2 {
-        color: #333;
+    /* Estilo para la tabla */
+    .table-custom {
+        border: 3px solid #5f3609; /* Bordes más gruesos y llamativos */
+        border-radius: 15px;
+        background-color: #f2ead3;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para hacer el cuadro más llamativo */
+        margin: 0 auto; /* Centra la tabla */
+    }
+
+    /* Estilo de las celdas */
+    .table-custom th, .table-custom td {
+        border-left: 2px solid #8B4513; /* Bordes verticales en todas las celdas */
+        border-right: 2px solid #8B4513; /* Bordes verticales en todas las celdas */
+        padding: 12px 15px;
+        vertical-align: middle;
+        color: #000; /* Cambiar el color de la fuente a negro */
+        font-size: 1rem;
+    }
+
+    .table-custom th {
+        background-color: #5f3609; /* Marrón oscuro */
+        color: white;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .table-custom tbody tr:hover {
+        background-color: #dfd7bf; /* Color cuando el ratón pasa por encima */
+    }
+
+    /* Bordes horizontales de la tabla */
+    .table-custom tr {
+        border-bottom: 2px solid #8B4513;
+    }
+
+    /* Estilo para los iconos */
+    .table-custom .fa-edit, .table-custom .fa-trash-alt {
+        font-size: 1.2rem;
+        transition: color 0.3s ease;
+    }
+
+    .table-custom .fa-edit:hover, .table-custom .fa-trash-alt:hover {
+        color: #5f3609; /* Marrón al pasar el ratón */
+    }
+
+    /* Mensaje de "No hay compras" */
+    .no-items {
+        color: #5f3609;
+        font-weight: bold;
+        font-size: 1.2rem;
         text-align: center;
     }
-    .table {
-        margin: 20px auto;
-        max-width: 80%;
-    }
-    .table th {
-        background-color: #007bff;
-        color: white;
+
+    /* Centrar el título */
+    h2.text-center {
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+        color: #000; /* Cambiar color de texto a negro */
     }
 </style>
 
-<h2>Lista de Compras</h2>
+<div class="container mt-5">
+    <h2 class="text-center mb-4 display-4 fw-bold">
+        @ViewData["Title"]
+    </h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Total a Pagar</th>
-            <th>Productos</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var compra in Model)
-        {
+    <table class="table table-custom table-striped table-hover">
+        <thead>
             <tr>
-                <td>@compra.Nombre</td>
-                <td>@compra.Direccion</td>
-                <td>@compra.Telefono</td>
-                <td>@compra.TotalAPagar</td>
-                <td>
-                    <ul>
-                        @foreach (var producto in compra.Productos)
-                        {
-                            <li>@producto.Nombre - Cantidad: @producto.Cantidad - Precio Unitario: @producto.PrecioUnitario</li>
-                        }
-                    </ul>
-                </td>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Total a Pagar</th>
+                <th>Productos</th>
+                <th>Acciones</th>
             </tr>
+        </thead>
+        <tbody>
+            @if (Model == null || !Model.Any())
+            {
+                <tr>
+                    <td colspan="6" class="text-center no-items">No hay compras disponibles.</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var compra in Model)
+                {
+                    <tr>
+                        <td>@compra.Nombre</td>
+                        <td>@compra.Direccion</td>
+                        <td>@compra.Telefono</td>
+                        <td>@compra.TotalAPagar</td>
+                        <td>
+                            <ul>
+                                @foreach (var producto in compra.Productos)
+                                {
+                                    <li>@producto.Nombre - Cantidad: @producto.Cantidad - Precio Unitario: @producto.PrecioUnitario</li>
+                                }
+                            </ul>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-center">
+                                <a href="javascript:void(0);" onclick="loadEditModal('@compra.Id')" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <form asp-action="Delete" asp-route-id="@compra.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta compra?');">
+                                        <i class="fas fa-trash-alt"></i> Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para editar compra -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="modalContent">
+            <!-- Aquí se cargará la vista parcial -->
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function loadEditModal(compraId) {
+            $.get('/Admin/Edit/' + compraId, function (data) {
+                $('#modalContent').html(data);
+                $('#editModal').modal('show');
+            });
         }
-    </tbody>
-</table>
+    </script>
+}
