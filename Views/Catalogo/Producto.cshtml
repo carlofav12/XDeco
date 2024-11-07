@@ -3,72 +3,102 @@
 @{
     ViewData["Title"] = Model.Nombre;
 }
-<style>
-    .bt {
-        width: 200px;
-        height: 50px;
-        border-radius: 10px;
-        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-        margin-bottom: 10px;
-        background-color: #cac3b0;
-        border-color: #c2bdaf;
-        color: black
-    }
 
-    .sketchfab-embed-wrapper {
-        margin-top: 20px;
+<style>
+    .product-card {
         border: 1px solid #ccc;
         border-radius: 10px;
-        padding: 10px;
-        background-color: #f9f9f9;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+    }
+
+    .price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #000000; /* color de precio (rojo) */
+    }
+
+    .old-price {
+        text-decoration: line-through;
+        color: #888;
+    }
+
+    .discount {
+        color: #5bc0de;
+        font-size: 1.2rem;
+    }
+
+    .btn-custom {
+        background-color: #a59f8f;
+        color: white;
+        border-radius: 5px;
+        padding: 10px 20px;
+        width: 100%;
+    }
+
+    .btn-custom:hover {
+        background-color: #8B4513;
+    }
+
+    .product-info {
+        margin-top: 15px;
+    }
+
+    .features-icon {
+        font-size: 1.5rem;
+        color: #5f3609;
     }
 </style>
-<h1>@Model.Nombre</h1>
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="@Model.ImageURL" alt="@Model.Nombre" class="img-fluid" />
-            @if (Model.obj)
-            {
-                <div class="sketchfab-embed-wrapper">
-                    <iframe title="Lily-2019-obj" frameborder="0" allowfullscreen mozallowfullscreen="true"
-                        webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" src="@Model.UrlObj">
-                    </iframe>
-                </div>
-            }
+            <!-- Imagen del Producto -->
+            <img src="@Model.ImageURL" alt="@Model.Nombre" class="img-fluid product-image" />
         </div>
         <div class="col-md-6">
-            <h3>Precio: S/. @Model.Precio</h3>
-            <p><strong>Descripción:</strong> @Model.Descripcion</p>
-            <p><strong>Material:</strong> @Model.Material</p>
-            <p><strong>Color:</strong> @Model.Color</p>
-            <p><strong>Ajustable:</strong> @(Model.EsAjustable ? "Sí" : "No")</p>
-            @if (Model.Dimensiones != null)
-            {
-                <p><strong>Dimensiones:</strong> @Model.Dimensiones.Ancho x @Model.Dimensiones.Alto x
-                    @Model.Dimensiones.Largo</p>
-            }
-            else
-            {
-                <p><strong>Dimensiones:</strong> No disponibles</p>
-            }
-            <div class="text-center">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
-                        <input type="hidden" name="productoId" value="@Model.Id" />
-                        <button type="submit" class="bt btn-primary">Añadir a la cesta</button>
-                    </form>
-                }
-                else
-                {
-                    <div class="alert alert-warning">
-                        Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos a la cesta.
-                    </div>
-                }
+            <!-- Información del Producto -->
+            <div class="product-card">
+                <h2>@Model.Nombre</h2>
+                <p class="price">
+                    S/. @Model.Precio
+                </p>
+                <div class="product-info">
+                    <p><strong>Descripción:</strong> @Model.Descripcion</p>
+                    <p><strong>Material:</strong> @Model.Material</p>
+                    <p><strong>Color:</strong> @Model.Color</p>
+                    <p><strong>Ajustable:</strong> @(Model.EsAjustable ? "Sí" : "No")</p>
+                <!-- Botón Agregar al Carrito -->
+                <div class="mt-4">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
+                            <input type="hidden" name="productoId" value="@Model.Id" />
+                            <button type="submit" class="btn-custom">Añadir al carrito</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning mt-3">
+                            Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos al carrito.
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
 
-    <a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4">Volver al Catálogo</a>
+    <!-- Botón Volver al Catálogo -->
+   <a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4" style="background-color: #a59f8f !important;">Volver al Catálogo</a>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+}
