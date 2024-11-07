@@ -1,24 +1,80 @@
 ﻿@page
 @model ResetAuthenticatorModel
 @{
-    ViewData["Title"] = "Restablecer clave de autenticación";
+    ViewData["Title"] = "Restablecer Clave de Autenticación";
     ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
 }
 
 <partial name="_StatusMessage" for="StatusMessage" />
-<h3>@ViewData["Title"]</h3>
-<div class="alert alert-warning" role="alert">
-    <p>
-        <span class="glyphicon glyphicon-warning-sign"></span>
-        <strong>Si restablece la clave de autenticación, la aplicación de autenticación no funcionará hasta que la vuelva a configurar.</strong>
-    </p>
-    <p>
-        Este proceso deshabilita la 2FA hasta que verifiques tu aplicación de autenticación.
-        Si no completa la configuración de la aplicación de autenticación, es posible que pierda el acceso a su cuenta.
-    </p>
+
+<div class="container my-5">
+    <!-- Título principal -->
+    <h3 class="form-title">@ViewData["Title"]</h3>
+
+    <!-- Mensaje de advertencia -->
+    <div class="alert alert-warning custom-alert" role="alert">
+        <div class="text-center mb-3">
+            <span class="glyphicon glyphicon-warning-sign display-6" style="color: #ffffff;"></span>
+        </div>
+        <p class="fw-bold text-dark text-center">
+            Si restablece la clave de autenticación, la aplicación de autenticación no funcionará hasta que la vuelva a configurar.
+        </p>
+        <p class="text-muted text-center">
+            Este proceso deshabilita la autenticación de dos factores (2FA) hasta que verifiques tu aplicación de autenticación.
+            Si no completa la configuración, podría perder el acceso a su cuenta.
+        </p>
+    </div>
+
+    <!-- Formulario de restablecimiento -->
+    <div class="text-center mt-4">
+        <form id="reset-authenticator-form" method="post" class="p-4 rounded shadow-sm bg-light custom-form">
+            <button id="reset-authenticator-button" class="btn btn-lg btn-danger w-100">Restablecer clave de autenticación</button>
+        </form>
+    </div>
 </div>
-<div>
-    <form id="reset-authenticator-form" method="post">
-        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Restablecer clave de autenticación</button>
-    </form>
-</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    /* Título del formulario */
+    .form-title {
+        font-size: 28px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Estilos del formulario */
+    .custom-form {
+        background-color: #f8f9fa;
+        border: 2px solid #cac3b0;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilos de la alerta */
+    .custom-alert {
+        background-color: #fff8e1;
+        border: 1px solid #cac3b0;
+        color: #cac3b0;
+    }
+
+    /* Icono de advertencia */
+    .glyphicon-warning-sign {
+        font-size: 2rem;
+    }
+
+    /* Estilos de botón */
+    .btn-danger {
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #b22222;
+        transform: translateY(-2px);
+    }
+</style>
