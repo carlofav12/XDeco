@@ -7,8 +7,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hola
-                @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+                Hola @await GetUserNameAsync()
+            </a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
@@ -27,3 +28,16 @@
         </li>
     }
 </ul>
+
+@functions {
+    private async Task<string> GetUserNameAsync()
+    {
+        // Obtiene el usuario actual utilizando el UserManager
+        var usuario = await UserManager.GetUserAsync(User);
+        if (usuario != null)
+        {
+            return $"{usuario.Nombres} {usuario.ApellidoPaterno}";  // Nombre completo del usuario
+        }
+        return "Usuario";  // Valor por defecto en caso de que no se encuentre el usuario
+    }
+}
