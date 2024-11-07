@@ -22,17 +22,7 @@
     .price {
         font-size: 1.5rem;
         font-weight: bold;
-        color: #000000; /* color de precio (rojo) */
-    }
-
-    .old-price {
-        text-decoration: line-through;
-        color: #888;
-    }
-
-    .discount {
-        color: #5bc0de;
-        font-size: 1.2rem;
+        color: #000000;
     }
 
     .btn-custom {
@@ -51,9 +41,19 @@
         margin-top: 15px;
     }
 
-    .features-icon {
-        font-size: 1.5rem;
-        color: #5f3609;
+   .view-3d-btn {
+    background-color: transparent; /* Fondo transparente */
+    color: black; /* Texto en negro */
+    font-size: 1.2rem; /* Tamaño más pequeño */
+    border: none;
+    padding: 5px 10px; /* Ajuste de padding para hacerlo más pequeño */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+    .view-3d-btn i {
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
     }
 </style>
 
@@ -63,42 +63,79 @@
             <!-- Imagen del Producto -->
             <img src="@Model.ImageURL" alt="@Model.Nombre" class="img-fluid product-image" />
         </div>
+        
         <div class="col-md-6">
             <!-- Información del Producto -->
             <div class="product-card">
                 <h2>@Model.Nombre</h2>
-                <p class="price">
-                    S/. @Model.Precio
-                </p>
+                <p class="price">S/. @Model.Precio</p>
+                
                 <div class="product-info">
                     <p><strong>Descripción:</strong> @Model.Descripcion</p>
                     <p><strong>Material:</strong> @Model.Material</p>
                     <p><strong>Color:</strong> @Model.Color</p>
                     <p><strong>Ajustable:</strong> @(Model.EsAjustable ? "Sí" : "No")</p>
-                <!-- Botón Agregar al Carrito -->
-                <div class="mt-4">
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
-                            <input type="hidden" name="productoId" value="@Model.Id" />
-                            <button type="submit" class="btn-custom">Añadir al carrito</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <div class="alert alert-warning mt-3">
-                            Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos al carrito.
-                        </div>
-                    }
+
+                <!-- Botón para Ver el Modelo 3D -->
+                @if (!string.IsNullOrEmpty(Model.UrlObj))
+                {
+                    <button type="button" class="view-3d-btn" data-bs-toggle="modal" data-bs-target="#model3DModal">
+                        <i class="fas fa-eye"></i> Ver en 3D
+                    </button>
+                }
+                    <!-- Botón Agregar al Carrito -->
+                    <div class="mt-4">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form asp-controller="Carrito" asp-action="AñadirAlCarrito" method="post">
+                                <input type="hidden" name="productoId" value="@Model.Id" />
+                                <button type="submit" class="btn-custom">Añadir al carrito</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="alert alert-warning mt-3">
+                                Debes <a href="/Identity/Account/Login">iniciar sesión</a> para añadir productos al carrito.
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Botón Volver al Catálogo -->
-   <a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4" style="background-color: #a59f8f !important;">Volver al Catálogo</a>
+    <a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-4" style="background-color: #a59f8f !important;">Volver al Catálogo</a>
+</div>
+
+<!-- Modal para el Modelo 3D -->
+<div class="modal fade" id="model3DModal" tabindex="-1" aria-labelledby="model3DModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="model3DModalLabel">Vista 3D de @Model.Nombre</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="sketchfab-embed-wrapper" style="width: 100%; height: 500px;">
+                    <iframe 
+                        title="Modelo 3D"
+                        frameborder="0" 
+                        allowfullscreen 
+                        mozallowfullscreen="true"
+                        webkitallowfullscreen="true" 
+                        allow="autoplay; fullscreen; xr-spatial-tracking" 
+                        src="@Model.UrlObj" 
+                        style="width: 100%; height: 100%;">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"></script>
 }
