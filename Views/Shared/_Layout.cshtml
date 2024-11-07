@@ -45,11 +45,16 @@
                                 asp-action="Index">Noticias Mundiales</a>
                         </li>
                     </ul>
-                    <div class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Carrito" asp-action="Index">
-                            <i class="fas fa-shopping-cart"></i>
-                        </a>
-                    </div>
+                    <div class="cart-icon">
+                    <a asp-area="" asp-controller="Carrito" asp-action="Index">
+                        <i class="fa fa-shopping-cart"></i>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <!-- Mostrar burbuja de conteo solo si el usuario está autenticado -->
+                            <span id="cart-count" class="cart-count">3</span> <!-- Ejemplo de conteo -->
+                        }
+                    </a>
+                </div>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -66,6 +71,26 @@
             &copy; 2024 - Proyecto - <a asp-area="" asp-controller="Home" asp-action="Privacy">Nosotros</a>
         </div>
     </footer>
+    <script>
+        // Función para actualizar el contador del carrito
+        function updateCartCount() {
+            fetch('/Carrito/GetCarritoCount')
+                .then(response => response.json())
+                .then(data => {
+                    const cartCountElement = document.getElementById('cart-count');
+                    if (data.count > 0) {
+                        cartCountElement.textContent = data.count;
+                        cartCountElement.style.display = 'inline';
+                    } else {
+                        cartCountElement.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error al actualizar el conteo del carrito:', error));
+        }
+        // Llamada inicial cuando la página carga
+        updateCartCount();
+
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

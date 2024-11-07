@@ -12,6 +12,7 @@ using XDeco.Service;
 using MercadoPago.Client.Preference;
 using MercadoPago.Config;
 using MercadoPago.Resource.Preference;
+using System.Security.Claims;
 
 namespace XDeco.Controllers
 {
@@ -53,53 +54,70 @@ namespace XDeco.Controllers
         }
 
         [HttpPost]
-public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
-{
-    try
-    {
-        var producto = await _context.Productos.FindAsync(productoId);
-        if (producto == null)
+        public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad = 1)
         {
-            return NotFound();
-        }
+            try
+            {
+                var producto = await _context.Productos.FindAsync(productoId);
+                if (producto == null)
+                {
+                    return NotFound();
+                }
 
-        var userId = _userManager.GetUserId(User);
-        var carrito = await _context.Carritos
-            .Include(c => c.CarritoProductos)
-            .FirstOrDefaultAsync(c => c.UsuarioId == userId);
+                var userId = _userManager.GetUserId(User);
+                var carrito = await _context.Carritos
+                    .Include(c => c.CarritoProductos)
+                    .FirstOrDefaultAsync(c => c.UsuarioId == userId);
 
-        if (carrito == null)
-        {
-            carrito = new Carrito { UsuarioId = userId };
-            _context.Carritos.Add(carrito);
-        }
+                if (carrito == null)
+                {
+                    carrito = new Carrito { UsuarioId = userId };
+                    _context.Carritos.Add(carrito);
+                }
 
                 var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == productoId);
                 if (carritoProducto != null)
                 {
-                    // Actualiza la cantidad existente
-                    carritoProducto.Cantidad += cantidad; // Asegúrate de que la cantidad se está sumando
+                    // Si el producto ya está en el carrito, sumamos la cantidad
+                    carritoProducto.Cantidad += cantidad;
                 }
                 else
                 {
-                    // Añade el nuevo producto al carrito
+                    // Si el producto no está en el carrito, lo agregamos con la cantidad inicial
                     carrito.CarritoProductos.Add(new CarritoProducto
                     {
                         ProductoId = productoId,
                         Cantidad = cantidad,
-                        Producto = producto // Asegúrate de que estás enlazando el producto correctamente
+                        Producto = producto
                     });
                 }
 
-        await _context.SaveChangesAsync();
-        return RedirectToAction("Index");
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error al añadir producto al carrito.");
-        return StatusCode(500, "Error interno del servidor.");
-    }
-}
+                await _context.SaveChangesAsync();
+
+                // Regresa a la página de inicio después de agregar o actualizar el carrito
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al añadir producto al carrito.");
+                return StatusCode(500, "Error interno del servidor.");
+            }
+        }
+
+        // En CarritoController.cs
+        [HttpGet]
+        public IActionResult GetCarritoCount()
+        {
+            // Obtener el ID del usuario actual
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            // Asegúrate de que el modelo 'Carrito' usa 'UsuarioId' en lugar de 'UserId'
+            var count = _context.CarritoProductos
+                                .Where(cp => cp.Carrito.UsuarioId == userId) // Cambiar 'UserId' por 'UsuarioId'
+                                .Sum(cp => cp.Cantidad);
+            
+            return Json(new { count });
+        }
 
 
         [HttpPost]
@@ -238,6 +256,8 @@ public async Task<IActionResult> AñadirAlCarrito(long productoId, int cantidad 
             
             return View(compras); // Return the purchases in a view
         }
+
+        
 
     }
 
