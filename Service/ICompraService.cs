@@ -1,46 +1,49 @@
 using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Proyecto.Data;
+using XDeco.Models;
 using XDeco.ViewModel;
 
 public interface ICompraService
 {
-    void AgregarCompra(CompraViewModel compra);
-    List<CompraViewModel> ObtenerCompras();
-    List<CompraViewModel> ObtenerComprasPorUsuario(string userId);
+    void AgregarCompra(Compra compra);
+    List<Compra> ObtenerCompras();
+    List<Compra> ObtenerComprasPorUsuario(string userId);
 }
 
 public class CompraService : ICompraService
 {
-    private static long _nextCompraId = 1; // Variable para llevar el conteo de IDs de compras
-    private static List<CompraViewModel> _compras = new List<CompraViewModel>();
+    private readonly ApplicationDbContext _context;
 
-    public void AgregarCompra(CompraViewModel compra)
+    public CompraService(ApplicationDbContext context)
     {
-        // Asigna un ID único a la compra
-        compra.Id = _nextCompraId++;
-        _compras.Add(compra);
+        _context = context;
     }
 
-    public List<CompraViewModel> ObtenerCompras()
+    public void AgregarCompra(Compra compra)
     {
-        return _compras;
+        // Agregar la compra a la base de datos
+        _context.Compras.Add(compra);
+        _context.SaveChanges();
     }
 
-    public List<CompraViewModel> ObtenerComprasPorUsuario(string userId)
+    public List<Compra> ObtenerCompras()
     {
-        // Create a new list to hold the purchases for the specified user
-        List<CompraViewModel> comprasPorUsuario = new List<CompraViewModel>();
-
-        // Iterate through the list of all purchases
-        foreach (var compra in _compras)
-        {
-            // Assuming CompraViewModel has a property called UsuarioId to check against
-            if (compra.UsuarioId == userId)
-            {
-                comprasPorUsuario.Add(compra); // Add the purchase to the user's list
-            }
-        }
-
-        return comprasPorUsuario; // Return the filtered list
+        // Obtener todas las compras de la base de datos, incluyendo los productos de la compra
+        return _context.Compras
+            .Include(c => c.CompraProductos)
+            .ThenInclude(cp => cp.Producto)
+            .ToList();
     }
 
+    public List<Compra> ObtenerComprasPorUsuario(string userId)
+    {
+        // Obtener todas las compras de un usuario específico desde la base de datos
+        return _context.Compras
+            .Where(c => c.UsuarioId == userId)
+            .Include(c => c.CompraProductos)
+            .ThenInclude(cp => cp.Producto)
+            .ToList();
+    }
 }
+

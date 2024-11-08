@@ -36,9 +36,27 @@ namespace XDeco.Controllers
 
         public IActionResult ListaCompras()
         {
-            List<CompraViewModel> compras = _compraService.ObtenerCompras();
+            List<Compra> compras = _compraService.ObtenerCompras();
+            
+            // Verificamos si la lista de compras está vacía
+            if (compras == null || !compras.Any())
+            {
+                _logger.LogInformation("No hay compras disponibles en la base de datos.");
+            }
+            else
+            {
+                _logger.LogInformation($"Se han encontrado {compras.Count} compras en la base de datos.");
+            }
+            
+            if (compras == null)
+            {
+                compras = new List<Compra>(); // Asegura que nunca sea null
+            }
+
             return View(compras);
         }
+
+
 
         [AllowAnonymous]
         public IActionResult Index()

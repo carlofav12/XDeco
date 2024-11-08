@@ -1,9 +1,9 @@
-@model List<XDeco.ViewModel.CompraViewModel>
+@model IEnumerable<XDeco.Models.Compra> 
+
 @{
     ViewData["Title"] = "Lista de Compras";
     Layout = "_LayoutAdmin";
 }
-
 <!-- Incluye el CSS de Font Awesome para los iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMbaiIbjC7huGYTpHR20L0yM5Tbb1BTF9e6R5wz" crossorigin="anonymous" />
 
@@ -54,8 +54,8 @@
         color: #5f3609; /* Marrón al pasar el ratón */
     }
 
-    /* Mensaje de "No hay compras" */
-    .no-items {
+    /* Mensaje de "No hay usuarios" */
+    .no-users {
         color: #5f3609;
         font-weight: bold;
         font-size: 1.2rem;
@@ -63,89 +63,53 @@
     }
 
     /* Centrar el título */
-    h2.text-center {
+    h1.text-center {
         text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
         color: #000; /* Cambiar color de texto a negro */
     }
 </style>
-
 <div class="container mt-5">
-    <h2 class="text-center mb-4 display-4 fw-bold">
+    <h1 class="text-center mb-4 display-4 fw-bold">
         @ViewData["Title"]
-    </h2>
+    </h1>
 
-    <table class="table table-custom table-striped table-hover">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Teléfono</th>
-                <th>Total a Pagar</th>
-                <th>Productos</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model == null || !Model.Any())
-            {
+    @if (Model != null && Model.Any())
+    {
+        <table class="table table-custom table-striped table-hover">
+            <thead>
                 <tr>
-                    <td colspan="6" class="text-center no-items">No hay compras disponibles.</td>
+                    <th>ID Compra</th>
+                    <th>Usuario</th>
+                    <th>Total</th>
+                    <th>Productos</th>
                 </tr>
-            }
-            else
-            {
-                foreach (var compra in Model)
+            </thead>
+            <tbody>
+                @foreach (var compra in Model)
                 {
                     <tr>
-                        <td>@compra.Nombre</td>
-                        <td>@compra.Direccion</td>
-                        <td>@compra.Telefono</td>
-                        <td>@compra.TotalAPagar</td>
+                        <td>@compra.Id</td>
+                        <td>@compra.UsuarioId</td>
+                        <td>@compra.Total.ToString("C")</td>
                         <td>
                             <ul>
-                                @foreach (var producto in compra.Productos)
+                                @foreach (var compraProducto in compra.CompraProductos)
                                 {
-                                    <li>@producto.Nombre - Cantidad: @producto.Cantidad - Precio Unitario: @producto.PrecioUnitario</li>
+                                    <li>
+                                        @compraProducto.Producto.Nombre - 
+                                        @compraProducto.Cantidad x @compraProducto.PrecioUnitario.ToString("C") = 
+                                        @compraProducto.Subtotal.ToString("C")
+                                    </li>
                                 }
                             </ul>
                         </td>
-                        <td>
-                            <div class="d-flex gap-2 justify-content-center">
-                                <a href="javascript:void(0);" onclick="loadEditModal('@compra.Id')" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> Editar
-                                </a>
-                                <form asp-action="Delete" asp-route-id="@compra.Id" method="post" style="display:inline;">
-                                    <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('¿Estás seguro de que deseas eliminar esta compra?');">
-                                        <i class="fas fa-trash-alt"></i> Eliminar
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
                     </tr>
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No se encontraron compras.</p>
+    }
 </div>
-
-<!-- Modal para editar compra -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content" id="modalContent">
-            <!-- Aquí se cargará la vista parcial -->
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        function loadEditModal(compraId) {
-            $.get('/Admin/Edit/' + compraId, function (data) {
-                $('#modalContent').html(data);
-                $('#editModal').modal('show');
-            });
-        }
-    </script>
-}
