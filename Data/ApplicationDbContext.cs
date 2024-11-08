@@ -25,4 +25,8 @@ public class ApplicationDbContext : IdentityDbContext<Usuario>
     public DbSet<Carrito> Carritos { get; set; }
 
     public DbSet<CarritoProducto> CarritoProductos { get; set; }
+
+    public DbSet<Compra> Compras { get; set; }
+    
+    public DbSet<CompraProducto> CompraProductos { get; set; }
 }
