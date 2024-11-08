@@ -39,7 +39,7 @@
         event.preventDefault(); // Evita el envío tradicional del formulario
 
         const searchString = document.getElementById('searchString').value;
-        const url = 'https://newsapi.org/v2/everything?q=' + encodeURIComponent(searchString) + '&from=2024-10-01&sortBy=publishedAt&apiKey=41522f04ee08497882d367457b6c35e7';
+        const url = 'https://newsapi.org/v2/everything?q=' + encodeURIComponent(searchString) + '&from=2024-11-07&sortBy=publishedAt&apiKey=41522f04ee08497882d367457b6c35e7';
 
         try {
             const response = await fetch(url);
