@@ -14,5 +14,7 @@ namespace XDeco.Models
 
         [Required(ErrorMessage = "El apellido materno es obligatorio")]
         public string ApellidoMaterno { get; set; }
+        // Relación inversa: un usuario puede tener múltiples compras
+        public virtual ICollection<Compra> Compras { get; set; } = new List<Compra>();
     }
 }

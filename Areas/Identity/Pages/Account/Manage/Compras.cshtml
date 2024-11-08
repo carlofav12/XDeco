@@ -26,22 +26,22 @@
                 <div id="collapse-@index" class="collapse">
                     <div class="card-body">
                         <ul class="list-group mb-3">
-                            @foreach (var producto in compra.Productos)
+                            @foreach (var compraProducto in compra.CompraProductos)
                             {
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="d-flex align-items-center">
-                                        <img src="@producto.ImagenUrl" alt="@producto.Nombre" class="product-image">
+                                        <img src="@compraProducto.Producto.ImageURL" alt="@compraProducto.Producto.Nombre" class="product-image">
                                         <div>
-                                            <strong>@producto.Nombre</strong><br>
-                                            <small>Cantidad: @producto.Cantidad</small>
+                                            <strong>@compraProducto.Producto.Nombre</strong><br>
+                                            <small>Cantidad: @compraProducto.Cantidad</small>
                                         </div>
                                     </div>
-                                    <span class="text-muted">Total: S/. @(producto.Cantidad * producto.PrecioUnitario)</span>
+                                    <span class="text-muted">Total: S/. @(compraProducto.Cantidad * compraProducto.PrecioUnitario)</span>
                                 </li>
                             }
                         </ul>
                         <div class="text-end">
-                            <strong>Total Importe: S/. @compra.TotalAPagar</strong>
+                            <strong>Total Importe: S/. @compra.Total</strong>
                         </div>
                     </div>
                 </div>

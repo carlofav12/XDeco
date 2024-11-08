@@ -130,6 +130,7 @@ namespace XDeco.Controllers
 
             var userId = _userManager.GetUserId(User);
 
+            // Obtener el carrito del usuario
             var carrito = await _context.Carritos
                 .Include(c => c.CarritoProductos)
                 .ThenInclude(cp => cp.Producto)
@@ -140,40 +141,38 @@ namespace XDeco.Controllers
                 return Json(new { resultado = false, mensaje = "El carrito está vacío." });
             }
 
-            // Crear el objeto CompraViewModel con las cantidades enviadas desde la vista
-            var compraViewModel = new CompraViewModel
+            // Crear la compra y asignar productos desde el carrito
+            var compra = new Compra
             {
-                CarritoId = carrito.Id,
-                Productos = datos.Productos.Select(dp => {
+                UsuarioId = userId,
+                // El Total es calculado usando la cantidad de productos del carrito y el precio unitario
+                Total = datos.Productos.Sum(dp => dp.Cantidad * 
+                    (carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == dp.ProductoId)?.Producto.Precio ?? 0)),
+                CompraProductos = datos.Productos.Select(dp =>
+                {
                     var carritoProducto = carrito.CarritoProductos.FirstOrDefault(cp => cp.ProductoId == dp.ProductoId);
                     return new CompraProducto
                     {
                         ProductoId = dp.ProductoId,
                         Cantidad = dp.Cantidad, // Usamos la cantidad enviada desde el frontend
-                        PrecioUnitario = carritoProducto?.Producto.Precio ?? 0,
-                        Nombre = carritoProducto?.Producto.Nombre,
-                        ImagenUrl = carritoProducto?.Producto.ImageURL
+                        PrecioUnitario = carritoProducto?.Producto.Precio ?? 0
                     };
-                }).ToList(),
-                TotalAPagar = datos.Productos.Sum(dp => dp.Cantidad * (carrito.CarritoProductos
-                                        .FirstOrDefault(cp => cp.ProductoId == dp.ProductoId)?.Producto.Precio ?? 0)),
-                Nombre = datos.Nombre,
-                Direccion = datos.Direccion,
-                Telefono = datos.Telefono,
-                UsuarioId = userId
+                }).ToList()
             };
 
-            _compraService.AgregarCompra(compraViewModel);
-            _logger.LogInformation("Compra procesada exitosamente para el usuario {UserId}: {@CompraViewModel}", userId, compraViewModel);
+            // Agregar la compra a la base de datos
+            _compraService.AgregarCompra(compra);
 
+            // Eliminar los productos del carrito después de la compra
             _context.CarritoProductos.RemoveRange(carrito.CarritoProductos);
             await _context.SaveChangesAsync();
 
+            _logger.LogInformation("Compra procesada exitosamente para el usuario {UserId}: {@Compra}", userId, compra);
+
+            
 
             return Json(new { resultado = true, mensaje = "Compra procesada exitosamente." });
         }
-
-
 
 
         [HttpPost]
