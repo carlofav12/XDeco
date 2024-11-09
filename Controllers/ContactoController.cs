@@ -15,7 +15,7 @@ namespace XDeco.Controllers
         }
 
     // GET: contacto/index
-    [HttpGet("index")]
+    [HttpGet("Contacto")]
     public IActionResult Index()
     {
         return View();
