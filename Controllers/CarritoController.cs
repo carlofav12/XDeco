@@ -205,7 +205,7 @@ namespace XDeco.Controllers
         public async Task<IActionResult> PagoConMercadoPago()
         {
             // Configuración de Mercado Pago
-            MercadoPagoConfig.AccessToken = "TEST-2040961728898445-102315-dfd5f8da7ed98d6c0428ddd0d21ab1e5-2052616451";
+            MercadoPagoConfig.AccessToken = "TEST-7521516087326914-110719-9dfdb2ecb6fb61031949bb39d59b813b-2052616451";
 
             var userId = _userManager.GetUserId(User);
             var carrito = await _context.Carritos

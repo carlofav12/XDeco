@@ -20,6 +20,7 @@ namespace XDeco.Controllers
             _lista = lista;
         }
         
+        
         public async Task<IActionResult> Index(string? searchString)
         {
             List<Article> listB = new List<Article>();

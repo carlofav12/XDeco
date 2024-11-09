@@ -8,20 +8,37 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card shadow">
-                <div class="card-header bg-primary text-white" style="background-color: #5f3609!important ; color: white !important";>
+                <div class="card-header bg-primary text-white" style="background-color: #5f3609!important ; color: white !important;">
                     <h3 class="mb-0">@ViewData["Title"]</h3>
                 </div>
                 <div class="card-body">
                     @if (Model.DisplayConfirmAccountLink)
                     {
-                        <p class="text-success" style="background-color: #ffffff!important ; color: black !important";>
+                        
+                        <p class="text-success" style="background-color: #ffffff!important ; color: black !important;">
                             ¡Muchas gracias por su registro! No olvide verificar su correo electrónico.
                             Revise su carpeta de spam o, si no recibe el correo, intente registrarse con otro correo.
                         </p>
+
+                        
+                        <p class="text-muted" style="background-color: #ffffff!important ; color: black !important;">
+                            Este es el mensaje que debería aparecer en el correo.
+                        </p>
+
+                        
+                        <div class="text-center mb-4">
+                            <i class="fa fa-envelope" style="color: blue; font-size: 40px;" title="Correo de Confirmación"></i>
+                        </div>
+
+                        
+                        <div class="text-center mb-4">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/xdeco-dc64f.appspot.com/o/Registro%2FMensaje_Confirmacion.PNG?alt=media&token=8adbe700-d228-4cb0-9437-4f2c0b4baa98" 
+                                 alt="Mensaje de Confirmación" class="img-fluid">
+                        </div>
                     }
                 </div>
-                <div class="card-footer text-muted text-center" style="background-color: #5f3609!important ; color: white !important";>
-                    Si tiene problemas por favor comuniquese con el administrador del sistema.
+                <div class="card-footer text-muted text-center" style="background-color: #5f3609!important ; color: white !important;">
+                    Si tiene problemas por favor comuníquese con el administrador del sistema.
                 </div>
             </div>
         </div>
