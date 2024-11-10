@@ -204,9 +204,7 @@ namespace XDeco.Controllers
 
         public async Task<IActionResult> PagoConMercadoPago()
         {
-            // Configuración de Mercado Pago
-            MercadoPagoConfig.AccessToken = "TEST-2040961728898445-102315-dfd5f8da7ed98d6c0428ddd0d21ab1e5-2052616451";
-
+            MercadoPagoConfig.AccessToken = "APP_USR-816685383498223-111000-82efb998cdae42dc39201ca457aeb7f0-2086868631";
             var userId = _userManager.GetUserId(User);
             var carrito = await _context.Carritos
                 .Include(c => c.CarritoProductos)
@@ -215,7 +213,8 @@ namespace XDeco.Controllers
 
             if (carrito == null || !carrito.CarritoProductos.Any())
             {
-                return RedirectToAction("Index"); // O algún mensaje de error indicando que no hay productos en el carrito
+                // Mensaje si no hay productos en el carrito
+                return RedirectToAction("Index");
             }
 
             var preferenceRequest = new PreferenceRequest
@@ -229,18 +228,19 @@ namespace XDeco.Controllers
                 {
                     Title = item.Producto.Nombre,
                     Quantity = item.Cantidad,
-                    CurrencyId = "PEN",
-                    UnitPrice = (decimal)item.Producto.Precio
+                    CurrencyId = "PEN", // Asegúrate de que la moneda sea correcta
+                    UnitPrice = item.Producto.Precio
                 };
                 preferenceRequest.Items.Add(preferenceItem);
             }
 
             var client = new PreferenceClient();
-            Preference preference = client.Create(preferenceRequest);
+            Preference preference = await client.CreateAsync(preferenceRequest); // Usa CreateAsync para evitar bloqueos
 
             // Redirigir al checkout de Mercado Pago sandbox
             return Redirect(preference.InitPoint);
         }
+
 
         [HttpGet]
         public IActionResult Compras()
