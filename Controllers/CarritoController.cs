@@ -204,9 +204,7 @@ namespace XDeco.Controllers
 
         public async Task<IActionResult> PagoConMercadoPago()
         {
-            // Configuración de Mercado Pago
-            MercadoPagoConfig.AccessToken = "TEST-7521516087326914-110719-9dfdb2ecb6fb61031949bb39d59b813b-2052616451";
-
+            MercadoPagoConfig.AccessToken = "APP_USR-816685383498223-111000-82efb998cdae42dc39201ca457aeb7f0-2086868631";
             var userId = _userManager.GetUserId(User);
             var carrito = await _context.Carritos
                 .Include(c => c.CarritoProductos)
@@ -215,32 +213,43 @@ namespace XDeco.Controllers
 
             if (carrito == null || !carrito.CarritoProductos.Any())
             {
-                return RedirectToAction("Index"); // O algún mensaje de error indicando que no hay productos en el carrito
+                // Mensaje si no hay productos en el carrito
+                return RedirectToAction("Index");
             }
 
-            var preferenceRequest = new PreferenceRequest
+            var compra = new Compra
             {
-                Items = new List<PreferenceItemRequest>()
+                UsuarioId = userId,
+                Total = carrito.CarritoProductos.Sum(cp => cp.Cantidad * cp.Producto.Precio),
+                CompraProductos = carrito.CarritoProductos.Select(cp => new CompraProducto
+                {
+                    ProductoId = cp.ProductoId,
+                    Cantidad = cp.Cantidad,
+                    PrecioUnitario = cp.Producto.Precio
+                }).ToList()
             };
 
-            foreach (var item in carrito.CarritoProductos)
+            _compraService.AgregarCompra(compra);
+
+            // Crear preferencia para Mercado Pago
+            var preferenceRequest = new PreferenceRequest
             {
-                var preferenceItem = new PreferenceItemRequest
+                Items = carrito.CarritoProductos.Select(cp => new PreferenceItemRequest
                 {
-                    Title = item.Producto.Nombre,
-                    Quantity = item.Cantidad,
+                    Title = cp.Producto.Nombre,
+                    Quantity = cp.Cantidad,
                     CurrencyId = "PEN",
-                    UnitPrice = (decimal)item.Producto.Precio
-                };
-                preferenceRequest.Items.Add(preferenceItem);
-            }
+                    UnitPrice = cp.Producto.Precio
+                }).ToList()
+            };
 
             var client = new PreferenceClient();
-            Preference preference = client.Create(preferenceRequest);
+            Preference preference = await client.CreateAsync(preferenceRequest); 
 
-            // Redirigir al checkout de Mercado Pago sandbox
+            // Redirigir al checkout de Mercado Pago
             return Redirect(preference.InitPoint);
         }
+
 
         [HttpGet]
         public IActionResult Compras()
