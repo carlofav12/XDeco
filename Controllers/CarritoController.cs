@@ -217,27 +217,36 @@ namespace XDeco.Controllers
                 return RedirectToAction("Index");
             }
 
-            var preferenceRequest = new PreferenceRequest
+            var compra = new Compra
             {
-                Items = new List<PreferenceItemRequest>()
+                UsuarioId = userId,
+                Total = carrito.CarritoProductos.Sum(cp => cp.Cantidad * cp.Producto.Precio),
+                CompraProductos = carrito.CarritoProductos.Select(cp => new CompraProducto
+                {
+                    ProductoId = cp.ProductoId,
+                    Cantidad = cp.Cantidad,
+                    PrecioUnitario = cp.Producto.Precio
+                }).ToList()
             };
 
-            foreach (var item in carrito.CarritoProductos)
+            _compraService.AgregarCompra(compra);
+
+            // Crear preferencia para Mercado Pago
+            var preferenceRequest = new PreferenceRequest
             {
-                var preferenceItem = new PreferenceItemRequest
+                Items = carrito.CarritoProductos.Select(cp => new PreferenceItemRequest
                 {
-                    Title = item.Producto.Nombre,
-                    Quantity = item.Cantidad,
-                    CurrencyId = "PEN", // Asegúrate de que la moneda sea correcta
-                    UnitPrice = item.Producto.Precio
-                };
-                preferenceRequest.Items.Add(preferenceItem);
-            }
+                    Title = cp.Producto.Nombre,
+                    Quantity = cp.Cantidad,
+                    CurrencyId = "PEN",
+                    UnitPrice = cp.Producto.Precio
+                }).ToList()
+            };
 
             var client = new PreferenceClient();
-            Preference preference = await client.CreateAsync(preferenceRequest); // Usa CreateAsync para evitar bloqueos
+            Preference preference = await client.CreateAsync(preferenceRequest); 
 
-            // Redirigir al checkout de Mercado Pago sandbox
+            // Redirigir al checkout de Mercado Pago
             return Redirect(preference.InitPoint);
         }
 
