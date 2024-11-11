@@ -1,8 +1,21 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = "Confirmación de Email";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4 fw-bold mb-4" style="color: #8B4513; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);">
+            @ViewData["Title"]
+        </h1>
+        
+        <div class="card mx-auto" style="max-width: 600px; border: 3px solid #5f3609; border-radius: 15px; background-color: #f2ead3; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <div class="card-body">
+                <p class="card-text" style="font-size: 1.2rem; color: #5f3609;">
+                    @Model.StatusMessage
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
