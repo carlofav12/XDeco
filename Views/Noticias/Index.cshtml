@@ -1,30 +1,33 @@
 @model IEnumerable<XDeco.Integration.nytimes.Article>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Noticias Mundiales";
 }
 
 <div class="container mt-5">
-    <h1 class="text-center" style="font-family: 'Georgia', serif; color: #8B4513;">BUSCA TU NOTICIA AQUÍ</h1>
+    <h1 class="text-center mb-5 display-4 fw-bold" style="font-family: 'Georgia', serif; color: #8B4513; text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);">
+        BUSCA TU NOTICIA AQUÍ
+    </h1>
+    
     <form asp-controller="Noticias" asp-action="Index" id="searchForm" class="mb-4">
         <div class="input-group mb-3" style="max-width: 600px; margin: auto;">
             <input type="text" class="form-control" name="searchString" id="searchString" value="muebles" placeholder="Escribe tu búsqueda aquí...">
             <button class="btn btn-outline-secondary" type="submit">Buscar</button>
         </div>
     </form>
-    
+
     <div class="row">
         @foreach (var item in Model)
         {
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <img src="@Html.DisplayFor(modelItem => item.UrlToImage)" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                <div class="card h-100 border border-3" style="border-color: #5f3609; border-radius: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                    <img src="@Html.DisplayFor(modelItem => item.UrlToImage)" class="card-img-top" alt="Imagen de Noticia">
+                    <div class="card-body" style="background-color: #f5f5f5;">
+                        <h5 class="card-title" style="color: #5f3609;">@Html.DisplayFor(modelItem => item.Title)</h5>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Content)</p>
-                        <a href="@Html.DisplayFor(modelItem => item.Url)" class="btn btn-primary">Saber más</a>
+                        <a href="@Html.DisplayFor(modelItem => item.Url)" class="btn btn-primary d-block mx-auto" style="background-color: #8B4513; border-color: #8B4513; width: fit-content;">Saber más</a>
                     </div>
-                    <div class="card-footer">
+                    <div class="card-footer" style="background-color: #dfd7bf;">
                         <small class="text-muted">Publicado: @item.PublishedAt.ToString("yyyy-MM-dd")</small>
                     </div>
                 </div>
@@ -34,7 +37,6 @@
 </div>
 
 <script>
-    
     document.getElementById('searchForm').addEventListener('submit', async function(event) {
         event.preventDefault(); // Evita el envío tradicional del formulario
 

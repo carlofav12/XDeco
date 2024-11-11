@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 namespace XDeco.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class NosotrosController : Controller
     {
         private readonly ILogger<NosotrosController> _logger;
